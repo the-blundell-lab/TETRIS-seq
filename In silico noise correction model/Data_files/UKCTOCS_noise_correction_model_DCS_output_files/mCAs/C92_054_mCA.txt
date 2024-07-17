@@ -1,1 +1,0 @@
-Timepoint	chromosome	mCA	cell fractionC92_054_s4	chr4	4 gain?	0.1375C92_054_s3	chr4	4 gain?	not processedC92_054_s2	chr4	4 gain?	not processedC92_054_s1	chr4	4 gain?	0.0021

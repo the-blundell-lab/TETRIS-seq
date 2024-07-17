@@ -1,1 +1,0 @@
-Timepoint	chromosome	mCA	cell fractionCNTRL_185_s4	chr15	15q CNLOH	0.1295CNTRL_185_s3	chr15	15q CNLOH	0.1225CNTRL_185_s2	chr15	15q CNLOH	0.1086CNTRL_185_s1	chr15	15q CNLOH	0.1074

@@ -1,8 +1,0 @@
-Timepoint	chromosome	mCA	cell fraction
-C92_034_s7	chrX	X gain	0.9932
-C92_034_s6	chrX	X gain	0.9772
-C92_034_s5	chrX	X gain	0.927
-C92_034_s4	chrX	X gain	0.9618
-C92_034_s3	chrX	X gain	0.9751
-C92_034_s2	chrX	X gain	0.9792
-C92_034_s1	chrX	X gain	0.9579

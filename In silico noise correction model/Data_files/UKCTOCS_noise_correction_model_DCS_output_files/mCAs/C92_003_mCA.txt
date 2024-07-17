@@ -1,1 +1,0 @@
-Timepoint	chromosome	mCA	cell fractionC92_003_s13	chr7	7q CNLOH	0.2373C92_003_s12	chr7	7q CNLOH	0.0788C92_003_s8	chr7	7q CNLOH	0.0567C92_003_s6	chr7	7q CNLOH	not processedC92_003_s5	chr7	7q CNLOH	0.0292C92_003_s2	chr7	7q CNLOH	0.0104
