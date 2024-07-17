@@ -1,6 +1,8 @@
 # TETRIS-seq
 This repository contains the code for ‘TETRIS-seq’ as described/ used in the manuscript manuscript **"Evolutionary dynamics in the decade preceding acute myeloid leukaemia"**.  TETRIS-seq is a duplex error-corrected sequencing approach which incorporates 4 (‘Tetris’) key components: 1) AML/ clonal haematopoiesis SNV/indel detection, 2) genome-wide mCA detection, 3) AML-associated chromosomal rearrangement detection, 4) in silico noise correction for low frequency SNV calling.  
 
+Code for the data analysis and Figure generation in the manuscript manuscript **"Evolutionary dynamics in the decade preceding acute myeloid leukaemia"** can be found here: https://github.com/the-blundell-lab/preAML_evolutionary_dynamics/blob/main/README.md
+
 ## TETRIS-seq computational workflow:
 The TETRIS-seq computational workflow (contained in this repository) consists of several key steps:
 1) Processing of SNV/ indel panel fastq files:
@@ -19,4 +21,3 @@ The TETRIS-seq computational workflow (contained in this repository) consists of
   
 The TETRIS-seq workflow uses a number of software packages, including Picard, fgio, BWA, GATK, SAMtools, VarDictJava, Pindel, ANNOVAR, Manta, as well as custom Python scripts (included in repository). 
 
-Code for the data analysis and Figure generation in the manuscript manuscript **"Evolutionary dynamics in the decade preceding acute myeloid leukaemia"** can be found here: https://github.com/the-blundell-lab/preAML_evolutionary_dynamics/blob/main/README.md
