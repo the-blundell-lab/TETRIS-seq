@@ -6,18 +6,18 @@ Code for the data analysis and Figure generation in the manuscript manuscript **
 ## TETRIS-seq computational workflow:
 The TETRIS-seq computational workflow (contained in this repository) consists of several key steps:
 
-##### 1) Processing of SNV/ indel panel fastq files:
+#### 1) Processing of SNV/ indel panel fastq files:
    - Github file: _Watson_code_SNV_panel_v1.7.sh_
-##### 2) Processing of mCA/ chromosomal rearrangement panel fastq files:
+#### 2) Processing of mCA/ chromosomal rearrangement panel fastq files:
    - Github file: _Watson_code_CNV_panel_v2.3.sh_
-##### 3) Processing of ‘mapped merged’ BAM files (produced in 1 and 2 above) for generating error-corrected BAM files suitable for chromosomal rearrangement calling or FLT3-ITD calling.
+#### 3) Processing of ‘mapped merged’ BAM files (produced in 1 and 2 above) for generating error-corrected BAM files suitable for chromosomal rearrangement calling or FLT3-ITD calling.
    - Github file: _Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1.py_
    - Github file: _Watson_code_DCS_calling_1.4_for_FLT3_calling.py_
-##### 4) FLT3-ITD calling
+#### 4) FLT3-ITD calling
    - Github file: _Watson_code_Pindel_FLT3_caller.sh_
-##### 5) Chromosomal rearrangement calling
+#### 5) Chromosomal rearrangement calling
    - Manta used for chromosomal rearrangement calling: https://github.com/Illumina/manta
-##### 6) _In silico_ noise correction model for low frequency SNV detection
+#### 6) _In silico_ noise correction model for low frequency SNV detection
    - Github file: _In silico noise correction model/ Duplex_Error_Model_initial_variant_calling_v5.py_
    - Github file: _In silico noise correction model/ Duplex_Error_Model_post-model_variant processing.ipynb_
   
