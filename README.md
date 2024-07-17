@@ -16,7 +16,7 @@ The TETRIS-seq computational workflow (contained in this repository) consists of
 **4) FLT3-ITD calling**
    - Github file: _Watson_code_Pindel_FLT3_caller.sh_
 **6) Chromosomal rearrangement calling**
-   - Manta used for chromosomal rearrangement calling: https://github.com/Illumina/manta
+     - Manta used for chromosomal rearrangement calling: https://github.com/Illumina/manta
 **7) In silico noise correction model for low frequency SNV detection**
    - Github file: _In silico noise correction model/ Duplex_Error_Model_initial_variant_calling_v5.py_
    - Github file: _In silico noise correction model/ Duplex_Error_Model_post-model_variant processing.ipynb_
