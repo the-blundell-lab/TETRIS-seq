@@ -5,6 +5,7 @@ Code for the data analysis and Figure generation in the manuscript manuscript **
 
 ## TETRIS-seq computational workflow:
 The TETRIS-seq computational workflow (contained in this repository) consists of several key steps:
+
 **1) Processing of SNV/ indel panel fastq files:**
    - Github file: _Watson_code_SNV_panel_v1.7.sh_
 **2) Processing of mCA/ chromosomal rearrangement panel fastq files:**
