@@ -6,8 +6,8 @@ Code for the data analysis and Figure generation in the manuscript manuscript **
 ## TETRIS-seq computational workflow:
 The TETRIS-seq computational workflow (contained in this repository) consists of several key steps:
 1) Processing of SNV/ indel panel fastq files:
-  - Github file: _Watson_code_SNV_panel_v1.7.sh_
-2) Processing of mCA/ chromosomal rearrangement panel fastq files:
+   - Github file: _Watson_code_SNV_panel_v1.7.sh_
+3) Processing of mCA/ chromosomal rearrangement panel fastq files:
   - Github file: _Watson_code_CNV_panel_v2.3.sh_
 3) Processing of ‘mapped merged’ BAM files (produced in 1 and 2 above) for generating error-corrected BAM files suitable for chromosomal rearrangement calling or FLT3-ITD calling.
   - Github file: _Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1.py_
