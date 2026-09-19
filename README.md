@@ -5,7 +5,7 @@ FLT3-ITD and translocation detection.**
 
 This repository contains the bioinformatic pipeline for TETRIS-seq, the
 sequencing strategy used in Watson *et al.*, *"Evolutionary dynamics in the
-decades preceding acute myeloid leukaemia"* (Nature, 2026). TETRIS-seq applies
+decades preceding acute myeloid leukaemia"* (Watson et al). TETRIS-seq applies
 duplex error-corrected sequencing to a panel covering clonal-haematopoiesis and
 AML-associated alterations (gene mutations, chromosomal rearrangements and
 mosaic chromosomal alterations, or mCAs) together with a custom in silico
