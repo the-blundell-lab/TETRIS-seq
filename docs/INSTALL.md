@@ -56,19 +56,18 @@ JARs or large binaries and are **not** included in this repository.
 
 ## 3. Reference genome
 
-`Homo_sapiens_assembly19.fasta` (Broad b37 / GRCh37) with its `.fai` and `.dict`
-indexes and the BWA index files (~3 GB in total, not included here). From the
-Broad's public bucket:
+`Homo_sapiens_assembly19.fasta` (Broad b37 / GRCh37) with its `.fai`, `.dict`
+and BWA index files (~3 GB download, ~8 GB once indexed). One command:
 
 ```bash
-cd "$EXTERNAL_TOOLS"
-for f in Homo_sapiens_assembly19.fasta Homo_sapiens_assembly19.fasta.fai Homo_sapiens_assembly19.dict; do
-    wget "https://storage.googleapis.com/gcp-public-data--broad-references/hg19/v0/$f"
-done
-
-# BWA index (~1 hour; only needed once)
-bwa index Homo_sapiens_assembly19.fasta
+conda activate tetris-seq-pipeline        # needs bwa for the indexing step
+scripts/fetch_reference.sh "$EXTERNAL_TOOLS"
 ```
+
+The script downloads from the Broad's public bucket, checks the FASTA is
+complete, and builds the BWA index only if one is not already present (that step
+takes about an hour). If you already hold an indexed copy, put it in
+`$EXTERNAL_TOOLS` and the script will confirm and exit.
 
 ## 3b. dbSNP interval files
 
