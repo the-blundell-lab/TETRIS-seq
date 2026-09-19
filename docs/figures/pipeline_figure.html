@@ -55,7 +55,7 @@
     color:var(--ink-soft);font-weight:600;margin:0 0 10px;}
   h1{font-size:29px;line-height:1.15;letter-spacing:-.01em;margin:0 0 8px;
     font-weight:700;text-wrap:balance;}
-  .lede{margin:0;max-width:64ch;color:var(--ink-soft);font-size:15px;}
+  .lede{margin:0;color:var(--ink-soft);font-size:15px;}
   .lede b{color:var(--ink);font-weight:600;}
 
   /* ---------- legend ---------- */
@@ -79,6 +79,12 @@
   .lane{display:flex;flex-direction:column;}
   .lane-head{font-size:12px;letter-spacing:.03em;font-weight:700;color:var(--ink);
     padding:0 2px 4px;}
+  .cmd{font-family:var(--mono);font-size:11.5px;line-height:1.5;color:var(--ink);
+    background:var(--qc-fill);border:1px solid var(--rule);border-radius:6px;
+    padding:9px 12px;word-break:break-all;}
+  .cmd .flag{color:var(--ink-soft);}
+  .runlbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:700;margin:0 0 8px;}
   .lane-head .pill{font-family:var(--mono);font-size:11px;font-weight:500;
     color:var(--ink-soft);}
 
@@ -183,7 +189,9 @@
   .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
   .caption{margin-top:30px;padding-top:18px;border-top:1px solid var(--rule);
-    font-size:12px;color:var(--ink-soft);max-width:82ch;line-height:1.6;}
+    font-size:12px;color:var(--ink-soft);line-height:1.6;}
+  .caption h2{margin:0 0 10px;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink);font-weight:700;}
   .caption b{color:var(--ink);font-weight:600;}
   .caption .fig-no{color:var(--ink);font-weight:700;}
   .caption p{margin:0 0 10px;}
@@ -215,8 +223,7 @@
 </style>
 
 <div class="wrap">
-  <p class="eyebrow">TETRIS-seq · Watson et al., Nature 2026</p>
-  <h1>Bioinformatic pipeline for duplex error-corrected variant detection</h1>
+  <h1>TETRIS-seq bioinformatic pipeline</h1>
   <p class="lede">Two capture panels are processed independently from
     <b>separate FASTQ libraries</b>. Both begin with the same read-preparation and
     alignment front end, then diverge. Per-sample stages are <b>automated</b>; the
@@ -238,15 +245,22 @@
 
     <!-- ================= SHARED FRONT END ================= -->
     <section class="lane" aria-label="Read preparation and alignment">
-      <div class="lane-head">Read preparation and alignment &nbsp;<span class="pill">identical in both panel scripts &mdash; run once per library</span></div>
+      <div class="lane-head">Read preparation and alignment &nbsp;<span class="pill">steps 0&ndash;4 &mdash; the same code in both panel scripts</span></div>
 
+      <p class="runlbl">Two separate runs &mdash; one command per panel, each given that panel&rsquo;s own FASTQ pair</p>
       <div class="duo">
         <div class="node io"><span class="tag">FASTQ</span>
           <span class="ttl">SNV library reads (R1 / R2)</span></div>
         <div class="node io"><span class="tag">FASTQ</span>
           <span class="ttl">mCA / rearrangement library reads (R1 / R2)</span></div>
       </div>
+      <div class="duo" style="margin-top:10px;">
+        <div class="cmd">scripts/Watson_code_SNV_panel_v1.7.sh <span class="flag">-s</span> sample_indexes.csv <span class="flag">-o</span> SLX_20125 <span class="flag">-f</span> SNV_R1.fq <span class="flag">-g</span> SNV_R2.fq</div>
+        <div class="cmd">scripts/Watson_code_CNV_panel_v2.3.sh <span class="flag">-s</span> sample_indexes.csv <span class="flag">-o</span> SLX_20124 <span class="flag">-f</span> mCA_R1.fq <span class="flag">-g</span> mCA_R2.fq</div>
+      </div>
       <div class="arr v"></div>
+
+      <p class="runlbl" style="margin-top:2px;">Each command begins with the identical steps 0&ndash;4 below, on its own library</p>
 
       <div class="zone zone-auto">
         <span class="zone-label">◆ Automated</span>
@@ -624,8 +638,8 @@
   </div><!-- /scroll -->
 
   <div class="caption">
-    <p><span class="fig-no">Supplementary Figure.</span>
-      <b>TETRIS-seq analysis pipeline.</b> Paired-end reads from two independent
+    <h2>Notes</h2>
+    <p>Paired-end reads from two independent
       capture panels — an SNV/indel panel and an mCA/rearrangement panel, each
       sequenced as a separate library — are processed from raw FASTQ. Green stages
       are fully automated and run per sample by the pipeline driver (one command each);
