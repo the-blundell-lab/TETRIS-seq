@@ -36,11 +36,10 @@ JARs or large binaries and are **not** included in this repository.
 |---|---|---|
 | BWA | 0.7.17 | read alignment |
 | Samtools | 1.10 and 1.11 | both used |
-| Picard | 2.18.15 | `picard.jar` |
-| GATK | 3.8 | `GenomeAnalysisTK.jar` (3.8-1-0-gf15c1c3ef) |
-| fgbio | 1.3.0 | `fgbio-1.3.0.jar` |
-| VarDictJava | (as used) | SNV/indel calling |
-| snpEff / SnpSift | (as used) | annotation |
+| Picard | 2.18.15 | `picard.jar` (conda environment, or your own copy) |
+| GATK | 3.8 | `GenomeAnalysisTK.jar` (3.8-1-0-gf15c1c3ef) - download separately |
+| fgbio | 1.3.0 | `fgbio.jar` (conda environment, or your own copy) |
+| VarDictJava | 1.8.2 | SNV/indel calling (installed by the conda environment, called as `vardict-java`) |
 | ANNOVAR | June 2020 release | with `humandb/` databases |
 | Pindel | v0.3 | FLT3-ITD detection |
 
@@ -85,8 +84,7 @@ Two separate locations are used:
 | `PIPELINE_TOOLS` | the repo's own `Watson_code_*.py` scripts and panel BED/CSV resources | [`../pipeline_tools/`](../pipeline_tools), found relative to `scripts/` |
 | `EXTERNAL_TOOLS` | what you install: the JARs, reference genome, `annovar/`, `pindel/`, `dbSNP/` | `$HOME/Pipeline_tools` |
 
-So in normal use you only set `EXTERNAL_TOOLS` (plus `VARDICT_HOME` / `SNPEFF_HOME` if
-those live elsewhere); `PIPELINE_TOOLS` looks after itself, and the repo's
+So in normal use you only set `EXTERNAL_TOOLS`; `PIPELINE_TOOLS` looks after itself, and the repo's
 scripts stay current when you `git pull`.
 
 Check what the pipeline can find before you run anything:

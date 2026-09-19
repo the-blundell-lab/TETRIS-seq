@@ -9,8 +9,8 @@
 # loose so conda can resolve a compatible set for Python 3.7. The command-line
 # tools (BWA, samtools, etc.) are pinned to the versions used in the manuscript.
 #
-# NOTE: GATK 3.8, Picard 2.18.15, ANNOVAR (June 2020), fgbio 1.3.0, Pindel v0.3
-# and the reference genome are installed separately - see docs/INSTALL.md.
+# NOTE: GATK 3.8, ANNOVAR (June 2020), Pindel v0.3, the dbSNP interval files and
+# the reference genome are installed separately - see docs/INSTALL.md.
 #
 name: tetris-seq-pipeline
 channels:
@@ -22,11 +22,14 @@ dependencies:
   - samtools=1.11          # samtools 1.10 and 1.11 were both used
   - htslib                 # provides tabix
   - openjdk=8              # Picard 2.18, GATK 3.8 and fgbio 1.3 all need Java 8
+  - picard=2.18.15
+  - fgbio=1.3.0
+  - vardict-java=1.8.2     # called as `vardict-java` from PATH
   - pysam
   - pyfaidx
   - numpy
   - biopython
   - pandas
   - scipy
-  # VarDictJava, snpEff/SnpSift, Pindel, Picard, GATK 3.8 and ANNOVAR are
-  # installed manually (see docs/INSTALL.md) and pointed to via config/config.sh.
+  # GATK 3.8, Pindel and ANNOVAR are installed manually (see docs/INSTALL.md)
+  # and pointed to via config/config.sh.

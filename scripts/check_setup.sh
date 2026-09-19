@@ -20,8 +20,6 @@ CONFIG_FILE="${TETRIS_CONFIG:-$P/../config/config.sh}"
 
 : "${EXTERNAL_TOOLS:=$HOME/Pipeline_tools}"
 : "${REF:=$EXTERNAL_TOOLS/Homo_sapiens_assembly19.fasta}"
-: "${VARDICT_HOME:=$HOME/VarDictJava}"
-: "${SNPEFF_HOME:=$HOME/snpEff}"
 : "${ANNOVAR_HOME:=$EXTERNAL_TOOLS/annovar}"
 : "${PINDEL_DIR:=$EXTERNAL_TOOLS/pindel}"
 : "${PIPELINE_TOOLS:=$P/../pipeline_tools}"
@@ -37,7 +35,7 @@ check_dir()  { if [ -d "$2" ]; then ok "$1" "$2"; else bad "$1" "$2"; fi; }
 
 echo
 echo "Command-line tools"
-for c in bwa samtools tabix; do check_cmd "$c"; done
+for c in bwa samtools tabix vardict-java; do check_cmd "$c"; done
 
 if command -v python >/dev/null 2>&1; then ok "python" "$(command -v python) ($(python --version 2>&1))"
 elif command -v python3 >/dev/null 2>&1; then ok "python3" "$(command -v python3) ($(python3 --version 2>&1))"
@@ -53,15 +51,16 @@ else bad "java" "not on PATH"; fi
 
 echo
 echo "Java archives (\$EXTERNAL_TOOLS = $EXTERNAL_TOOLS)"
-check_file "picard.jar"            "$EXTERNAL_TOOLS/picard.jar"
-check_file "fgbio-1.3.0.jar"       "$EXTERNAL_TOOLS/fgbio-1.3.0.jar"
+if [ -f "$EXTERNAL_TOOLS/picard.jar" ]; then ok "picard.jar" "$EXTERNAL_TOOLS/picard.jar"
+elif ls ${CONDA_PREFIX:-/nonexistent}/share/picard-*/picard.jar >/dev/null 2>&1; then ok "picard.jar" "$(ls ${CONDA_PREFIX}/share/picard-*/picard.jar | head -1) (conda)"
+else bad "picard.jar" "$EXTERNAL_TOOLS/picard.jar"; fi
+if [ -f "$EXTERNAL_TOOLS/fgbio-1.3.0.jar" ]; then ok "fgbio-1.3.0.jar" "$EXTERNAL_TOOLS/fgbio-1.3.0.jar"
+elif ls ${CONDA_PREFIX:-/nonexistent}/share/fgbio-*/fgbio.jar >/dev/null 2>&1; then ok "fgbio" "$(ls ${CONDA_PREFIX}/share/fgbio-*/fgbio.jar | head -1) (conda)"
+else bad "fgbio-1.3.0.jar" "$EXTERNAL_TOOLS/fgbio-1.3.0.jar"; fi
 check_file "GenomeAnalysisTK.jar"  "$EXTERNAL_TOOLS/GenomeAnalysisTK.jar"
 
 echo
 echo "Other third-party tools"
-check_file "VarDict"               "$VARDICT_HOME/build/install/VarDict/bin/VarDict"
-check_file "snpEff.jar"            "$SNPEFF_HOME/snpEff.jar"
-check_file "SnpSift.jar"           "$SNPEFF_HOME/SnpSift.jar"
 check_file "ANNOVAR table_annovar" "$ANNOVAR_HOME/table_annovar.pl"
 check_dir  "ANNOVAR humandb/"      "$ANNOVAR_HOME/humandb"
 check_file "pindel"                "$PINDEL_DIR/pindel"

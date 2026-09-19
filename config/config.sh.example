@@ -28,12 +28,6 @@
 # Requires the accompanying .fai and .dict indexes in the same directory.
 # export REF="$EXTERNAL_TOOLS/Homo_sapiens_assembly19.fasta"
 
-# VarDictJava install (expects build/install/VarDict/bin/ underneath).
-# export VARDICT_HOME="$HOME/VarDictJava"
-
-# snpEff / SnpSift install (expects snpEff.jar, SnpSift.jar, scripts/).
-# export SNPEFF_HOME="$HOME/snpEff"
-
 # ANNOVAR install (June 2020 release) with humandb/ databases.
 # export ANNOVAR_HOME="$EXTERNAL_TOOLS/annovar"
 

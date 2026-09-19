@@ -14,8 +14,6 @@ function initialize() {
     : "${PIPELINE_TOOLS:=$P/../pipeline_tools}"                 # ships with the repo: custom scripts + panel BED/CSV resources
     : "${EXTERNAL_TOOLS:=$HOME/Pipeline_tools}"                 # you install: jars, reference genome, ANNOVAR, Pindel, dbSNP
     : "${REF:=$EXTERNAL_TOOLS/Homo_sapiens_assembly19.fasta}"  # Broad b37 / GRCh37 reference FASTA
-    : "${VARDICT_HOME:=$HOME/VarDictJava}"                     # VarDictJava install
-    : "${SNPEFF_HOME:=$HOME/snpEff}"                           # snpEff/SnpSift install
     : "${ANNOVAR_HOME:=$EXTERNAL_TOOLS/annovar}"               # ANNOVAR install (annotate_variation.pl etc.)
     : "${PINDEL_DIR:=$EXTERNAL_TOOLS/pindel}"                  # Pindel install
 
@@ -23,15 +21,18 @@ function initialize() {
     # otherwise fall back to binaries bundled under scripts/bin/<platform>/.
     bwa=${BWA:-$(command -v bwa || echo "$P/bin/$PLATFORM/bwa")}
     tabix=${TABIX:-$(command -v tabix || echo "$P/bin/$PLATFORM/tabix")}
-    picard=$EXTERNAL_TOOLS/picard.jar
-    fgbio=$EXTERNAL_TOOLS/fgbio-1.3.0.jar
-    GATK=$EXTERNAL_TOOLS/GenomeAnalysisTK.jar
-    VarDict=$VARDICT_HOME/build/install/VarDict/bin/VarDict
-    Teststrandbias=$VARDICT_HOME/build/install/VarDict/bin/teststrandbias.R
-    Var2VCF=$VARDICT_HOME/build/install/VarDict/bin/var2vcf_valid.pl
-    SNPEff=$SNPEFF_HOME/snpEff.jar
-    SNPSift_one_line=$SNPEFF_HOME/scripts/vcfEffOnePerLine.pl
-    SNPSift=$SNPEFF_HOME/SnpSift.jar
+    # JARs: an explicit setting wins, then $EXTERNAL_TOOLS, then the active conda
+    # environment (conda installs them under $CONDA_PREFIX/share/<pkg>/).
+    find_jar() {   # $1 = file name, $2 = conda share glob
+        if   [ -f "$EXTERNAL_TOOLS/$1" ]; then echo "$EXTERNAL_TOOLS/$1"
+        elif [ -n "${CONDA_PREFIX:-}" ] && [ -f "$(echo $CONDA_PREFIX/share/$2 | cut -d" " -f1)" ]; then
+             echo $CONDA_PREFIX/share/$2 | cut -d" " -f1
+        else echo "$EXTERNAL_TOOLS/$1"
+        fi
+    }
+    picard=${PICARD_JAR:-$(find_jar picard.jar "picard-*/picard.jar")}
+    fgbio=${FGBIO_JAR:-$(find_jar fgbio-1.3.0.jar "fgbio-*/fgbio.jar")}
+    GATK=${GATK_JAR:-$EXTERNAL_TOOLS/GenomeAnalysisTK.jar}
     chromosome_ideogram=$PIPELINE_TOOLS/chromosome_ideogram_hg19.txt
     dbSNP_directory=$EXTERNAL_TOOLS/dbSNP
     watson_call_SSCS=$PIPELINE_TOOLS/Watson_code_SSCS_calling_2.1.py

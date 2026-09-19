@@ -97,7 +97,7 @@ and what would need changing to reuse this with a different panel.
 ## Software versions used
 
 **External tools:** Picard 2.18.15, BWA 0.7.17, Samtools 1.10 and 1.11,
-GATK 3.8, fgbio 1.3.0, Pindel v0.3, VarDictJava, snpEff/SnpSift,
+GATK 3.8, Pindel v0.3,
 ANNOVAR (June 2020). The reference genome is `Homo_sapiens_assembly19.fasta`
 (Broad b37/GRCh37).
 
