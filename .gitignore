@@ -52,9 +52,10 @@ Homo_sapiens_assembly19*
 *.vcf.gz
 *.pileup
 
-# Bulk per-sample model output (kept in the Zenodo archive, not in git).
-# A small example subset lives in noise_correction_model/example_input/.
+# Bulk per-sample model output (participant data; never commit).
 noise_correction_model/data_files/UKCTOCS_noise_correction_model_DCS_output_files/
+noise_correction_model/example_input/
+noise_correction_model/example_outputs/
 
 # --- Pipeline run output (never commit; may be participant data) ---
 # The panel scripts write into <sample>_<UDI>/ relative to the working
