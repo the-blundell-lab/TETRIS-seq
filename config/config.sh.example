@@ -20,8 +20,8 @@
 # export PIPELINE_TOOLS="/path/to/TETRIS-seq/pipeline_tools"
 
 # Directory holding the things you install yourself: the third-party JARs
-# (picard.jar, fgbio-1.3.0.jar, GenomeAnalysisTK.jar), the reference genome,
-# and the annovar/, pindel/ and dbSNP/ subdirectories.
+# (GenomeAnalysisTK.jar; picard and fgbio come from the conda environment), the
+# reference genome, and the annovar/ and dbSNP/ subdirectories.
 # export EXTERNAL_TOOLS="$HOME/Pipeline_tools"
 
 # Reference genome: Homo_sapiens_assembly19.fasta (Broad b37 / GRCh37).
@@ -31,6 +31,7 @@
 # ANNOVAR install (June 2020 release) with humandb/ databases.
 # export ANNOVAR_HOME="$EXTERNAL_TOOLS/annovar"
 
-# Pindel v0.3 install (expects pindel and pindel2vcf binaries).
+# Pindel is installed by the conda environment, so this is only needed if you
+# are using your own copy (expects pindel and pindel2vcf binaries).
 # export PINDEL_DIR="$EXTERNAL_TOOLS/pindel"
 
