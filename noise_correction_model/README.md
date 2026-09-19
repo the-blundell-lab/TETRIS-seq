@@ -6,7 +6,6 @@ low-frequency variants from sequencing error, fitted per sequencing lane.
 | File | Role |
 |---|---|
 | `Duplex_Error_Model_initial_variant_calling_v5.py` | Fits the model across a lane and writes the per-timepoint beta-binomial call files |
-| `Checking_ASXL1_indels.ipynb` | QC check on *ASXL1* indel calls, a known artefact-prone region |
 | `data_files/` | Panel site lists used by the model |
 
 Runs in the analysis environment (`environment_analysis.yml`, Python 3.11).
