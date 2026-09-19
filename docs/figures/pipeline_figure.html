@@ -48,7 +48,7 @@
   *{box-sizing:border-box;}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
     -webkit-font-smoothing:antialiased;line-height:1.45;}
-  .wrap{max-width:1240px;margin:0 auto;padding:48px 32px 64px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:48px 32px 24px;}
 
   /* ---------- header ---------- */
   .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
@@ -201,6 +201,7 @@
   .caption b{color:var(--ink);font-weight:600;}
   .caption .fig-no{color:var(--ink);font-weight:700;}
   .caption p{margin:0 0 10px;}
+  .caption p:last-child{margin-bottom:0;}
 
   @media (max-width:640px){
     .wrap{padding:32px 18px 48px;}
