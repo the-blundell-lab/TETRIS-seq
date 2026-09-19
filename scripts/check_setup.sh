@@ -37,7 +37,19 @@ check_dir()  { if [ -d "$2" ]; then ok "$1" "$2"; else bad "$1" "$2"; fi; }
 
 echo
 echo "Command-line tools"
-for c in bwa samtools java python tabix; do check_cmd "$c"; done
+for c in bwa samtools tabix; do check_cmd "$c"; done
+
+if command -v python >/dev/null 2>&1; then ok "python" "$(command -v python) ($(python --version 2>&1))"
+elif command -v python3 >/dev/null 2>&1; then ok "python3" "$(command -v python3) ($(python3 --version 2>&1))"
+else bad "python" "not on PATH"; fi
+
+if command -v java >/dev/null 2>&1; then
+    jv=$(java -version 2>&1 | head -1)
+    case "$jv" in
+        *\"1.8*|*\"8.*) ok "java" "$jv" ;;
+        *) note "java" "$jv - Picard 2.18, GATK 3.8 and fgbio 1.3 expect Java 8" ;;
+    esac
+else bad "java" "not on PATH"; fi
 
 echo
 echo "Java archives (\$EXTERNAL_TOOLS = $EXTERNAL_TOOLS)"

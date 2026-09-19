@@ -10,7 +10,7 @@ Two Python environments were used:
 
 | Purpose | Python | Definition |
 |---|---|---|
-| Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7.4 | [`environment_sequencing.yml`](../environment_sequencing.yml) |
+| Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7.4 | [`environment_sequencing.yml`](../environment_sequencing.yml) - also provides BWA, samtools, tabix and Java 8 |
 | Data analysis + figures (`noise_correction_model/`) | 3.11.13 | [`environment_analysis.yml`](../environment_analysis.yml) / [`requirements.txt`](../requirements.txt) |
 
 ```bash
