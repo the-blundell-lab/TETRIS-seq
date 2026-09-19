@@ -96,14 +96,17 @@ scripts/check_setup.sh
 #    The two panels are separate captures, sequenced as separate libraries, so
 #    each is its own run over its own pair of FASTQ files. They share no input.
 
+#    Output goes to <sample>_<UDI>/ relative to where you run these, so work
+#    from a data directory outside the repository.
+cd /path/to/your/working/directory
+
 #    4a. SNV / indel panel (and FLT3-ITD, which re-uses the SNV panel's BAM)
-cd scripts
-./run_sample.sh -o <snv_library_name> -t 8 --no-cnv \
+/path/to/TETRIS-seq/scripts/run_sample.sh -o <snv_library_name> -t 8 --no-cnv \
     --snv-csv ../examples/Sample_indexes_example.csv \
     --snv-r1 <snv_read1.fastq> --snv-r2 <snv_read2.fastq>
 
 #    4b. mCA / rearrangement panel - a different capture, a different library
-./run_sample.sh -o <cnv_library_name> -t 8 --no-snv --no-flt3 \
+/path/to/TETRIS-seq/scripts/run_sample.sh -o <cnv_library_name> -t 8 --no-snv --no-flt3 \
     --cnv-csv ../examples/Sample_indexes_example.csv \
     --cnv-r1 <cnv_read1.fastq> --cnv-r2 <cnv_read2.fastq>
 

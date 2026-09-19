@@ -56,6 +56,17 @@ Homo_sapiens_assembly19*
 # A small example subset lives in noise_correction_model/example_input/.
 noise_correction_model/data_files/UKCTOCS_noise_correction_model_DCS_output_files/
 
+# --- Pipeline run output (never commit; may be participant data) ---
+# The panel scripts write into <sample>_<UDI>/ relative to the working
+# directory. Run them from a working directory outside the repo; these rules are
+# a safety net if you do not.
+*_xGenUDI*/
+Metrics_and_images/
+SSCS_files_MUFS*/
+DCS_files_MUFS*/
+VarDictJava_MUFS*/
+Pindel_MUFS*/
+
 # --- Manuscript / unpublished documents (NEVER commit) ---
 *manuscript*.pdf
 *_paper_*.pdf
