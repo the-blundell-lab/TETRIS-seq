@@ -56,7 +56,7 @@ JARs or large binaries and are **not** included in this repository.
 | fgbio | 1.3.0 | `fgbio.jar` (conda environment, or your own copy) |
 | VarDictJava | 1.8.2 | SNV/indel calling (installed by the conda environment, called as `vardict-java`) |
 | ANNOVAR | June 2020 release | with `humandb/` databases - [registration form](https://www.openbioinformatics.org/annovar/annovar_download_form.php) |
-| Pindel | v0.3 | FLT3-ITD detection - [source](https://github.com/genome/pindel) |
+| Pindel | 0.2.5b9 | FLT3-ITD detection (installed by the conda environment; [source](https://github.com/genome/pindel)) |
 
 ## 3. Reference genome
 

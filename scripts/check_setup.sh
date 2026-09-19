@@ -63,8 +63,11 @@ echo
 echo "Other third-party tools"
 check_file "ANNOVAR table_annovar" "$ANNOVAR_HOME/table_annovar.pl"
 check_dir  "ANNOVAR humandb/"      "$ANNOVAR_HOME/humandb"
-check_file "pindel"                "$PINDEL_DIR/pindel"
-check_file "pindel2vcf"            "$PINDEL_DIR/pindel2vcf"
+for prog in pindel pindel2vcf; do
+    if [ -x "$PINDEL_DIR/$prog" ]; then ok "$prog" "$PINDEL_DIR/$prog"
+    elif command -v "$prog" >/dev/null 2>&1; then ok "$prog" "$(command -v "$prog")"
+    else bad "$prog" "$PINDEL_DIR/$prog"; fi
+done
 
 echo
 echo "Reference genome"
@@ -117,9 +120,9 @@ if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
     echo "      then unpack it to $ANNOVAR_HOME and download the databases listed in docs/INSTALL.md"
     echo
 fi
-if [ ! -f "$PINDEL_DIR/pindel" ]; then
-    echo "  Pindel v0.3 (only needed for the FLT3-ITD arm):"
-    echo "      https://github.com/genome/pindel"
+if [ ! -x "$PINDEL_DIR/pindel" ] && ! command -v pindel >/dev/null 2>&1; then
+    echo "  Pindel (FLT3-ITD calling) - provided by the conda environment:"
+    echo "      conda activate tetris-seq-pipeline"
     echo
 fi
 echo "Full details: docs/INSTALL.md"

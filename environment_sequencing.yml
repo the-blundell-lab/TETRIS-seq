@@ -11,8 +11,8 @@
 # compatible set. The tool versions, which are what affect results, are pinned. The command-line
 # tools (BWA, samtools, etc.) are pinned to the versions used in the manuscript.
 #
-# NOTE: GATK 3.8, ANNOVAR (June 2020), Pindel v0.3, the dbSNP interval files and
-# the reference genome are installed separately - see docs/INSTALL.md.
+# NOTE: GATK 3.8, ANNOVAR (June 2020), the dbSNP interval files and the reference
+# genome are installed separately - see docs/INSTALL.md.
 #
 name: tetris-seq-pipeline
 channels:
@@ -27,11 +27,12 @@ dependencies:
   - picard=2.18.15
   - fgbio=1.3.0
   - vardict-java=1.8.2     # called as `vardict-java` from PATH
+  - pindel=0.2.5b9         # FLT3-ITD calling (the only release since 2017)
   - pysam
   - pyfaidx
   - numpy
   - biopython
   - pandas
   - scipy
-  # GATK 3.8, Pindel and ANNOVAR are installed manually (see docs/INSTALL.md)
-  # and pointed to via config/config.sh.
+  # GATK 3.8 and ANNOVAR are installed manually (see docs/INSTALL.md) and
+  # pointed to via config/config.sh.

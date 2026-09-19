@@ -64,8 +64,9 @@ function initialize() {
     #FLT3 calling (SNV panel)
     watson_call_DCS_FLT3=$PIPELINE_TOOLS/Watson_code_DCS_calling_1.4_for_FLT3_calling.py
     pindel_config_file=$PIPELINE_TOOLS/Watson_code_FLT3_create_pindel_config_file.py
-    pindel=$PINDEL_DIR/pindel
-    pindel2vcf=$PINDEL_DIR/pindel2vcf
+    # pindel: $PINDEL_DIR if you installed it yourself, otherwise the conda environment
+    pindel=$( [ -x "$PINDEL_DIR/pindel" ] && echo "$PINDEL_DIR/pindel" || command -v pindel || echo "$PINDEL_DIR/pindel" )
+    pindel2vcf=$( [ -x "$PINDEL_DIR/pindel2vcf" ] && echo "$PINDEL_DIR/pindel2vcf" || command -v pindel2vcf || echo "$PINDEL_DIR/pindel2vcf" )
     watson_call_FLT3_ITD=$PIPELINE_TOOLS/Watson_code_FLT3_ITD_calling_from_pindel_vcf_v1.py
 
     #specific to CNV panel

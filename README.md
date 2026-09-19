@@ -67,7 +67,7 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda3
 ```
 
 The conda environment provides BWA, samtools, tabix, Java 8, Picard, fgbio and
-VarDictJava. Four things are installed separately because of their size or
+VarDictJava and Pindel. Four things are installed separately because of their size or
 licensing: **GATK 3.8**, **ANNOVAR** (plus its `humandb/` databases), the
 **b37 reference genome** and the **dbSNP interval files** - see
 [docs/INSTALL.md](docs/INSTALL.md).
@@ -117,7 +117,7 @@ and what would need changing to reuse this with a different panel.
 ## Software versions used
 
 **External tools:** Picard 2.18.15, BWA 0.7.17, Samtools 1.10 and 1.11,
-GATK 3.8, Pindel v0.3,
+GATK 3.8,
 ANNOVAR (June 2020). The reference genome is `Homo_sapiens_assembly19.fasta`
 (Broad b37/GRCh37).
 
