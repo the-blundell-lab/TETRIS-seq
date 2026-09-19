@@ -1,8 +1,8 @@
 # Running the pipeline, in order
 
 This is the run order from raw FASTQ to final calls. It separates the
-automated, per-sample stages (green in
-[`pipeline_schematic.md`](pipeline_schematic.md)) from the cross-sample and
+automated, per-sample stages (green in the pipeline figure in the main
+README) from the cross-sample and
 longitudinal stages, which you trigger separately once you have processed as
 many samples as you want. Most of those are scripts and notebooks in this
 repository; only a handful of steps are genuinely manual (marked below).
@@ -112,6 +112,5 @@ actually manual are marked **manual** below.
 
 ---
 
-See [`pipeline_schematic.md`](pipeline_schematic.md) for the visual version of
-this flow and [`pipeline_overview.md`](pipeline_overview.md) for per-step script
-detail.
+See the pipeline figure in the main README for the visual version of this flow,
+and [`pipeline_overview.md`](pipeline_overview.md) for per-step script detail.

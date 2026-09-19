@@ -44,7 +44,6 @@ TETRIS-seq/
 ├── docs/
 │   ├── INSTALL.md              Tool versions + installation
 │   ├── pipeline_overview.md    Stages, data flow, code by variant class
-│   ├── pipeline_schematic.md   Colour-coded flow diagram (automated vs manual)
 │   ├── running_the_pipeline.md Step-by-step run order (Stage A automated, Stage B manual)
 │   ├── data_layout.md          Input/output directory structure
 │   └── adapting_to_a_new_panel.md  Study-specific assumptions to change for reuse
@@ -121,8 +120,7 @@ below.
 
 See **[docs/running_the_pipeline.md](docs/running_the_pipeline.md)** for the
 step-by-step run order (automated Stage A vs manual Stage B),
-**[docs/pipeline_schematic.md](docs/pipeline_schematic.md)** for the colour-coded
-flow diagram, **[docs/pipeline_overview.md](docs/pipeline_overview.md)** for the
+**[docs/pipeline_overview.md](docs/pipeline_overview.md)** for the
 full data flow and code by variant class,
 **[docs/data_layout.md](docs/data_layout.md)** for the input/output directory
 structure, **[docs/INSTALL.md](docs/INSTALL.md)** for tool versions and

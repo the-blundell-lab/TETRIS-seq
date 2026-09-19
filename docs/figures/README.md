@@ -8,7 +8,6 @@ a supplementary methods figure.
 | `pipeline_figure.html` | Self-contained source (HTML/CSS). Edit this, then re-export. |
 | `pipeline.png` | Raster export used in the top-level `README.md`. |
 | `pipeline.pdf` | Vector export for editing in Adobe Illustrator (live text, embedded fonts). |
-| `pipeline_schematic.svg` | Vector export of the Mermaid diagram from `../pipeline_schematic.md`. |
 
 ## Regenerating the exports
 
@@ -39,16 +38,6 @@ padding. The current figure is 5145 CSS px tall.
 
 The single-page size and print colours are set by the `@media print` block near
 the end of the `<style>` in `pipeline_figure.html`.
-
-SVG (the Mermaid diagram, with real text elements so it stays editable):
-
-```bash
-# extract the mermaid block from the schematic doc
-awk '/^```mermaid$/{f=1;next} /^```$/{if(f)exit} f' ../pipeline_schematic.md > schematic.mmd
-echo '{"flowchart":{"htmlLabels":false,"useMaxWidth":false}}' > mmdcfg.json
-npx @mermaid-js/mermaid-cli -c mmdcfg.json -i schematic.mmd \
-  -o pipeline_schematic.svg -b transparent
-```
 
 Opening `pipeline.pdf` in Illustrator: use File > Open. Text is editable; the
 export nests objects in clip groups, so ungroup (Cmd+Shift+G) once or twice to

@@ -22,7 +22,7 @@
 #   you have the memory.
 #
 # It does NOT replace the individual scripts — it just chains them in order.
-# See docs/running_the_pipeline.md and docs/pipeline_schematic.md.
+# See docs/running_the_pipeline.md and docs/pipeline_overview.md.
 ###############################################################################
 
 set -euo pipefail
@@ -182,7 +182,7 @@ cat << 'EOF'
 
  The MANUAL / CROSS-SAMPLE steps below are run once you have
  processed as many samples as you want (a whole lane, or fewer).
- See docs/running_the_pipeline.md and docs/pipeline_schematic.md.
+ See docs/running_the_pipeline.md and docs/pipeline_overview.md.
 
  SNV panel — across your batch of samples:
    * Fit the position-specific noise (error) model:
