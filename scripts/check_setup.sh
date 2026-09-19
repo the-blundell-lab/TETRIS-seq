@@ -52,10 +52,10 @@ else bad "java" "not on PATH"; fi
 echo
 echo "Java archives (\$EXTERNAL_TOOLS = $EXTERNAL_TOOLS)"
 if [ -f "$EXTERNAL_TOOLS/picard.jar" ]; then ok "picard.jar" "$EXTERNAL_TOOLS/picard.jar"
-elif ls ${CONDA_PREFIX:-/nonexistent}/share/picard-*/picard.jar >/dev/null 2>&1; then ok "picard.jar" "$(ls ${CONDA_PREFIX}/share/picard-*/picard.jar | head -1) (conda)"
+elif ls ${CONDA_PREFIX:-/nonexistent}/share/picard*/picard.jar >/dev/null 2>&1; then ok "picard.jar" "$(ls ${CONDA_PREFIX}/share/picard*/picard.jar | head -1) (conda)"
 else bad "picard.jar" "$EXTERNAL_TOOLS/picard.jar"; fi
 if [ -f "$EXTERNAL_TOOLS/fgbio-1.3.0.jar" ]; then ok "fgbio-1.3.0.jar" "$EXTERNAL_TOOLS/fgbio-1.3.0.jar"
-elif ls ${CONDA_PREFIX:-/nonexistent}/share/fgbio-*/fgbio.jar >/dev/null 2>&1; then ok "fgbio" "$(ls ${CONDA_PREFIX}/share/fgbio-*/fgbio.jar | head -1) (conda)"
+elif ls ${CONDA_PREFIX:-/nonexistent}/share/fgbio*/fgbio.jar >/dev/null 2>&1; then ok "fgbio" "$(ls ${CONDA_PREFIX}/share/fgbio*/fgbio.jar | head -1) (conda)"
 else bad "fgbio-1.3.0.jar" "$EXTERNAL_TOOLS/fgbio-1.3.0.jar"; fi
 check_file "GenomeAnalysisTK.jar"  "$EXTERNAL_TOOLS/GenomeAnalysisTK.jar"
 

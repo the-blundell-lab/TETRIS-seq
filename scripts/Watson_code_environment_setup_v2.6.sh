@@ -30,8 +30,8 @@ function initialize() {
         else echo "$EXTERNAL_TOOLS/$1"
         fi
     }
-    picard=${PICARD_JAR:-$(find_jar picard.jar "picard-*/picard.jar")}
-    fgbio=${FGBIO_JAR:-$(find_jar fgbio-1.3.0.jar "fgbio-*/fgbio.jar")}
+    picard=${PICARD_JAR:-$(find_jar picard.jar "picard*/picard.jar")}
+    fgbio=${FGBIO_JAR:-$(find_jar fgbio-1.3.0.jar "fgbio*/fgbio.jar")}
     GATK=${GATK_JAR:-$EXTERNAL_TOOLS/GenomeAnalysisTK.jar}
     chromosome_ideogram=$PIPELINE_TOOLS/chromosome_ideogram_hg19.txt
     dbSNP_directory=$EXTERNAL_TOOLS/dbSNP
