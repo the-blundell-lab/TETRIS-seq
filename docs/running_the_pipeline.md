@@ -22,12 +22,29 @@ Two things to keep in mind throughout:
 Run these for each sample. You can either call the three scripts yourself,
 or use the wrapper that chains them in order.
 
-### Option 1: the wrapper (one command per sample)
+### Option 1: the wrapper
+
+The SNV/indel panel and the mCA/rearrangement panel are **separate captures,
+sequenced as separate libraries**. Each has its own FASTQ pair, its own library
+name and its own sample-index CSV, so each is a separate run:
 
 ```bash
 conda activate tetris-seq-pipeline
 cd scripts
 
+# SNV / indel panel, and FLT3-ITD (which re-uses the SNV panel's mapped BAM)
+./run_sample.sh -o SLX_20125 -t 8 --no-cnv \
+    --snv-csv snv_samples.csv --snv-r1 sampleA_SNV_R1.fq.gz --snv-r2 sampleA_SNV_R2.fq.gz
+
+# mCA / rearrangement panel - different library, different FASTQ
+./run_sample.sh -o SLX_20124 -t 8 --no-snv --no-flt3 \
+    --cnv-csv cnv_samples.csv --cnv-r1 sampleA_CNV_R1.fq.gz --cnv-r2 sampleA_CNV_R2.fq.gz
+```
+
+If both FASTQ pairs are available at once, a single call with all six arguments
+and no `--no-*` flags runs all three stages in order:
+
+```bash
 ./run_sample.sh -o SLX_20125 -t 8 \
     --snv-csv snv_samples.csv --snv-r1 sampleA_SNV_R1.fq.gz --snv-r2 sampleA_SNV_R2.fq.gz \
     --cnv-csv cnv_samples.csv --cnv-r1 sampleA_CNV_R1.fq.gz --cnv-r2 sampleA_CNV_R2.fq.gz
