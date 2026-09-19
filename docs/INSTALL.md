@@ -26,7 +26,7 @@ printf 'channels:\n  - conda-forge\n  - bioconda\nchannel_priority: strict\n' > 
 
 | Purpose | Python | Definition |
 |---|---|---|
-| Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7 | [`environment_sequencing.yml`](../environment_sequencing.yml) - also provides BWA, samtools, tabix, Java 8, Picard, fgbio and VarDictJava |
+| Command-line tools for the pipeline | 3.7 | [`environment_sequencing.yml`](../environment_sequencing.yml) - provides BWA, samtools, tabix, Java 8, Picard, fgbio, VarDictJava and Pindel. **Its Python cannot run the pipeline scripts — see section 1b.** |
 | Data analysis + figures (`noise_correction_model/`) | 3.11.13 | [`environment_analysis.yml`](../environment_analysis.yml) / [`requirements.txt`](../requirements.txt) |
 
 [`environment_sequencing.lock.yml`](../environment_sequencing.lock.yml) records the
@@ -41,6 +41,50 @@ conda activate tetris-seq-pipeline
 # analysis & figures (separate environment)
 mamba env create -f environment_analysis.yml
 ```
+
+## 1b. Python for the pipeline scripts (required)
+
+The consensus callers store the UMI-grouped reads with Python's `shelve`, which
+needs a real dbm backend — `gdbm` or `ndbm`. **conda-forge's Python does not ship
+the gdbm extension** (it is GPL, so conda-forge omits it, as Debian does), and
+when no backend is available Python silently falls back to `dbm.dumb`. That
+fallback rewrites its index on every sync, so consensus calling appears to run —
+at a few percent CPU, with the temp files barely growing — and never finishes.
+
+So the pipeline uses two environments together: **conda for the command-line
+tools, and a virtualenv built from a system Python for the scripts themselves**.
+
+```bash
+scripts/setup_python_env.sh
+```
+
+That finds a Python with a working backend, creates `./tetris-py` (bootstrapping
+pip if your distribution lacks `python3-venv`), installs `pysam`, `pyfaidx`,
+`numpy`, `pandas`, `scipy`, `biopython` and `matplotlib`, and verifies the
+result. Then activate both, conda first so the virtualenv's `python` wins:
+
+```bash
+conda activate tetris-seq-pipeline
+source tetris-py/bin/activate
+```
+
+Check the split is right — `python` from the virtualenv, everything else from
+conda:
+
+```bash
+which python bwa samtools vardict-java pindel
+```
+
+`scripts/check_setup.sh` reports the backend in use and fails if it is
+`dbm.dumb`. You can also check any interpreter directly:
+
+```bash
+python -c "import dbm.gnu"      # or dbm.ndbm; either is fine, dbm.dumb is not
+```
+
+If no suitable Python exists on the machine, install your distribution's
+bindings (`sudo apt install python3-gdbm`, `sudo dnf install python3-gdbm`) and
+re-run the setup script.
 
 ## 2. External command-line tools
 

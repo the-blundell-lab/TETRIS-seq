@@ -41,6 +41,27 @@ if command -v python >/dev/null 2>&1; then ok "python" "$(command -v python) ($(
 elif command -v python3 >/dev/null 2>&1; then ok "python3" "$(command -v python3) ($(python3 --version 2>&1))"
 else bad "python" "not on PATH"; fi
 
+# The consensus callers store UMI-grouped reads with shelve, which needs a real
+# dbm backend. Without gdbm or ndbm, Python silently falls back to dbm.dumb and
+# consensus calling never finishes - so this is a hard failure, not a note.
+PY=$(command -v python || command -v python3)
+if [ -n "$PY" ]; then
+    backend=$("$PY" - <<'EOF' 2>/dev/null
+try:
+    import dbm.gnu; print("dbm.gnu")
+except ImportError:
+    try:
+        import dbm.ndbm; print("dbm.ndbm")
+    except ImportError:
+        print("dbm.dumb")
+EOF
+)
+    case "$backend" in
+        dbm.gnu|dbm.ndbm) ok "python dbm backend" "$backend" ;;
+        *) bad "python dbm backend" "only dbm.dumb available - consensus calling will not finish" ;;
+    esac
+fi
+
 if command -v java >/dev/null 2>&1; then
     jv=$(java -version 2>&1 | head -1)
     case "$jv" in
@@ -123,6 +144,16 @@ if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
     echo "      then unpack it to $ANNOVAR_HOME and run scripts/fetch_annovar_databases.sh"
     echo
 fi
+if [ "${backend:-}" = "dbm.dumb" ]; then
+    echo "  A Python with a working dbm backend (gdbm or ndbm):"
+    echo "      conda-forge's Python does not ship the gdbm extension, so shelve"
+    echo "      falls back to dbm.dumb and consensus calling never completes."
+    echo "      Create a virtualenv from a system Python that has it:"
+    echo "          scripts/setup_python_env.sh"
+    echo "      then activate it on top of the conda environment (see docs/INSTALL.md)."
+    echo
+fi
+
 if [ ! -x "$PINDEL_DIR/pindel" ] && ! command -v pindel >/dev/null 2>&1; then
     echo "  Pindel (FLT3-ITD calling) - provided by the conda environment:"
     if [ -n "${CONDA_PREFIX:-}" ]; then

@@ -65,8 +65,11 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda3
 ~/miniconda3/bin/conda init bash && exec bash
 ```
 
-The conda environment provides BWA, samtools, tabix, Java 8, Picard, fgbio and
-VarDictJava and Pindel. Four things are installed separately because of their size or
+The conda environment provides BWA, samtools, tabix, Java 8, Picard, fgbio,
+VarDictJava and Pindel. The pipeline's own Python scripts run in a separate
+virtualenv built by `scripts/setup_python_env.sh`, because conda-forge's Python
+lacks the gdbm extension that consensus calling depends on — see
+[section 1b of docs/INSTALL.md](docs/INSTALL.md). Four things are installed separately because of their size or
 licensing: **GATK 3.8**, **ANNOVAR** (plus its `humandb/` databases), the
 **b37 reference genome** and the **dbSNP interval files** - see
 [docs/INSTALL.md](docs/INSTALL.md).
