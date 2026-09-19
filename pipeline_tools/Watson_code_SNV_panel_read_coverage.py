@@ -934,7 +934,7 @@ def main():
         chromosome = 'chr'+str(k[0])
         position = k[1]
         gene = k[2]
-        exon = k[3]
+        exon = k[3] if len(k) > 3 else ''   # SNP probe regions have no exon
         depth = v
         read_depth_metrics.write(chromosome+'\t' + str(position)+'\t' + gene+'\t' + exon+'\t' + str(depth)+'\n')
 
