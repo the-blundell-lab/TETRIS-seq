@@ -152,6 +152,11 @@
 
   /* horizontal chain of steps */
   .chain{display:flex;align-items:stretch;}
+  /* connector row using the same column geometry as .chain, so a vertical
+     arrow lines up under the first or the last step rather than the middle */
+  .chainrow{display:flex;}
+  .chainrow > .cell{flex:1 1 0;min-width:0;display:flex;justify-content:center;}
+  .chainrow > .gap{flex:0 0 22px;}
   .chain > .node{flex:1 1 0;min-width:0;}
   .arrh{flex:0 0 22px;align-self:center;height:2px;background:var(--rule-strong);
     position:relative;}
@@ -187,6 +192,7 @@
     color:var(--ink-soft);margin:0 0 7px 2px;}
 
   .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .duo > .cell{display:flex;justify-content:center;}
 
   .caption{margin-top:30px;padding-top:18px;border-top:1px solid var(--rule);
     font-size:12px;color:var(--ink-soft);line-height:1.6;}
@@ -258,7 +264,10 @@
         <div class="cmd">scripts/Watson_code_SNV_panel_v1.7.sh <span class="flag">-s</span> sample_indexes.csv <span class="flag">-o</span> SLX_20125 <span class="flag">-f</span> SNV_R1.fq <span class="flag">-g</span> SNV_R2.fq</div>
         <div class="cmd">scripts/Watson_code_CNV_panel_v2.3.sh <span class="flag">-s</span> sample_indexes.csv <span class="flag">-o</span> SLX_20124 <span class="flag">-f</span> mCA_R1.fq <span class="flag">-g</span> mCA_R2.fq</div>
       </div>
-      <div class="arr v"></div>
+      <div class="duo">
+        <div class="cell"><div class="arr v"></div></div>
+        <div class="cell"><div class="arr v"></div></div>
+      </div>
 
       <p class="runlbl" style="margin-top:2px;">Each command begins with the identical steps 0&ndash;4 below, on its own library</p>
 
@@ -273,7 +282,11 @@
               sheet, giving the sample name used for every output file and the library name
               written into the read group</span>
             <span class="src">Watson_code_sample_name_from_UDI_index_v1.py · Watson_code_library_name_v1.py</span></div>
-          <div class="arr v short"></div>
+          <div class="chainrow">
+            <div class="cell"><div class="arr v short"></div></div>
+            <div class="gap"></div><div class="cell"></div>
+            <div class="gap"></div><div class="cell"></div>
+          </div>
 
           <div class="chain">
             <div class="node auto"><span class="tag">Picard</span>
@@ -305,7 +318,11 @@
               <span class="cmd">MarkIlluminaAdapters I= O= METRICS=</span></div>
           </div>
 
-          <div class="arr v short"></div>
+          <div class="chainrow">
+            <div class="cell"></div><div class="gap"></div>
+            <div class="cell"></div><div class="gap"></div>
+            <div class="cell"><div class="arr v short"></div></div>
+          </div>
 
           <div class="node auto"><span class="tag">Alignment &mdash; Picard + bwa, piped</span>
             <span class="ttl"><span class="stepno">4</span>Align to hg19 and merge the alignment back onto the unmapped BAM</span>
