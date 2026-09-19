@@ -61,17 +61,30 @@ JARs or large binaries and are **not** included in this repository.
 ## 3. Reference genome
 
 `Homo_sapiens_assembly19.fasta` (Broad b37 / GRCh37) with its `.fai`, `.dict`
-and BWA index files (~3 GB download, ~8 GB once indexed). One command:
+and BWA index files. One command:
 
 ```bash
-conda activate tetris-seq-pipeline        # needs bwa for the indexing step
 scripts/fetch_reference.sh "$EXTERNAL_TOOLS"
 ```
 
-The script downloads from the Broad's public bucket, checks the FASTA is
-complete, and builds the BWA index only if one is not already present (that step
-takes about an hour). If you already hold an indexed copy, put it in
-`$EXTERNAL_TOOLS` and the script will confirm and exit.
+By default this downloads a prebuilt copy (FASTA, `.fai`, `.dict` and the BWA
+index, 4 GB compressed, ~8 GB unpacked) from the Zenodo archive that accompanies
+this repository:
+
+> **TETRIS-seq reference data** — <https://doi.org/10.5281/zenodo.22846473>
+
+The script verifies the md5 before unpacking, so no indexing step is needed.
+
+If you would rather build it yourself, `--from-broad` downloads the FASTA from
+the Broad's public bucket and runs `bwa index` locally (~3 GB download, about an
+hour of indexing; needs the conda environment active for `bwa`):
+
+```bash
+scripts/fetch_reference.sh "$EXTERNAL_TOOLS" --from-broad
+```
+
+If you already hold an indexed copy, put it in `$EXTERNAL_TOOLS` and the script
+will confirm and exit.
 
 ## 3b. dbSNP interval files
 
@@ -87,17 +100,24 @@ ref, altCount, alts, shiftBases, freqSourceCount, minorAlleleFreq, ...), with a
 header line and 0-based coordinates (the pipeline adds 1 when building its
 lookup).
 
-Two ways to obtain them:
-
-**Build them yourself** (needs `bigBedToBed`, ~1.4 GB download, ~10 GB scratch):
+One command:
 
 ```bash
-conda install -c bioconda ucsc-bigbedtobed
 pipeline_tools/make_dbSNP_intervals.sh "$EXTERNAL_TOOLS/dbSNP"
 ```
 
-**Or download the prepared copy** from the Zenodo archive linked in the main
-README, and unpack it into `$EXTERNAL_TOOLS/dbSNP`.
+By default this downloads the prepared files (693 MB, md5-verified) from the
+same Zenodo archive as the reference genome:
+
+> **TETRIS-seq reference data** — <https://doi.org/10.5281/zenodo.22846473>
+
+To regenerate them from UCSC instead, use `--rebuild` (needs `bigBedToBed`,
+~1.4 GB download, ~10 GB scratch space):
+
+```bash
+conda install -c bioconda ucsc-bigbedtobed
+pipeline_tools/make_dbSNP_intervals.sh "$EXTERNAL_TOOLS/dbSNP" --rebuild
+```
 
 ## 3c. ANNOVAR databases
 

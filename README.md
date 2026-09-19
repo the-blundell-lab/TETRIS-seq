@@ -72,6 +72,11 @@ licensing: **GATK 3.8**, **ANNOVAR** (plus its `humandb/` databases), the
 **b37 reference genome** and the **dbSNP interval files** - see
 [docs/INSTALL.md](docs/INSTALL.md).
 
+The reference genome (with a prebuilt BWA index) and the dbSNP interval files
+are archived on Zenodo and downloaded by `scripts/fetch_reference.sh` and
+`pipeline_tools/make_dbSNP_intervals.sh`:
+**TETRIS-seq reference data**, <https://doi.org/10.5281/zenodo.22846473>.
+
 ## Quick start
 
 ```bash
