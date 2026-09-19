@@ -424,8 +424,8 @@
                     the read end, strand-bias filter, dbSNP flagged
                     <span class="src" style="display:inline;margin:0;">Watson_code_VCF_SNP_calling_SNV_panel_v1.2.py / …duplex…v1.2.py</span></li>
                   <li><b>VarDictJava</b> at <code>-f 1e-7</code>, run <b>twice</b> — once as standard and
-                    once with <code>-k 0</code>, disabling VarDict's own local realignment, so an indel
-                    is not missed because of how it was realigned</li>
+                    once with <code>-k 0</code>, which disables VarDict's own local realignment;
+                    both outputs are kept</li>
                   <li><b>ANNOVAR</b> on each output — refGene, COSMIC92 coding + noncoding, ExAC03,
                     gnomAD genome, ClinVar — then mapped onto the panel's transcripts
                     <span class="src" style="display:inline;margin:0;">Watson_code_{SSCS,DCS,VarDict}_annotation_v1.2.py</span></li>
