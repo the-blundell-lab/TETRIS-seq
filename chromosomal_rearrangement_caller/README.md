@@ -26,12 +26,6 @@ Additional dependencies: `pysam`, `pyfaidx`, `networkx`, `fuzzywuzzy`
 | `Filtering translocation calls.ipynb` | Interactive filtering / review of translocation calls |
 | `Translocation_regions_of_interest.bed` | Target regions of interest for rearrangement detection |
 
-The `2025_v1` scripts are the current caller used in the manuscript. They
-supersede an earlier Manta-based flow and the translocations-only consensus
-caller (`Watson_code_SSCS_calling_for_translocations_1.1.py`); both have been
-removed from this release, as neither was used for the manuscript and nothing
-in the pipeline called them.
-
 `Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py`
 is the region-restricted form of the consensus caller that the FLT3-ITD arm also
 uses — see [`../docs/pipeline_overview.md`](../docs/pipeline_overview.md) for how
