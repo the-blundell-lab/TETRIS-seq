@@ -126,7 +126,12 @@ if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
 fi
 if [ ! -x "$PINDEL_DIR/pindel" ] && ! command -v pindel >/dev/null 2>&1; then
     echo "  Pindel (FLT3-ITD calling) - provided by the conda environment:"
-    echo "      conda activate tetris-seq-pipeline"
+    if [ -n "${CONDA_PREFIX:-}" ]; then
+        echo "      the environment is active but does not have it; update it with"
+        echo "      conda env update -n \"$(basename "$CONDA_PREFIX")\" -f environment_sequencing.yml"
+    else
+        echo "      conda activate tetris-seq-pipeline"
+    fi
     echo
 fi
 echo "Full details: docs/INSTALL.md"
