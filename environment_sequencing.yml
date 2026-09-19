@@ -4,9 +4,11 @@
 #   conda env create -f environment_sequencing.yml
 #   conda activate tetris-seq-pipeline
 #
-# Python 3.7.4 was used for the sequencing pipeline. The exact 3.7-era versions
-# of the Python libraries below were not separately recorded; the pins are left
-# loose so conda can resolve a compatible set for Python 3.7. The command-line
+# Python 3.7.4 was used for the sequencing pipeline; conda-forge no longer ships
+# that exact patch release, so the pin is python=3.7 (3.7.9 at the time of
+# writing). The exact 3.7-era versions of the Python libraries below were not
+# separately recorded; those pins are left loose so conda can resolve a
+# compatible set. The tool versions, which are what affect results, are pinned. The command-line
 # tools (BWA, samtools, etc.) are pinned to the versions used in the manuscript.
 #
 # NOTE: GATK 3.8, ANNOVAR (June 2020), Pindel v0.3, the dbSNP interval files and
@@ -17,7 +19,7 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - python=3.7.4
+  - python=3.7              # 3.7.4 was used; that exact patch is no longer in conda-forge
   - bwa=0.7.17
   - samtools=1.11          # samtools 1.10 and 1.11 were both used
   - htslib                 # provides tabix
