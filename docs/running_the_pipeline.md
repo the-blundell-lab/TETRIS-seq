@@ -17,6 +17,37 @@ Two things to keep in mind throughout:
 
 ---
 
+## Disk space and temporary files
+
+The panel scripts create a `TEMP/` directory **in the directory you run them
+from** and point everything heavy at it, rather than at the system `/tmp`:
+
+| consumer | setting |
+|---|---|
+| Picard (sorting, merging, adapter marking) | `TMP_DIR=TEMP` |
+| fgbio `ExtractUmisFromBam` | `--tmp-dir ./TEMP` |
+| SSCS / DCS consensus calling | `shelve` database of UMI-grouped reads in `TEMP/` |
+
+Consensus calling holds the UMI-grouped reads on disk rather than in memory, so
+`TEMP/` can become large for a deeply sequenced sample. Run from a filesystem
+with room for it (scratch space rather than a quota-limited home directory), and
+keep the output directory there too.
+
+Cleanup is only partial. The consensus caller removes its own `shelve` files
+when it finishes, and Picard removes its spill files on success, but nothing
+deletes `TEMP/` itself — and **a run that fails part-way leaves its temporary
+files behind**. If you have had failures, check and clear it:
+
+```bash
+du -sh TEMP
+rm -rf TEMP
+```
+
+Temporary files are named per sample, so several samples can safely share one
+working directory.
+
+---
+
 ## Stage A: automated, per sample
 
 Run these for each sample. You can either call the three scripts yourself,
