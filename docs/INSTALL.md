@@ -181,14 +181,10 @@ scripts/check_setup.sh
 
 ## 5. Script completeness
 
-All custom scripts referenced by `Watson_code_environment_setup_v2.6.sh` are now
-present in `pipeline_tools/` (27 Python scripts). One version note:
-
-- The environment setup originally referenced
-  `Watson_code_CNV_phased_SNP_plotting_v1.2.py`, but only **v1.1** exists; the
-  reference now points to `Watson_code_CNV_phased_SNP_plotting_v1.1.py`.
+All custom scripts referenced by `Watson_code_environment_setup_v2.6.sh` are
+present in `pipeline_tools/` (27 Python scripts).
 
 The only things not stored in the repository are the external tools and large
-reference files described in sections 2–3 (Picard, GATK, fgbio, Pindel,
-ANNOVAR `humandb/`, the reference genome, and the optional `dbSNP/` directory).
+reference files described in sections 2–3 (GATK, ANNOVAR `humandb/`, the
+reference genome and the `dbSNP/` directory).
 Install these separately and point to them via `config/config.sh`.
