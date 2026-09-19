@@ -423,9 +423,8 @@
                     all-positions VCF plus a variants table; mean base quality &ge;22.5, &ge;8 bp from
                     the read end, strand-bias filter, dbSNP flagged
                     <span class="src" style="display:inline;margin:0;">Watson_code_VCF_SNP_calling_SNV_panel_v1.2.py / …duplex…v1.2.py</span></li>
-                  <li><b>VarDictJava</b> at <code>-f 1e-7</code>, run <b>twice</b> — once as standard and
-                    once with <code>-k 0</code>, which disables VarDict's own local realignment;
-                    both outputs are kept</li>
+                  <li><b>VarDictJava</b> at <code>-f 1e-7</code> — the indel caller; its annotated
+                    output is filtered to the indel call set downstream</li>
                   <li><b>ANNOVAR</b> on each output — refGene, COSMIC92 coding + noncoding, ExAC03,
                     gnomAD genome, ClinVar — then mapped onto the panel's transcripts
                     <span class="src" style="display:inline;margin:0;">Watson_code_{SSCS,DCS,VarDict}_annotation_v1.2.py</span></li>
@@ -693,8 +692,7 @@
       around indels. The SSCS and DCS BAMs are processed independently, each feeding only its
       own variant calling. Variants are called from a full-depth, uncapped <i>samtools
       mpileup</i> by a custom caller that records every base change at every panel position,
-      and independently by <i>VarDictJava</i>, run twice — with and without its own local
-      indel realignment — with ANNOVAR annotation of each output.</p>
+      and independently by <i>VarDictJava</i>, with ANNOVAR annotation of each output.</p>
 
     <p><b>FLT3-ITD</b> detection branches back to the mapped merged BAM and builds its own pair
       of SSCS and DCS BAMs, using the same UMI grouping and consensus thresholds but

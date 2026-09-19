@@ -20,7 +20,7 @@ PNG (as used in the README):
 ```bash
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 "$CHROME" --headless=new --disable-gpu --hide-scrollbars \
-  --force-device-scale-factor=2 --window-size=1300,5161 \
+  --force-device-scale-factor=2 --window-size=1300,5145 \
   --screenshot=pipeline.png "file://$PWD/pipeline_figure.html"
 ```
 
@@ -35,7 +35,7 @@ The window height must match the rendered document, or the export gains a band
 of blank paper at the bottom (or clips the last line). After editing the figure,
 re-measure it: screenshot at an over-generous height, find the last row that is
 not page background, halve it (the export is at 2x) and add the 24px bottom
-padding. The current figure is 5161 CSS px tall.
+padding. The current figure is 5145 CSS px tall.
 
 The single-page size and print colours are set by the `@media print` block near
 the end of the `<style>` in `pipeline_figure.html`.

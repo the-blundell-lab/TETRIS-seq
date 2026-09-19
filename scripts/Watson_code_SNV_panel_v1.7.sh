@@ -115,10 +115,6 @@ VARDICT_SSCS_TXT="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_wats
 annovar_annotated_VarDict_SSCS="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_annovar"
 annotated_VarDict_SSCS="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_annotated.txt"
 
-VARDICT_SSCS_VCF_UNALIGNED="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_unaligned.vcf"
-VARDICT_SSCS_TXT_UNALIGNED="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_unaligned.txt"
-annovar_annotated_VarDict_SSCS_unaligned="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_unaligned_annovar"
-annotated_VarDict_SSCS_unaligned="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_SSCS_VarDictJava_unaligned_annotated.txt"
 
 DCS_bam="$sample_name_UDI/DCS_files_MUFS${CALLMINDUPLEX}/${SAMPLE}_SNV_watson_code_DCS_bam.bam"
 DCS_bam_unmapped="$sample_name_UDI/DCS_files_MUFS${CALLMINDUPLEX}/${SAMPLE}_SNV_watson_code_DCS_unmapped.bam"
@@ -138,10 +134,6 @@ VARDICT_DCS_TXT="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watso
 annovar_annotated_VarDict_DCS="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_annovar"
 annotated_VarDict_DCS="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_annotated.txt"
 
-VARDICT_DCS_VCF_UNALIGNED="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_unaligned.vcf"
-VARDICT_DCS_TXT_UNALIGNED="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_unaligned.txt"
-annovar_annotated_VarDict_DCS_unaligned="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_unaligned_annovar"
-annotated_VarDict_DCS_unaligned="$sample_name_UDI/VarDictJava_MUFS${CALLMIN}/${SAMPLE}_SNV_watson_code_DCS_VarDictJava_unaligned_annotated.txt"
 
 #METRICS FILES:
 adapter_metrics="$sample_name_UDI/Metrics_and_images/${SAMPLE}_SNV_MarkIlluminaAdapter_metrics.txt"
@@ -299,30 +291,6 @@ execute "rm ${annovar_annotated_VarDict_SSCS}.hg19_multianno.csv"
 execute "rm ${annovar_annotated_VarDict_SSCS}.refGene.invalid_input"
 execute "rm ${annovar_annotated_VarDict_SSCS}.invalid_input"
 
-############### SSCS Vardict Java CALLING - without VARDICT local indel realignment ###############################################
-################################################################################
-
-execute "vardict-java -G $REF -f 0.0000001 -b $SSCS_GATK_bam -z 0 -c 1 -S 2 -E 3 -g 4 -r 1 -q 0 -o 0 -k 0 -u -y -th $THREADS $SNV_bed |"\
-       " python $watson_VarDict_to_text --infile /dev/stdin --sample-name $SAMPLE --path-to-reference-genome $REF"\
-       " --variants_txt $VARDICT_SSCS_TXT_UNALIGNED"
-
-banner "Annotate with ANNOVAR"
-
-execute "perl $ANNOVAR_annotate $VARDICT_SSCS_TXT_UNALIGNED $ANNOVAR_humandb/ -buildver hg19"\
-       " -out $annovar_annotated_VarDict_SSCS_unaligned"\
-       " -remove -protocol refGene,cosmic92_coding,cosmic92_noncoding,exac03,gnomad_genome,clinvar_20200316 -operation g,f,f,f,f,f -nastring . -csvout"
-
-banner "Create annotated SSCS txt file"
-
-execute "python $watson_VarDict_annotate --variants_infile $VARDICT_SSCS_TXT_UNALIGNED --annotated_infile ${annovar_annotated_VarDict_SSCS_unaligned}.hg19_multianno.csv"\
-       " --min_family_size $CALLMIN --sample-name $SAMPLE --gene_transcripts $TWIST_transcript_details --outfile $annotated_VarDict_SSCS_unaligned"
-
-execute "rm $VARDICT_SSCS_TXT_UNALIGNED"
-execute "rm ${annovar_annotated_VarDict_SSCS_unaligned}.hg19_multianno.csv"
-execute "rm ${annovar_annotated_VarDict_SSCS_unaligned}.refGene.invalid_input"
-execute "rm ${annovar_annotated_VarDict_SSCS_unaligned}.invalid_input"
-
-
 ############## DCS CALLING ###############################################
 ################################################################################
 banner "Calling DCS (watson code)..."
@@ -424,28 +392,6 @@ execute "rm ${annovar_annotated_VarDict_DCS}.hg19_multianno.csv"
 execute "rm ${annovar_annotated_VarDict_DCS}.refGene.invalid_input"
 execute "rm ${annovar_annotated_VarDict_DCS}.invalid_input"
 
-############### DCS Vardict Java CALLING - without Vardic local indel realignment ###############################################
-################################################################################
-
-execute "vardict-java -G $REF -f 0.0000001 -b $DCS_GATK_bam -z 0 -c 1 -S 2 -E 3 -g 4 -r 1 -q 0 -o 0 -k 0 -u -y -th $THREADS $SNV_bed |"\
-       " python $watson_VarDict_to_text --infile /dev/stdin --sample-name $SAMPLE --path-to-reference-genome $REF"\
-       " --variants_txt $VARDICT_DCS_TXT_UNALIGNED"
-
-banner "Annotate with ANNOVAR"
-
-execute "perl $ANNOVAR_annotate $VARDICT_DCS_TXT_UNALIGNED $ANNOVAR_humandb/ -buildver hg19"\
-       " -out $annovar_annotated_VarDict_DCS_unaligned"\
-       " -remove -protocol refGene,cosmic92_coding,cosmic92_noncoding,exac03,gnomad_genome,clinvar_20200316 -operation g,f,f,f,f,f -nastring . -csvout"
-
-banner "Create annotated DCS txt file"
-
-execute "python $watson_VarDict_annotate --variants_infile $VARDICT_DCS_TXT_UNALIGNED --annotated_infile ${annovar_annotated_VarDict_DCS_unaligned}.hg19_multianno.csv"\
-       " --min_family_size $CALLMIN --sample-name $SAMPLE --gene_transcripts $TWIST_transcript_details --outfile $annotated_VarDict_DCS_unaligned"
-
-execute "rm $VARDICT_DCS_TXT_UNALIGNED"
-execute "rm ${annovar_annotated_VarDict_DCS_unaligned}.hg19_multianno.csv"
-execute "rm ${annovar_annotated_VarDict_DCS_unaligned}.refGene.invalid_input"
-execute "rm ${annovar_annotated_VarDict_DCS_unaligned}.invalid_input"
 execute "rm $DCS_bam_unmapped" #have the sorted version so don't need this as well
 execute "rm $SSCS_bam_unmapped" #have the sorted version so don't need this as well
 

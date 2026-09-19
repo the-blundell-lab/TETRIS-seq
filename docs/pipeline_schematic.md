@@ -23,7 +23,7 @@ flowchart TD
         S_SSCS["Group reads into UMI families<br/>single-strand consensus (SSCS)<br/>&ge;3 reads, &ge;90% base agreement"]
         S_DCS["Pair complementary strands<br/>duplex consensus (DCS)<br/>disagreement between strands = N"]
         S_POST["Re-process each consensus level separately (SSCS and DCS)<br/>unmap &rarr; SortSam queryname &rarr; MarkIlluminaAdapters &rarr;<br/>SamToFastq | bwa mem | MergeBamAlignment &rarr;<br/>fgbio ClipBam (hard, 3 bp ends + overlaps) &rarr; GATK indel realignment"]
-        S_CALL["SNV/indel calling<br/>samtools mpileup (-BOa -d 1000000 -Q0) &rarr; custom caller<br/>+ VarDictJava, run twice (with and without -k 0 local realignment)<br/>+ ANNOVAR annotation of each output"]
+        S_CALL["SNV/indel calling<br/>samtools mpileup (-BOa -d 1000000 -Q0) &rarr; custom caller<br/>+ VarDictJava (indels)<br/>+ ANNOVAR annotation of each output"]
         S_NAME --> S_F2B --> S_UMI --> S_ADPT --> S_ALIGN
         S_ALIGN --> S_QC
         S_ALIGN --> S_SSCS
