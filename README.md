@@ -55,6 +55,23 @@ TETRIS-seq/
 └── LICENSE                      BSD 3-Clause
 ```
 
+## Requirements
+
+Linux or macOS, and **conda** (Miniconda, Miniforge or Anaconda) to build the
+environments. If you do not have it:
+
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda3
+~/miniconda3/bin/conda init bash && exec bash
+```
+
+The conda environment provides BWA, samtools, tabix, Java 8, Picard, fgbio and
+VarDictJava. Four things are installed separately because of their size or
+licensing: **GATK 3.8**, **ANNOVAR** (plus its `humandb/` databases), the
+**b37 reference genome** and the **dbSNP interval files** - see
+[docs/INSTALL.md](docs/INSTALL.md).
+
 ## Quick start
 
 ```bash
@@ -66,9 +83,12 @@ conda env create -f environment_analysis.yml        # Python 3.11.13
 cp config/config.sh.example config/config.sh
 $EDITOR config/config.sh
 
-# 3. Run the automated per-sample stages for one sample
-#    (SNV and CNV are SEPARATE captures with SEPARATE FASTQ files)
+# 3. Check what the pipeline can find before running anything
 conda activate tetris-seq-pipeline
+scripts/check_setup.sh
+
+# 4. Run the automated per-sample stages for one sample
+#    (SNV and CNV are SEPARATE captures with SEPARATE FASTQ files)
 cd scripts
 ./run_sample.sh -o <library_name> -t 8 \
     --snv-csv ../examples/Sample_indexes_example.csv \
