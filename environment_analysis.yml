@@ -1,0 +1,32 @@
+# Conda environment for the data analysis and figure generation
+# (noise_correction_model/*.py and the Jupyter notebooks).
+# Exact package versions used in the manuscript.
+#
+#   conda env create -f environment_analysis.yml
+#   conda activate tetris-seq-analysis
+#
+name: tetris-seq-analysis
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11.13
+  - numpy=2.0.2
+  - pandas=2.3.0
+  - scipy=1.16.0
+  - matplotlib=3.10.3
+  - scikit-learn=1.7.1
+  - biopython=1.85
+  - pysam=0.23.3
+  - pyfaidx=0.8.1.4
+  - jupyter
+  - notebook
+  # additional dependencies for the mCA caller (versions not separately pinned)
+  - seaborn
+  - statsmodels
+  - ruptures        # change-point detection (mCA segment boundaries)
+  # additional dependencies for the chromosomal rearrangement caller
+  - networkx        # grouping/clustering of rearrangement breakpoints
+  - fuzzywuzzy
+  - python-levenshtein
+  - zodb            # only needed for the *_shelve_edit.py variant (ZODB/BTrees/transaction)

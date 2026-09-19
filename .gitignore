@@ -1,0 +1,77 @@
+# --- OS / editor cruft ---
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*~
+.idea/
+.vscode/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# --- Local pipeline configuration (user-specific paths) ---
+config/config.sh
+
+# --- Large third-party tools (download per docs/INSTALL.md; never commit) ---
+*.jar
+pipeline_tools/annovar/
+pipeline_tools/dbSNP/
+pipeline_tools/pindel/
+pipeline_tools/GenomeAnalysisTK-*/
+
+# --- Reference genome (download separately; too large for git) ---
+*.fasta
+*.fa
+*.fasta.fai
+*.fasta.ann
+*.fasta.amb
+*.fasta.bwt
+*.fasta.pac
+*.fasta.sa
+Homo_sapiens_assembly19*
+
+# --- Sequencing / large data outputs (deposit in Zenodo/EGA; do not commit) ---
+*.bam
+*.bai
+*.sam
+*.cram
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.vcf
+*.vcf.gz
+*.pileup
+
+# Bulk per-sample model output (kept in the Zenodo archive, not in git).
+# A small example subset lives in noise_correction_model/example_input/.
+noise_correction_model/data_files/UKCTOCS_noise_correction_model_DCS_output_files/
+
+# --- Manuscript / unpublished documents (NEVER commit) ---
+*manuscript*.pdf
+*_paper_*.pdf
+UKCTOCS_paper_*.pdf
+
+# --- Non-released participant-level data (NEVER commit) ---
+# Ages, sample timings and germline calls are individually identifying and are
+# NOT cleared for public release. Obtain them via the study's controlled-access
+# route (e.g. EGA) or the relevant Supplementary Table; they are not distributed
+# with this repository.
+UKCTOCS_samples_processed_information.csv
+UKCTOCS_samples_table.csv
+UKCTOCS_sample_information_of_samples_processed.csv
+*germline_variants_calls*.csv
+UKCTOCS_watson_*germline*.csv
+
+# Example input/output derived from participant samples - not for release
+noise_correction_model/example_input/
+noise_correction_model/example_outputs/

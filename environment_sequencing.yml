@@ -1,0 +1,30 @@
+# Conda environment for the sequencing pipeline (the Watson_code_*.py scripts
+# invoked by scripts/Watson_code_SNV_panel_v1.7.sh and Watson_code_CNV_panel_v2.3.sh).
+#
+#   conda env create -f environment_sequencing.yml
+#   conda activate tetris-seq-pipeline
+#
+# Python 3.7.4 was used for the sequencing pipeline. The exact 3.7-era versions
+# of the Python libraries below were not separately recorded; the pins are left
+# loose so conda can resolve a compatible set for Python 3.7. The command-line
+# tools (BWA, samtools, etc.) are pinned to the versions used in the manuscript.
+#
+# NOTE: GATK 3.8, Picard 2.18.15, ANNOVAR (June 2020), fgbio 1.3.0, Pindel v0.3
+# and the reference genome are installed separately - see docs/INSTALL.md.
+#
+name: tetris-seq-pipeline
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.7.4
+  - bwa=0.7.17
+  - samtools=1.11          # samtools 1.10 and 1.11 were both used
+  - pysam
+  - pyfaidx
+  - numpy
+  - biopython
+  - pandas
+  - scipy
+  # VarDictJava, snpEff/SnpSift, Pindel, Picard, GATK 3.8 and ANNOVAR are
+  # installed manually (see docs/INSTALL.md) and pointed to via config/config.sh.

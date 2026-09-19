@@ -1,0 +1,42 @@
+# =============================================================================
+# TETRIS-seq pipeline configuration
+# -----------------------------------------------------------------------------
+# Copy this file to "config.sh" (in the same directory) and edit the paths below
+# to match your system, then run the pipeline scripts in ../scripts/.
+#
+#   cp config/config.sh.example config/config.sh
+#
+# Every variable below is OPTIONAL. Anything you leave commented out falls back
+# to the default shown, which assumes the layout described in docs/INSTALL.md.
+# You can also set these as environment variables instead of editing this file.
+#
+# None of these large tools / reference files are stored in the git repository
+# (see docs/INSTALL.md and the Zenodo archive for download instructions).
+# =============================================================================
+
+# The repo's own pipeline_tools/ folder: custom Watson_code_*.py scripts and the
+# panel BED/CSV resources. You only need to set this if you have moved that
+# folder somewhere else; by default it is found relative to scripts/.
+# export PIPELINE_TOOLS="/path/to/TETRIS-seq/pipeline_tools"
+
+# Directory holding the things you install yourself: the third-party JARs
+# (picard.jar, fgbio-1.3.0.jar, GenomeAnalysisTK.jar), the reference genome,
+# and the annovar/, pindel/ and dbSNP/ subdirectories.
+# export EXTERNAL_TOOLS="$HOME/Pipeline_tools"
+
+# Reference genome: Homo_sapiens_assembly19.fasta (Broad b37 / GRCh37).
+# Requires the accompanying .fai and .dict indexes in the same directory.
+# export REF="$EXTERNAL_TOOLS/Homo_sapiens_assembly19.fasta"
+
+# VarDictJava install (expects build/install/VarDict/bin/ underneath).
+# export VARDICT_HOME="$HOME/VarDictJava"
+
+# snpEff / SnpSift install (expects snpEff.jar, SnpSift.jar, scripts/).
+# export SNPEFF_HOME="$HOME/snpEff"
+
+# ANNOVAR install (June 2020 release) with humandb/ databases.
+# export ANNOVAR_HOME="$EXTERNAL_TOOLS/annovar"
+
+# Pindel v0.3 install (expects pindel and pindel2vcf binaries).
+# export PINDEL_DIR="$EXTERNAL_TOOLS/pindel"
+

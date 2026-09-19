@@ -1,0 +1,26 @@
+# Pip equivalent of environment_analysis.yml (data analysis + figure generation).
+# Python 3.11.13. For the sequencing pipeline use Python 3.7.4 (see
+# environment_sequencing.yml). Install with:
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+numpy==2.0.2
+pandas==2.3.0
+scipy==1.16.0
+matplotlib==3.10.3
+scikit-learn==1.7.1
+biopython==1.85
+pysam==0.23.3
+pyfaidx==0.8.1.4
+jupyter
+notebook
+# additional dependencies for the mCA caller (versions not separately pinned)
+seaborn
+statsmodels
+ruptures
+# additional dependencies for the chromosomal rearrangement caller
+networkx
+fuzzywuzzy
+python-Levenshtein
+ZODB            # only needed for the *_shelve_edit.py variant

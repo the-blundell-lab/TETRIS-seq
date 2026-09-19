@@ -1,0 +1,688 @@
+<title>TETRIS-seq pipeline — methods figure</title>
+<style>
+  :root {
+    --paper:#faf9f6; --panel:#ffffff; --ink:#1c2226; --ink-soft:#5b6570;
+    --rule:#dcd8d0; --rule-strong:#c3bdb2;
+    --auto-line:#2f7d5f; --auto-fill:#e8f2ec; --auto-ink:#1b5240;
+    --man-line:#b07d1e;  --man-fill:#f8eed9;  --man-ink:#6e4c10;
+    --sc-line:#8a4b93;   --sc-fill:#f5e9f6;   --sc-ink:#5a2a61;
+    --io-line:#3f5f7e;   --io-fill:#e7eef4;   --io-ink:#274150;
+    --qc-line:#8c8f93;   --qc-fill:#f1f1ef;   --qc-ink:#4d5155;
+    --shadow:0 1px 2px rgba(28,34,38,.06), 0 4px 14px rgba(28,34,38,.05);
+    --sans:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#14171a; --panel:#1b1f23; --ink:#e9eaec; --ink-soft:#9aa4ad;
+      --rule:#2c333a; --rule-strong:#3c454d;
+      --auto-line:#5cc39a; --auto-fill:#173026; --auto-ink:#a7e5cd;
+      --man-line:#e0b25a;  --man-fill:#312611;  --man-ink:#f0d59a;
+      --sc-line:#d093d8;   --sc-fill:#2d1c30;   --sc-ink:#eecdf1;
+      --io-line:#7fa8ce;   --io-fill:#182833;   --io-ink:#bcd6ec;
+      --qc-line:#6c7278;   --qc-fill:#202428;   --qc-ink:#b6bcc2;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#faf9f6; --panel:#ffffff; --ink:#1c2226; --ink-soft:#5b6570;
+    --rule:#dcd8d0; --rule-strong:#c3bdb2;
+    --auto-line:#2f7d5f; --auto-fill:#e8f2ec; --auto-ink:#1b5240;
+    --man-line:#b07d1e;  --man-fill:#f8eed9;  --man-ink:#6e4c10;
+    --sc-line:#8a4b93;   --sc-fill:#f5e9f6;   --sc-ink:#5a2a61;
+    --io-line:#3f5f7e;   --io-fill:#e7eef4;   --io-ink:#274150;
+    --qc-line:#8c8f93;   --qc-fill:#f1f1ef;   --qc-ink:#4d5155;
+    --shadow:0 1px 2px rgba(28,34,38,.06), 0 4px 14px rgba(28,34,38,.05);
+  }
+  :root[data-theme="dark"]{
+    --paper:#14171a; --panel:#1b1f23; --ink:#e9eaec; --ink-soft:#9aa4ad;
+    --rule:#2c333a; --rule-strong:#3c454d;
+    --auto-line:#5cc39a; --auto-fill:#16302703; --auto-ink:#a7e5cd;
+    --man-line:#e0b25a;  --man-fill:#33280f03;  --man-ink:#f0d59a;
+    --sc-line:#d093d8;   --sc-fill:#2d1c3003;   --sc-ink:#eecdf1;
+    --io-line:#7fa8ce;   --io-fill:#18253003;   --io-ink:#bcd6ec;
+    --qc-line:#6c7278;   --qc-fill:#20242803;   --qc-ink:#b6bcc2;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.28);
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;line-height:1.45;}
+  .wrap{max-width:1240px;margin:0 auto;padding:48px 32px 64px;}
+
+  /* ---------- header ---------- */
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;margin:0 0 10px;}
+  h1{font-size:29px;line-height:1.15;letter-spacing:-.01em;margin:0 0 8px;
+    font-weight:700;text-wrap:balance;}
+  .lede{margin:0;max-width:64ch;color:var(--ink-soft);font-size:15px;}
+  .lede b{color:var(--ink);font-weight:600;}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:20px 26px;margin:26px 0 8px;
+    padding:14px 18px;border:1px solid var(--rule);border-radius:8px;
+    background:var(--panel);box-shadow:var(--shadow);}
+  .lg{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-soft);}
+  .lg b{color:var(--ink);font-weight:600;}
+  .sw{width:26px;height:16px;border-radius:4px;border:1.5px solid;flex:none;}
+  .sw.auto{border-color:var(--auto-line);background:var(--auto-fill);}
+  .sw.man{border-color:var(--man-line);background:var(--man-fill);}
+  .sw.script{border-color:var(--sc-line);background:var(--sc-fill);}
+  .sw.io{border-color:var(--io-line);background:var(--io-fill);}
+  .sw.qc{border-color:var(--qc-line);background:var(--qc-fill);border-style:dotted;}
+
+  /* ---------- diagram scaffold ---------- */
+  .scroll{overflow-x:auto;margin-top:22px;}
+  .fig{min-width:760px;display:flex;flex-direction:column;gap:0;}
+
+  .lanes{display:grid;grid-template-columns:1fr;gap:40px;}
+  .lane{display:flex;flex-direction:column;}
+  .lane-head{font-size:12px;letter-spacing:.03em;font-weight:700;color:var(--ink);
+    padding:0 2px 4px;}
+  .lane-head .pill{font-family:var(--mono);font-size:11px;font-weight:500;
+    color:var(--ink-soft);}
+
+  /* zone bands */
+  .zone{position:relative;border-radius:10px;padding:16px 16px 20px;}
+  .zone + .zone{margin-top:14px;}
+  .zone-auto{background:
+      linear-gradient(var(--paper),var(--paper)) padding-box,
+      var(--panel);border:1px dashed var(--auto-line);}
+  .zone-man{border:1px dashed var(--rule-strong);}
+  .zone-label{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;
+    letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    padding:3px 9px;border-radius:999px;margin-bottom:12px;}
+  .zone-auto .zone-label{color:var(--auto-ink);background:var(--auto-fill);
+    border:1px solid var(--auto-line);}
+  .zone-man .zone-label{color:var(--ink-soft);background:var(--panel);
+    border:1px solid var(--rule-strong);}
+  .zone-note{font-size:11.5px;color:var(--ink-soft);margin-left:8px;
+    letter-spacing:.01em;font-weight:500;text-transform:none;}
+
+  .stack{display:flex;flex-direction:column;align-items:stretch;gap:0;}
+
+  /* nodes */
+  .node{border:1.5px solid;border-radius:7px;padding:11px 13px;
+    background:var(--panel);box-shadow:var(--shadow);}
+  .node .tag{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+    font-weight:700;display:block;margin-bottom:3px;opacity:.9;}
+  .node .ttl{font-size:13.5px;font-weight:600;line-height:1.3;display:block;}
+  .node .sub{font-size:11.5px;color:var(--ink-soft);margin-top:4px;line-height:1.4;display:block;}
+  .node .src{font-family:var(--mono);font-size:11px;margin-top:5px;
+    color:var(--ink-soft);word-break:break-word;display:block;}
+  .node.auto{border-color:var(--auto-line);background:var(--auto-fill);}
+  .node.auto .tag{color:var(--auto-ink);}
+  .node.man{border-color:var(--man-line);background:var(--man-fill);}
+  .node.man .tag{color:var(--man-ink);}
+  .node.script{border-color:var(--sc-line);background:var(--sc-fill);}
+  .node.script .tag{color:var(--sc-ink);}
+  .node.io{border-color:var(--io-line);background:var(--io-fill);text-align:center;}
+  .node.io .ttl{color:var(--io-ink);}
+  .node.io .tag{color:var(--io-ink);}
+  .node.qc{border-color:var(--qc-line);border-style:dotted;background:var(--qc-fill);}
+  .node.qc .tag{color:var(--qc-ink);}
+
+  /* command / tool line inside a node */
+  code{font-family:var(--mono);font-size:11px;color:var(--ink);
+    background:rgba(128,128,128,.11);border-radius:3px;padding:0 3px;}
+  .node .cmd{display:block;font-family:var(--mono);font-size:11px;margin-top:6px;
+    padding:6px 8px;border-radius:5px;background:rgba(128,128,128,.10);
+    color:var(--ink);line-height:1.5;word-break:break-word;}
+  .node .cmd .flow{color:var(--ink-soft);}
+
+  /* ordered sub-steps inside a node */
+  .steps{margin:7px 0 0;padding-left:17px;font-size:11.5px;color:var(--ink-soft);
+    line-height:1.45;}
+  .steps li{margin:3px 0;}
+  .steps li b{color:var(--ink);font-weight:600;}
+
+  /* connector arrows */
+  .arr{align-self:center;width:2px;background:var(--rule-strong);position:relative;}
+  .arr.v{height:20px;}
+  .arr.v::after{content:"";position:absolute;left:50%;bottom:-1px;
+    transform:translateX(-50%);border-left:5px solid transparent;
+    border-right:5px solid transparent;border-top:7px solid var(--rule-strong);}
+  .arr.short{height:14px;}
+
+  /* horizontal chain of steps */
+  .chain{display:flex;align-items:stretch;}
+  .chain > .node{flex:1 1 0;min-width:0;}
+  .arrh{flex:0 0 22px;align-self:center;height:2px;background:var(--rule-strong);
+    position:relative;}
+  .arrh::after{content:"";position:absolute;top:50%;right:-1px;
+    transform:translateY(-50%);border-top:5px solid transparent;
+    border-bottom:5px solid transparent;border-left:7px solid var(--rule-strong);}
+  .stepno{display:inline-block;min-width:15px;height:15px;line-height:15px;
+    border-radius:999px;text-align:center;font-size:9.5px;font-weight:700;
+    background:var(--auto-line);color:var(--paper);margin-right:5px;
+    vertical-align:1px;}
+
+  /* fork: one source splits into arms */
+  .forkbar{position:relative;height:20px;margin-top:2px;}
+  .forkbar::before{content:"";position:absolute;left:25%;right:25%;top:0;
+    height:2px;background:var(--rule-strong);}
+  .forkbar .stem{position:absolute;top:0;width:2px;height:20px;background:var(--rule-strong);}
+  .forkbar .stem::after{content:"";position:absolute;left:50%;bottom:-1px;
+    transform:translateX(-50%);border-left:5px solid transparent;
+    border-right:5px solid transparent;border-top:7px solid var(--rule-strong);}
+  .forkbar .stem.l{left:25%;} .forkbar .stem.r{left:75%;}
+  .fork{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+  .fork.wide{grid-template-columns:1.55fr 1fr;}
+  .forkbar.wide::before{left:30%;right:20%;}
+  .forkbar.wide .stem.l{left:30%;} .forkbar.wide .stem.r{left:80%;}
+  .fork.three{grid-template-columns:repeat(3,1fr);gap:14px;}
+  .forkbar.three::before{left:16.6%;right:16.6%;}
+  .forkbar.three .stem.a{left:16.6%;} .forkbar.three .stem.b{left:50%;}
+  .forkbar.three .stem.c{left:83.3%;}
+  .forkbar.nobar::before{display:none;}
+  .fork .col > .node + .arr{align-self:center;}
+  .fork .col{display:flex;flex-direction:column;}
+  .collbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+    color:var(--ink-soft);margin:0 0 7px 2px;}
+
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+  .caption{margin-top:30px;padding-top:18px;border-top:1px solid var(--rule);
+    font-size:12px;color:var(--ink-soft);max-width:82ch;line-height:1.6;}
+  .caption b{color:var(--ink);font-weight:600;}
+  .caption .fig-no{color:var(--ink);font-weight:700;}
+  .caption p{margin:0 0 10px;}
+
+  @media (max-width:640px){
+    .wrap{padding:32px 18px 48px;}
+    h1{font-size:23px;}
+  }
+
+  /* ---- vector PDF export (single artboard, colours preserved, light theme) ---- */
+  @media print{
+    @page{ size:1400px 5620px; margin:0; }
+    :root{ color-scheme:light;
+      --paper:#faf9f6; --panel:#ffffff; --ink:#1c2226; --ink-soft:#5b6570;
+      --rule:#dcd8d0; --rule-strong:#c3bdb2;
+      --auto-line:#2f7d5f; --auto-fill:#e8f2ec; --auto-ink:#1b5240;
+      --man-line:#b07d1e;  --man-fill:#f8eed9;  --man-ink:#6e4c10;
+      --sc-line:#8a4b93;   --sc-fill:#f5e9f6;   --sc-ink:#5a2a61;
+      --io-line:#3f5f7e;   --io-fill:#e7eef4;   --io-ink:#274150;
+      --qc-line:#8c8f93;   --qc-fill:#f1f1ef;   --qc-ink:#4d5155;
+    }
+    html,body{background:var(--paper);}
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    .scroll{overflow:visible !important;}
+    .wrap{max-width:1360px;padding:44px 40px;}
+    .legend{box-shadow:none;}
+    .node{box-shadow:none;}
+  }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">TETRIS-seq · Watson et al., Nature 2026</p>
+  <h1>Bioinformatic pipeline for duplex error-corrected variant detection</h1>
+  <p class="lede">Two capture panels are processed independently from
+    <b>separate FASTQ libraries</b>. Both begin with the same read-preparation and
+    alignment front end, then diverge. Per-sample stages are <b>automated</b>; the
+    cross-sample and longitudinal stages are <b>triggered separately</b> once a
+    batch of samples has been processed &mdash; most are scripts in this repository,
+    and only a few are <b>manual</b>.</p>
+
+  <div class="legend" role="list">
+    <span class="lg" role="listitem"><span class="sw io"></span><b>Input / output</b></span>
+    <span class="lg" role="listitem"><span class="sw auto"></span><b>Automated</b> — per sample, one command</span>
+    <span class="lg" role="listitem"><span class="sw script"></span><b>Scripted</b> — run separately, after a batch</span>
+    <span class="lg" role="listitem"><span class="sw man"></span><b>Manual</b> — curation / judgement</span>
+    <span class="lg" role="listitem"><span class="sw qc"></span><b>QC metrics</b> — no downstream input</span>
+    <span class="lg" role="listitem"><span class="sw" style="border-color:var(--rule-strong);border-style:dashed;background:transparent;"></span>dashed band = outside the per-sample driver</span>
+  </div>
+
+  <div class="scroll">
+  <div class="fig">
+
+    <!-- ================= SHARED FRONT END ================= -->
+    <section class="lane" aria-label="Read preparation and alignment">
+      <div class="lane-head">Read preparation and alignment &nbsp;<span class="pill">identical in both panel scripts &mdash; run once per library</span></div>
+
+      <div class="duo">
+        <div class="node io"><span class="tag">FASTQ</span>
+          <span class="ttl">SNV library reads (R1 / R2)</span></div>
+        <div class="node io"><span class="tag">FASTQ</span>
+          <span class="ttl">mCA / rearrangement library reads (R1 / R2)</span></div>
+      </div>
+      <div class="arr v"></div>
+
+      <div class="zone zone-auto">
+        <span class="zone-label">◆ Automated</span>
+        <span class="zone-note">run per sample, separately for each of the two libraries</span>
+
+        <div class="stack">
+          <div class="node auto"><span class="tag">Naming</span>
+            <span class="ttl"><span class="stepno">0</span>Resolve sample and library name from the UDI index</span>
+            <span class="sub">the UDI index in the FASTQ filename is looked up in the sample-index
+              sheet, giving the sample name used for every output file and the library name
+              written into the read group</span>
+            <span class="src">Watson_code_sample_name_from_UDI_index_v1.py · Watson_code_library_name_v1.py</span></div>
+          <div class="arr v short"></div>
+
+          <div class="chain">
+            <div class="node auto"><span class="tag">Picard</span>
+              <span class="ttl"><span class="stepno">1</span>FASTQ &rarr; unmapped BAM</span>
+              <span class="sub">paired reads packed into an unaligned BAM so that per-read tags can
+                be carried through the rest of the pipeline; sample, library, platform and read
+                group set here</span>
+              <span class="cmd">FastqToSam F1= F2= SM= LB= PL=Illumina RG=</span></div>
+
+            <span class="arrh"></span>
+
+            <div class="node auto"><span class="tag">fgbio</span>
+              <span class="ttl"><span class="stepno">2</span>Move the inline UMI into the RX tag</span>
+              <span class="sub">read structure <code>3M2S146T</code> on each read: the first
+                <b>3 bases are the inline UMI</b>, the next <b>2 are a spacer and are discarded</b>,
+                and the remaining <b>146 are template</b>. The two half-UMIs are stored as ZA and ZB
+                and concatenated into a single <b>RX</b> tag; the UMI and spacer bases are removed
+                from the read sequence so they are never aligned.</span>
+              <span class="cmd">ExtractUmisFromBam --read-structure=3M2S146T 3M2S146T<br>
+                &nbsp;&nbsp;--molecular-index-tags=ZA ZB --single-tag=RX</span></div>
+
+            <span class="arrh"></span>
+
+            <div class="node auto"><span class="tag">Picard</span>
+              <span class="ttl"><span class="stepno">3</span>Mark adapter read-through</span>
+              <span class="sub">where the insert is shorter than the read, the 3&prime; end runs into
+                the Illumina adapter. Those bases are located and their start position recorded in the
+                <b>XT</b> tag — marked, not yet removed.</span>
+              <span class="cmd">MarkIlluminaAdapters I= O= METRICS=</span></div>
+          </div>
+
+          <div class="arr v short"></div>
+
+          <div class="node auto"><span class="tag">Alignment &mdash; Picard + bwa, piped</span>
+            <span class="ttl"><span class="stepno">4</span>Align to hg19 and merge the alignment back onto the unmapped BAM</span>
+            <span class="sub">A BAM cannot be given to an aligner directly, and a plain FASTQ round
+              trip would throw away the RX/ZA/ZB tags just added. So the three tools are run as one
+              pipe: the reads are streamed out as FASTQ, aligned, and the alignments are merged
+              <b>back onto the original unmapped BAM</b>, which is what carries the tags. Nothing is
+              written to disk in between.</span>
+            <span class="cmd"><span class="flow">1.</span> SamToFastq I=&lt;adapter-marked BAM&gt; F=/dev/stdout INTERLEAVE=true CLIPPING_ATTRIBUTE=XT CLIPPING_ACTION=X<br>
+              <span class="flow">&nbsp;&nbsp;&nbsp;&nbsp;→ one interleaved FASTQ stream; the adapter bases flagged in XT are masked to X so bwa cannot align them</span><br>
+              <span class="flow">2. |</span> bwa mem -p -t 8 &lt;Homo_sapiens_assembly19.fasta&gt; /dev/stdin<br>
+              <span class="flow">&nbsp;&nbsp;&nbsp;&nbsp;→ -p reads the interleaved pairs from the stream</span><br>
+              <span class="flow">3. |</span> MergeBamAlignment UNMAPPED=&lt;adapter-marked BAM&gt; ALIGNED=/dev/stdin SO=coordinate ALIGNER_PROPER_PAIR_FLAGS=true MAX_GAPS=-1 ORIENTATIONS=FR CREATE_INDEX=true<br>
+              <span class="flow">&nbsp;&nbsp;&nbsp;&nbsp;→ alignments joined to the tagged unmapped records, so <b>RX survives</b>; coordinate-sorted and indexed</span></span></div>
+
+          <div class="arr v short"></div>
+          <div class="node io"><span class="tag">Intermediate</span>
+            <span class="ttl">Mapped merged BAM &mdash; aligned reads, still carrying the UMI in RX</span>
+            <span class="sub">this is the input to every consensus step below, and the rearrangement
+              caller reads it directly because it is the only BAM that still holds the raw
+              discordant and split reads</span></div>
+
+          <div class="arr v short"></div>
+          <div class="node qc"><span class="tag">QC</span>
+            <span class="ttl">Insert-size metrics + histogram · raw-BAM read coverage across the panel</span>
+            <span class="sub">written to <code>Metrics_and_images/</code> and
+              <code>Gene_read_depths/</code>; inspected, not consumed by any later stage</span>
+            <span class="src">Picard CollectInsertSizeMetrics · Watson_code_SNV_panel_read_coverage.py (SNV panel)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="arr v" style="margin-top:14px;"></div>
+
+    <div class="lanes">
+
+      <!-- ============ SNV LANE ============ -->
+      <section class="lane" aria-label="SNV panel">
+        <div class="lane-head">SNV / indel panel &nbsp;<span class="pill">Watson_code_SNV_panel_v1.7.sh</span></div>
+
+        <div class="node io"><span class="tag">From step 4</span>
+          <span class="ttl">SNV library mapped merged BAM</span></div>
+        <div class="arr v"></div>
+
+        <div class="zone zone-auto">
+          <span class="zone-label">◆ Automated</span>
+          <span class="zone-note">run per sample</span>
+
+          <div class="forkbar wide"><span class="stem l"></span><span class="stem r"></span></div>
+          <div class="fork wide">
+
+            <div class="col">
+              <p class="collbl">SNV / indel arm</p>
+
+              <div class="node auto"><span class="tag">Consensus &mdash; SSCS</span>
+                <span class="ttl">Group reads into UMI families &rarr; single-strand consensus</span>
+                <span class="sub">family = RX UMI + mapped coordinates + strand · &ge;3 reads per family ·
+                  a base is called only where &ge;90&#37; of the family agrees, otherwise N ·
+                  MAPQ &ge;20, base Q &ge;20 · properly paired reads only (unpaired reads are written
+                  to a separate BAM and not used)</span>
+                <span class="src">Watson_code_SSCS_calling_2.1.py</span></div>
+              <div class="arr v short"></div>
+
+              <div class="node auto"><span class="tag">Consensus &mdash; DCS</span>
+                <span class="ttl">Pair complementary strands &rarr; duplex consensus</span>
+                <span class="sub">each SSCS is matched to its partner from the other strand of the same
+                  molecule, identified by its swapped UMI halves (A-B &harr; B-A) · &ge;3 reads per
+                  strand · any position where the two strands disagree is set to N · called from the
+                  SSCS BAM <b>as emitted</b>, before re-alignment</span>
+                <span class="src">Watson_code_DCS_calling_1.4.py</span></div>
+              <div class="arr v short"></div>
+
+              <div class="node auto"><span class="tag">Re-process each consensus BAM</span>
+                <span class="ttl">The SSCS and DCS BAMs are each put back through alignment, then clipped and realigned</span>
+                <span class="sub">consensus reads are new sequences, so they have to be re-aligned rather
+                  than inheriting the coordinates of the reads they came from. The same round trip as
+                  step 4 is used. <b>The two levels are processed independently — neither feeds the
+                  other.</b></span>
+                <ol class="steps">
+                  <li><b>Unmap</b> — strip the inherited alignment <span class="src" style="display:inline;margin:0;">Watson_code_convert_mapped_to_unmapped_BAM_v1.py</span></li>
+                  <li><b>SortSam</b> <code>SORT_ORDER=queryname</code></li>
+                  <li><b>MarkIlluminaAdapters</b> — re-mark on the consensus reads</li>
+                  <li><b>SamToFastq | bwa mem | MergeBamAlignment</b> — as step 4</li>
+                  <li><b>fgbio ClipBam</b> <code>--clipping-mode Hard</code> — hard-clips 3 bp from
+                    each end of both reads and clips read overlaps, so an overlapping pair cannot
+                    count the same molecule twice</li>
+                  <li><b>GATK RealignerTargetCreator + IndelRealigner</b> — local realignment around indels</li>
+                </ol></div>
+              <div class="arr v short"></div>
+
+              <div class="node auto"><span class="tag">SNV / indel calling</span>
+                <span class="ttl">Two callers, run at both the SSCS and the DCS level</span>
+                <ol class="steps">
+                  <li><b>samtools mpileup</b> <code>-BOa -d 1000000 -Q0 --output-MQ --output-QNAME --reverse-del</code>
+                    over the panel BED — every panel position, no depth cap, no BAQ</li>
+                  <li><b>Custom caller</b> — counts every base change at every position and writes an
+                    all-positions VCF plus a variants table; mean base quality &ge;22.5, &ge;8 bp from
+                    the read end, strand-bias filter, dbSNP flagged
+                    <span class="src" style="display:inline;margin:0;">Watson_code_VCF_SNP_calling_SNV_panel_v1.2.py / …duplex…v1.2.py</span></li>
+                  <li><b>VarDictJava</b> at <code>-f 1e-7</code>, run <b>twice</b> — once as standard and
+                    once with <code>-k 0</code>, disabling VarDict's own local realignment, so an indel
+                    is not missed because of how it was realigned</li>
+                  <li><b>ANNOVAR</b> on each output — refGene, COSMIC92 coding + noncoding, ExAC03,
+                    gnomAD genome, ClinVar — then mapped onto the panel's transcripts
+                    <span class="src" style="display:inline;margin:0;">Watson_code_{SSCS,DCS,VarDict}_annotation_v1.2.py</span></li>
+                </ol></div>
+              <div class="arr v short"></div>
+              <div class="node qc"><span class="tag">QC</span>
+                <span class="ttl">Read coverage across the panel, at SSCS and at DCS level</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">FLT3-ITD arm</p>
+              <div class="node auto"><span class="tag">Consensus &mdash; FLT3 arm</span>
+                <span class="ttl">Re-call SSCS + DCS without the SAM flag filter</span>
+                <span class="sub">branches back to the same mapped merged BAM. Same UMI grouping key and
+                  consensus thresholds, but improperly paired reads are <b>kept</b> — a read pair
+                  spanning an ITD is often not flagged as a proper pair, so the standard caller
+                  discards exactly the reads that carry the event. The adapter clip position (XT) is
+                  carried onto the consensus read.</span>
+                <span class="src">Watson_code_SNV_panel_for_FLT3_calling_v1.1.sh</span></div>
+              <div class="arr v short"></div>
+              <div class="node auto"><span class="tag">Re-align only</span>
+                <span class="ttl">Unmap · sort · mark adapters · re-align</span>
+                <span class="sub">steps 1–4 of the re-processing recipe only — these BAMs are
+                  deliberately <b>not</b> clipped and <b>not</b> indel-realigned, since both would
+                  remove or shift the ITD</span></div>
+              <div class="arr v short"></div>
+              <div class="node auto"><span class="tag">FLT3-ITD</span>
+                <span class="ttl">Pindel on the SSCS and DCS BAMs</span>
+                <span class="sub">chr13:28,608,024&ndash;28,608,351 (exons 14&ndash;15) · Pindel output
+                  converted to VCF and then to a variants table</span>
+                <span class="src">Watson_code_Pindel_FLT3_caller.sh ·
+                  Watson_code_FLT3_create_pindel_config_file.py ·
+                  Watson_code_FLT3_ITD_calling_from_pindel_vcf_v1.py</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="arr v"></div>
+
+        <div class="zone zone-man">
+          <span class="zone-label">◇ Triggered separately</span>
+          <span class="zone-note">once a batch of samples has been processed</span>
+          <div class="fork wide">
+
+            <div class="col">
+              <p class="collbl">SNV / indel arm</p>
+              <div class="node man"><span class="tag">Bridge</span>
+                <span class="ttl">Reorganise output into the results root</span>
+                <span class="sub">per-sample folders remapped to the layout the notebooks read ·
+                  manual, not currently scripted</span>
+                <span class="src">docs/data_layout.md §3</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">De-noising</span>
+                <span class="ttl">Position-specific error model</span>
+                <span class="sub">a beta-binomial error rate is fitted <b>per panel position, per
+                  lane</b>, across the batch (&asymp;40 samples), so that a recurrent artefact at one
+                  position is not called in every sample</span>
+                <span class="src">noise_correction_model/</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">Post-model</span>
+                <span class="ttl">Variant processing + germline filtering</span>
+                <span class="sub">error-corrected SNVs and VarDictJava indels &rarr; VAF trajectories</span>
+                <span class="src">noise_correction_model/</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">Clonal dynamics</span>
+                <span class="ttl">Acquisition age + fitness inference</span>
+                <span class="sub">phylogenies and Muller plots</span>
+                <span class="src">manuscript analysis code</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">FLT3-ITD arm</p>
+              <div class="node man"><span class="tag">Curation</span>
+                <span class="ttl">FLT3-ITD &mdash; require SSCS <i>and</i> DCS</span>
+                <span class="sub">an ITD is called real only if Pindel detects it in both the
+                  single-strand and the duplex consensus BAM</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="arr v"></div>
+        <div class="node io"><span class="tag">Output</span>
+          <span class="ttl">SNVs &amp; indels (error-corrected, post-model) · FLT3-ITDs</span></div>
+      </section>
+
+      <!-- ============ CNV LANE ============ -->
+      <section class="lane" aria-label="mCA and rearrangement panel">
+        <div class="lane-head">mCA / rearrangement panel &nbsp;<span class="pill">Watson_code_CNV_panel_v2.3.sh</span></div>
+
+        <div class="node io"><span class="tag">From step 4</span>
+          <span class="ttl">mCA / rearrangement library mapped merged BAM</span></div>
+        <div class="arr v"></div>
+
+        <div class="zone zone-auto">
+          <span class="zone-label">◆ Automated</span>
+          <span class="zone-note">run per sample</span>
+          <div class="stack">
+            <div class="node auto"><span class="tag">Consensus &mdash; SSCS</span>
+              <span class="ttl">Group reads into UMI families &rarr; single-strand consensus</span>
+              <span class="sub">family = RX UMI + mapped coordinates + strand · <b>&ge;1 read</b>
+                (<code>-m 1</code>, against 3 on the SNV panel — this panel needs even coverage for
+                depth ratios, not maximum accuracy per molecule) · base called at &ge;90&#37;
+                agreement, else N · MAPQ &ge;20, base Q &ge;20 · <b>no duplex step on this
+                panel</b></span>
+              <span class="src">Watson_code_SSCS_calling_2.1.py</span></div>
+            <div class="arr v short"></div>
+            <div class="node auto"><span class="tag">Re-process the consensus BAM</span>
+              <span class="ttl">Unmap · sort · mark adapters · re-align · clip · indel realign</span>
+              <span class="sub">the same six-step recipe as the SNV panel (unmap &rarr; SortSam
+                queryname &rarr; MarkIlluminaAdapters &rarr; SamToFastq | bwa mem | MergeBamAlignment
+                &rarr; fgbio ClipBam, hard, 3 bp ends + overlaps &rarr; GATK IndelRealigner) ·
+                all three arms below read this BAM</span></div>
+          </div>
+
+          <div class="forkbar three"><span class="stem a"></span><span class="stem b"></span><span class="stem c"></span></div>
+          <div class="fork three">
+
+            <div class="col">
+              <p class="collbl">KMT2A-PTD arm</p>
+              <div class="node auto"><span class="tag">Depth ratio</span>
+                <span class="ttl">Mean depth, exon 3 : exon 27</span>
+                <span class="sub">a partial tandem duplication raises coverage over the duplicated
+                  exons; the ratio <i>R</i> is reported per sample</span>
+                <span class="src">Watson_code_KMT2A-PTD_calling_v1.9.py</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">mCA arm</p>
+              <div class="node auto"><span class="tag">Depths</span>
+                <span class="ttl">Normalised read depths across the panel</span>
+                <span class="sub">per-target depth against the chromosome ideogram — the raw material
+                  for the log R ratio, not yet PON-normalised</span>
+                <span class="src">Watson_code_sample_normalised_read_depths_v1.8.py</span></div>
+              <div class="arr v short"></div>
+              <div class="node auto"><span class="tag">BAFs</span>
+                <span class="ttl">SNP B-allele frequencies</span>
+                <span class="sub">samtools mpileup &rarr; custom SNP calling &rarr; ANNOVAR &rarr; BAF
+                  plots at the panel's targeted SNP positions</span>
+                <span class="src">Watson_code_VCF_SNP_calling_v1.3.py ·
+                  Watson_code_CNV_SNP_plotting_v1.2.py</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">Rearrangement arm</p>
+              <div class="node auto"><span class="tag">Breakpoint coverage</span>
+                <span class="ttl">Read coverage at translocation breakpoints</span>
+                <span class="sub">across the targeted rearrangement regions</span>
+                <span class="src">Watson_code_translocation_breakpoint_coverage_v1.2.py</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="forkbar three nobar"><span class="stem a"></span><span class="stem b"></span><span class="stem c"></span></div>
+
+        <div class="zone zone-man">
+          <span class="zone-label">◇ Triggered separately</span>
+          <span class="zone-note">across samples · longitudinal</span>
+          <div class="fork three">
+
+            <div class="col">
+              <p class="collbl">KMT2A-PTD arm</p>
+              <div class="node man"><span class="tag">Curation</span>
+                <span class="ttl">Cell fraction = 2·(<i>R</i> &minus; 1)</span>
+                <span class="sub">computed by hand from the reported depth ratio</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">mCA arm</p>
+              <div class="node script"><span class="tag">Panel of Normals</span>
+                <span class="ttl">Build the PON</span>
+                <span class="sub">36 control samples; normalises depth to LRR</span>
+                <span class="src">mCA_caller/watson_code_create_PON.ipynb</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">mCA calling</span>
+                <span class="ttl">Call mCAs against the PON</span>
+                <span class="sub">BAF + LRR, index (final) timepoint</span>
+                <span class="src">mCA_caller/</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">Phasing</span>
+                <span class="ttl">Phase the index sample &rarr; call earlier timepoints</span>
+                <span class="sub">only for individuals with an mCA at the final timepoint</span>
+                <span class="src">mCA_caller/ (phased notebook)</span></div>
+              <div class="arr v short"></div>
+              <div class="node man"><span class="tag">Curation</span>
+                <span class="ttl">Germline exclusion</span></div>
+            </div>
+
+            <div class="col">
+              <p class="collbl">Rearrangement arm</p>
+              <div class="node script"><span class="tag">Calling</span>
+                <span class="ttl">Call on the raw mapped BAM</span>
+                <span class="sub">pre-consensus reads, so the discordant pairs and split reads
+                  spanning a breakpoint are still present</span>
+                <span class="src">chromosomal_rearrangement_caller/ (…_translocation_calling_all_types_2025_v1_targeted.py)</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">Consensus &mdash; rearrangement arm</span>
+                <span class="ttl">Build SSCS over the breakpoint regions only</span>
+                <span class="sub">same no-SAM-flag-filter caller as the FLT3 arm, restricted to the
+                  regions where a rearrangement was found (<code>--regions</code>) —
+                  the panel's own SSCS BAM keeps only proper pairs, which excludes the discordant
+                  pairs spanning a breakpoint</span>
+                <span class="src">…_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py</span></div>
+              <div class="arr v short"></div>
+              <div class="node script"><span class="tag">VAF</span>
+                <span class="ttl">Re-call on that consensus BAM</span>
+                <span class="sub">gives an accurate variant allele fraction</span></div>
+              <div class="arr v short"></div>
+              <div class="node man"><span class="tag">Curation</span>
+                <span class="ttl">Review the filtered calls</span>
+                <span class="sub">interactive filtering / review of the grouped call set</span>
+                <span class="src">Filtering translocation calls.ipynb</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="arr v"></div>
+        <div class="node io"><span class="tag">Output</span>
+          <span class="ttl">mCAs · KMT2A-PTDs · chromosomal rearrangements</span></div>
+      </section>
+
+    </div><!-- /lanes -->
+
+  </div><!-- /fig -->
+  </div><!-- /scroll -->
+
+  <div class="caption">
+    <p><span class="fig-no">Supplementary Figure.</span>
+      <b>TETRIS-seq analysis pipeline.</b> Paired-end reads from two independent
+      capture panels — an SNV/indel panel and an mCA/rearrangement panel, each
+      sequenced as a separate library — are processed from raw FASTQ. Green stages
+      are fully automated and run per sample by the pipeline driver (one command each);
+      purple stages are scripts and notebooks in this repository, triggered separately
+      once a batch of samples has been processed; amber stages are manual; dotted grey
+      boxes are QC metrics that are inspected but not consumed downstream.</p>
+
+    <p><b>Read preparation and alignment (steps 0–4)</b> are identical for both libraries.
+      The sample and library names are resolved from the UDI index in the FASTQ filename;
+      the reads are converted to an unaligned BAM (<i>FastqToSam</i>) so that per-read tags
+      can be carried through the pipeline. Each read begins with a 3 bp inline UMI, a 2 bp
+      spacer and 146 bp of template (read structure 3M2S146T): the UMI bases are moved into
+      the read's RX tag and removed from the sequence (<i>ExtractUmisFromBam</i>), and
+      adapter read-through at the 3&prime; end is marked in the XT tag
+      (<i>MarkIlluminaAdapters</i>). Alignment is run as a single pipe —
+      <i>SamToFastq</i> streams the reads out as interleaved FASTQ with the adapter bases
+      masked so they are not aligned, <i>bwa mem</i> aligns them to hg19, and
+      <i>MergeBamAlignment</i> merges the alignments back onto the unaligned BAM — so that
+      the UMI and all other tags survive alignment. The resulting mapped merged BAM is the
+      input to every consensus step, and is also the BAM the rearrangement caller reads,
+      because it is the only one that still contains the raw discordant and split reads.</p>
+
+    <p><b>Consensus calling.</b> Reads are grouped into families sharing a UMI, mapping
+      coordinates and strand, and a single-strand consensus (SSCS) is called from each
+      family, a base being called only where &ge;90&#37; of the family agrees. The minimum
+      family size is 3 for the SNV panel and 1 for the mCA panel. For the SNV panel each
+      SSCS is then paired with its complementary-strand partner — the same molecule read
+      from the other strand, identified by its swapped UMI halves — to give a duplex
+      consensus (DCS), with positions of strand disagreement set to N; the duplex consensus
+      is called from the single-strand consensus BAM as emitted. Because consensus reads are
+      new sequences, each consensus BAM is put back through the same alignment round trip
+      and then hard-clipped (3 bp from each read end and across read overlaps) and realigned
+      around indels. The SSCS and DCS BAMs are processed independently, each feeding only its
+      own variant calling. Variants are called from a full-depth, uncapped <i>samtools
+      mpileup</i> by a custom caller that records every base change at every panel position,
+      and independently by <i>VarDictJava</i>, run twice — with and without its own local
+      indel realignment — with ANNOVAR annotation of each output.</p>
+
+    <p><b>FLT3-ITD</b> detection branches back to the mapped merged BAM and builds its own pair
+      of SSCS and DCS BAMs, using the same UMI grouping and consensus thresholds but
+      without the SAM flag filter, so that the improperly paired and soft-clipped reads
+      carrying an ITD are retained; these are re-aligned but neither clipped nor
+      indel-realigned, and Pindel is run over FLT3 exons 14–15.</p>
+
+    <p><b>Cross-sample stages.</b> After a batch of samples has been processed, per-sample output is
+      reorganised manually into the results-root layout the analysis notebooks read; the
+      position-specific error model is fitted across the batch (&asymp;40 samples per lane) and its
+      output is filtered for germline and artefactual variants to give variant-allele-fraction
+      trajectories, from which acquisition age, fitness, phylogenies and Muller plots
+      are derived; the mosaic chromosomal alteration (mCA) caller builds a panel of
+      normals from 36 controls, calls mCAs, and — where an mCA is present at the
+      final timepoint — phases the index sample and calls at earlier timepoints;
+      chromosomal rearrangements are called on the raw BAM and re-called on the SSCS
+      BAM for accurate variant-allele-fraction estimation. The manual steps are that
+      reorganisation, the requirement that an FLT3-ITD be detected in both SSCS and DCS,
+      the KMT2A-PTD cell fraction, exclusion of germline events from the mCA calls, and
+      review of the filtered rearrangement calls; every other stage shown is code in this
+      repository.</p>
+  </div>
+</div>
