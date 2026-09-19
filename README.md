@@ -107,8 +107,9 @@ cd scripts
 #     no --no-* flags does the same work in one go.)
 ```
 
-Process one sample at a time, since consensus calling is memory-hungry, and loop
-the wrapper over samples to do a whole lane. Once the automated stages are done,
+The wrapper handles one sample per call, so loop it over samples to do a whole
+lane. Consensus calling is memory-hungry, so how many you can run at once
+depends on the machine. Once the automated stages are done,
 the cross-sample and manual steps (noise model, PON and mCA calling,
 rearrangement calling, curation) are triggered by hand. The run order is set out
 below.

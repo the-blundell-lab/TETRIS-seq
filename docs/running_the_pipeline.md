@@ -11,9 +11,9 @@ Two things to keep in mind throughout:
 
 - The SNV panel and the CNV/mCA panel are separate captures with separate
   FASTQ files. They are run independently and never share inputs.
-- Process one sample at a time. Consensus calling is memory-hungry, so run
-  samples sequentially (or as a cluster job array) rather than a whole lane in
-  one process.
+- The wrapper processes one sample per call. Consensus calling is memory-hungry,
+  so how many samples you can run concurrently depends on the memory available;
+  a cluster job array is a convenient way to do a whole lane.
 
 ---
 
