@@ -36,7 +36,7 @@ TETRIS-seq/
 ├── pipeline_tools/           Custom Python scripts + panel BED/CSV resources
 ├── noise_correction_model/   Beta-binomial model + analysis/figure notebooks
 │   └── data_files/           Small reference tables (COSMIC sites, metadata)
-├── mCA_caller/               Mosaic chromosomal alteration (mCA) caller + simulations
+├── mCA_caller/               Mosaic chromosomal alteration (mCA) caller: PON, unphased and phased
 ├── chromosomal_rearrangement_caller/   Custom translocation / rearrangement caller
 ├── config/
 │   └── config.sh.example     Copy to config.sh and set your tool paths
