@@ -84,8 +84,9 @@ actually manual are marked **manual** below.
    (in the paper, the ~40 samples on a lane):
    `noise_correction_model/Duplex_Error_Model_initial_variant_calling_v5.py`
 2. Post-model processing of the error-corrected SNVs and VarDictJava indels,
-   and trajectory figures:
-   `noise_correction_model/*post-model*` and `*trajectories*` notebooks.
+   and the trajectory figures, are part of the manuscript analysis rather than
+   this pipeline: see [preAML_evolutionary_dynamics](https://github.com/the-blundell-lab/preAML_evolutionary_dynamics)
+   (`Post_processing_variant_calls.ipynb` and the figure notebooks).
 3. FLT3-ITD curation (**manual**): call an ITD real only if it is detected in
    both the SSCS and DCS Pindel outputs.
 

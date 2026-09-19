@@ -34,5 +34,6 @@ dependencies:
   - biopython
   - pandas
   - scipy
+  - matplotlib-base=3.5   # read-coverage and QC plots (headless Agg backend)
   # GATK 3.8 and ANNOVAR are installed manually (see docs/INSTALL.md) and
   # pointed to via config/config.sh.

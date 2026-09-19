@@ -187,8 +187,8 @@ cat << 'EOF'
  SNV panel — across your batch of samples:
    * Fit the position-specific noise (error) model:
        noise_correction_model/Duplex_Error_Model_initial_variant_calling_v5.py
-   * Post-model processing + trajectories:
-       noise_correction_model/*post-model* and *trajectories* notebooks
+   * Post-model processing + trajectories (manuscript analysis, separate repo):
+       https://github.com/the-blundell-lab/preAML_evolutionary_dynamics
    * Curate FLT3-ITD calls (require detection in BOTH SSCS and DCS).
 
  CNV / mCA panel:

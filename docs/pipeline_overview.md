@@ -49,7 +49,8 @@ cd scripts
   variant-caller results
   (`noise_correction_model/Duplex_Error_Model_initial_variant_calling_v5.py`).
 - **Post-processing** of the error-corrected SNVs and the VarDictJava indels
-  (`noise_correction_model/*post-model*` and trajectory notebooks).
+  is part of the manuscript analysis, not this pipeline: see
+  [preAML_evolutionary_dynamics](https://github.com/the-blundell-lab/preAML_evolutionary_dynamics).
 
 ## mCA / translocation panel: SSCS
 
