@@ -98,9 +98,7 @@ Notes:
 - The model tolerates an alternative `…_SNV_SNV_watson_code_…` double-prefix
   filename via a fallback, so both naming variants are accepted.
 
-Reproducibility note: this reorganisation was performed as a curation
-step in the original workflow and is **not** currently scripted in this
-repository. To reproduce the analysis end-to-end you must arrange the pipeline
-output into the Stage 2 layout above, or download the already-curated results
-root from Zenodo. A helper script to automate this can be added; see the
-repository issues / README.
+Reproducibility note: this reorganisation was performed as a curation step in
+the original workflow and is **not** scripted in this repository. To reproduce
+the analysis end to end, arrange the pipeline output into the Stage 2 layout
+shown above before running the notebooks.

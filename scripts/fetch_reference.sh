@@ -17,6 +17,12 @@
 
 set -euo pipefail
 
+# GNU tar warns about the macOS extended attributes stored in the archive; the
+# files extract correctly either way, so quieten it where the flag is supported.
+TARQ=""
+tar --help 2>&1 | grep -q -- "--warning" && TARQ="--warning=no-unknown-keyword"
+
+
 SOURCE="zenodo"
 DEST=""
 for arg in "$@"; do
@@ -49,7 +55,7 @@ elif [ "$SOURCE" = "zenodo" ]; then
     [ "$got" = "$TARBALL_MD5" ] || { echo "ERROR: md5 mismatch ($got) - delete $TARBALL and retry." >&2; exit 1; }
 
     echo "unpack  $TARBALL"
-    tar -xzf "$TARBALL"
+    tar $TARQ -xzf "$TARBALL"
     rm -f "$TARBALL"
 else
     for f in "$FASTA" "$FASTA.fai" "Homo_sapiens_assembly19.dict"; do
