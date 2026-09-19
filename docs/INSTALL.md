@@ -55,7 +55,7 @@ JARs or large binaries and are **not** included in this repository.
 | GATK | 3.8 | `GenomeAnalysisTK.jar`, build 3.8-1-0-gf15c1c3ef - [download](https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2) |
 | fgbio | 1.3.0 | `fgbio.jar` (conda environment, or your own copy) |
 | VarDictJava | 1.8.2 | SNV/indel calling (installed by the conda environment, called as `vardict-java`) |
-| ANNOVAR | June 2020 release | with `humandb/` databases - [registration form](https://www.openbioinformatics.org/annovar/annovar_download_form.php) |
+| ANNOVAR | June 2020 release | registration required; databases via `scripts/fetch_annovar_databases.sh` (section 3c) |
 | Pindel | 0.2.5b9 | FLT3-ITD detection (installed by the conda environment; [source](https://github.com/genome/pindel)) |
 
 ## 3. Reference genome
@@ -98,6 +98,41 @@ pipeline_tools/make_dbSNP_intervals.sh "$EXTERNAL_TOOLS/dbSNP"
 
 **Or download the prepared copy** from the Zenodo archive linked in the main
 README, and unpack it into `$EXTERNAL_TOOLS/dbSNP`.
+
+## 3c. ANNOVAR databases
+
+The SNV panel annotates against six hg19 databases:
+
+```
+refGene  cosmic92_coding  cosmic92_noncoding  exac03  gnomad_genome  clinvar_20200316
+```
+
+ANNOVAR itself needs a free academic
+[registration](https://www.openbioinformatics.org/annovar/annovar_download_form.php);
+unpack it to `$EXTERNAL_TOOLS/annovar`, then:
+
+```bash
+scripts/fetch_annovar_databases.sh
+```
+
+That downloads refGene, exac03, gnomad_genome and clinvar_20200316 into
+`humandb/`. The two COSMIC databases are licensed and cannot be redistributed,
+so they are built from your own COSMIC v92 (GRCh37) download - register at
+[cancer.sanger.ac.uk](https://cancer.sanger.ac.uk/cosmic/register), gunzip the
+four files into one directory and pass it in:
+
+```bash
+scripts/fetch_annovar_databases.sh --cosmic-dir /path/to/cosmic_v92
+```
+
+| COSMIC file | builds |
+|---|---|
+| `CosmicMutantExport.tsv` + `CosmicCodingMuts.vcf` | `hg19_cosmic92_coding.txt` |
+| `CosmicNCV.tsv` + `CosmicNonCodingVariants.vcf` | `hg19_cosmic92_noncoding.txt` |
+
+A newer COSMIC release works just as well, but the COSMIC columns in the
+published variant call tables came from v92; if you use another release, change
+the `-protocol` names in `scripts/Watson_code_SNV_panel_v1.7.sh` to match.
 
 ## 4. Tell the pipeline where everything is
 

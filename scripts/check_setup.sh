@@ -63,6 +63,10 @@ echo
 echo "Other third-party tools"
 check_file "ANNOVAR table_annovar" "$ANNOVAR_HOME/table_annovar.pl"
 check_dir  "ANNOVAR humandb/"      "$ANNOVAR_HOME/humandb"
+for db in refGene cosmic92_coding cosmic92_noncoding exac03 gnomad_genome clinvar_20200316; do
+    if [ -s "$ANNOVAR_HOME/humandb/hg19_${db}.txt" ]; then ok "  $db" "hg19_${db}.txt"
+    else bad "  $db" "$ANNOVAR_HOME/humandb/hg19_${db}.txt"; fi
+done
 for prog in pindel pindel2vcf; do
     if [ -x "$PINDEL_DIR/$prog" ]; then ok "$prog" "$PINDEL_DIR/$prog"
     elif command -v "$prog" >/dev/null 2>&1; then ok "$prog" "$(command -v "$prog")"
@@ -117,7 +121,7 @@ fi
 if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
     echo "  ANNOVAR (registration required):"
     echo "      https://www.openbioinformatics.org/annovar/annovar_download_form.php"
-    echo "      then unpack it to $ANNOVAR_HOME and download the databases listed in docs/INSTALL.md"
+    echo "      then unpack it to $ANNOVAR_HOME and run scripts/fetch_annovar_databases.sh"
     echo
 fi
 if [ ! -x "$PINDEL_DIR/pindel" ] && ! command -v pindel >/dev/null 2>&1; then
