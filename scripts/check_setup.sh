@@ -114,8 +114,7 @@ if [ ! -d "$EXTERNAL_TOOLS/dbSNP" ]; then
 fi
 if [ ! -f "$EXTERNAL_TOOLS/GenomeAnalysisTK.jar" ]; then
     echo "  GATK 3.8 (15 MB; licence prevents redistribution, so download it yourself):"
-    echo "      wget -O - https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 \\"
-    echo "        | tar -xjf - -C \"$EXTERNAL_TOOLS\" --strip-components=1 --wildcards '*/GenomeAnalysisTK.jar'"
+    echo "      wget -O - https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 | tar -xjf - -C \"$EXTERNAL_TOOLS\" --strip-components=1 --wildcards '*/GenomeAnalysisTK.jar'"
     echo
 fi
 if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
