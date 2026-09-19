@@ -23,6 +23,24 @@
 set -euo pipefail
 
 OUTDIR="${1:-${EXTERNAL_TOOLS:-.}/dbSNP}"
+ZENODO_RECORD=22846473
+ZTAR=dbSNP153common_hg19_intervals.tar.gz
+ZTAR_MD5=7ef30b13e76e96867be687b4663e481e
+
+# The prepared files are on Zenodo (https://doi.org/10.5281/zenodo.22846473);
+# pass --rebuild to regenerate them from UCSC instead.
+if [ "${1:-}" != "--rebuild" ] && [ "${2:-}" != "--rebuild" ]; then
+    mkdir -p "$(dirname "$OUTDIR")"
+    echo "fetch   $ZTAR from Zenodo record $ZENODO_RECORD (693 MB)"
+    wget -c -O "$ZTAR" "https://zenodo.org/records/$ZENODO_RECORD/files/$ZTAR?download=1"
+    if command -v md5sum >/dev/null 2>&1; then got=$(md5sum "$ZTAR" | cut -d" " -f1); else got=$(md5 -q "$ZTAR"); fi
+    [ "$got" = "$ZTAR_MD5" ] || { echo "ERROR: md5 mismatch ($got)" >&2; exit 1; }
+    tar -xzf "$ZTAR" -C "$(dirname "$OUTDIR")"
+    rm -f "$ZTAR"
+    echo "Done. $(ls -1 "$OUTDIR"/UCSC_dbSNP153common_hg19_*.interval | wc -l) interval files in $OUTDIR"
+    exit 0
+fi
+
 URL="https://hgdownload.soe.ucsc.edu/gbdb/hg19/snp/dbSnp153Common.bb"
 BB="$OUTDIR/dbSnp153Common.bb"
 BED="$OUTDIR/dbSnp153Common.bed"

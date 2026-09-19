@@ -29,6 +29,10 @@ printf 'channels:\n  - conda-forge\n  - bioconda\nchannel_priority: strict\n' > 
 | Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7 | [`environment_sequencing.yml`](../environment_sequencing.yml) - also provides BWA, samtools, tabix, Java 8, Picard, fgbio and VarDictJava |
 | Data analysis + figures (`noise_correction_model/`) | 3.11.13 | [`environment_analysis.yml`](../environment_analysis.yml) / [`requirements.txt`](../requirements.txt) |
 
+[`environment_sequencing.lock.yml`](../environment_sequencing.lock.yml) records the
+exact versions resolved on a working Linux install, for when a result needs
+reproducing precisely rather than merely re-running.
+
 ```bash
 # sequencing pipeline
 mamba env create -f environment_sequencing.yml     # or: conda env create -f ...
