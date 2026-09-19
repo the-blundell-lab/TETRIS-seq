@@ -6,26 +6,37 @@ manuscript and where the pipeline expects to find them.
 
 ## 1. Python environments
 
-Two Python environments were used:
+**conda is required.** We recommend [Miniforge](https://github.com/conda-forge/miniforge),
+which uses conda-forge by default: Anaconda's own `defaults` channels now sit behind a
+terms-of-service prompt and a licence that many institutions cannot accept.
+
+```bash
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh -b -p ~/miniforge3
+source ~/miniforge3/etc/profile.d/conda.sh
+echo 'source ~/miniforge3/etc/profile.d/conda.sh' >> ~/.bashrc
+```
+
+If you already have Miniconda or Anaconda and hit
+`CondaToSNonInteractiveError`, point conda at the community channels instead:
+
+```bash
+printf 'channels:\n  - conda-forge\n  - bioconda\nchannel_priority: strict\n' > ~/.condarc
+```
 
 | Purpose | Python | Definition |
 |---|---|---|
-| Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7.4 | [`environment_sequencing.yml`](../environment_sequencing.yml) - also provides BWA, samtools, tabix and Java 8 |
+| Sequencing pipeline (`Watson_code_*.py` invoked by the `.sh` scripts) | 3.7 | [`environment_sequencing.yml`](../environment_sequencing.yml) - also provides BWA, samtools, tabix, Java 8, Picard, fgbio and VarDictJava |
 | Data analysis + figures (`noise_correction_model/`) | 3.11.13 | [`environment_analysis.yml`](../environment_analysis.yml) / [`requirements.txt`](../requirements.txt) |
 
 ```bash
 # sequencing pipeline
-conda env create -f environment_sequencing.yml
+mamba env create -f environment_sequencing.yml     # or: conda env create -f ...
 conda activate tetris-seq-pipeline
 
 # analysis & figures (separate environment)
-conda env create -f environment_analysis.yml
-conda activate tetris-seq-analysis
+mamba env create -f environment_analysis.yml
 ```
-
-Python package versions used for analysis/figures: Biopython 1.85, NumPy 2.0.2,
-Matplotlib 3.10.3, pandas 2.3.0, SciPy 1.16.0, scikit-learn 1.7.1,
-pyfaidx 0.8.1.4, pysam 0.23.3.
 
 ## 2. External command-line tools
 
@@ -37,36 +48,53 @@ JARs or large binaries and are **not** included in this repository.
 | BWA | 0.7.17 | read alignment |
 | Samtools | 1.10 and 1.11 | both used |
 | Picard | 2.18.15 | `picard.jar` (conda environment, or your own copy) |
-| GATK | 3.8 | `GenomeAnalysisTK.jar` (3.8-1-0-gf15c1c3ef) - download separately |
+| GATK | 3.8 | `GenomeAnalysisTK.jar`, build 3.8-1-0-gf15c1c3ef - [download](https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2) |
 | fgbio | 1.3.0 | `fgbio.jar` (conda environment, or your own copy) |
 | VarDictJava | 1.8.2 | SNV/indel calling (installed by the conda environment, called as `vardict-java`) |
-| ANNOVAR | June 2020 release | with `humandb/` databases |
-| Pindel | v0.3 | FLT3-ITD detection |
+| ANNOVAR | June 2020 release | with `humandb/` databases - [registration form](https://www.openbioinformatics.org/annovar/annovar_download_form.php) |
+| Pindel | v0.3 | FLT3-ITD detection - [source](https://github.com/genome/pindel) |
 
 ## 3. Reference genome
 
-`Homo_sapiens_assembly19.fasta` (Broad b37 / GRCh37), together with its `.fai`
-and `.dict` indexes and the BWA index files. This is ~3 GB and is not included
-here; download it from the Broad resource bundle (or the Zenodo archive linked
-in the main README).
+`Homo_sapiens_assembly19.fasta` (Broad b37 / GRCh37) with its `.fai` and `.dict`
+indexes and the BWA index files (~3 GB in total, not included here). From the
+Broad's public bucket:
+
+```bash
+cd "$EXTERNAL_TOOLS"
+for f in Homo_sapiens_assembly19.fasta Homo_sapiens_assembly19.fasta.fai Homo_sapiens_assembly19.dict; do
+    wget "https://storage.googleapis.com/gcp-public-data--broad-references/hg19/v0/$f"
+done
+
+# BWA index (~1 hour; only needed once)
+bwa index Homo_sapiens_assembly19.fasta
+```
 
 ## 3b. dbSNP interval files
 
-Both panel scripts annotate called positions against dbSNP, and expect a directory
-of per-chromosome interval files (UCSC dbSNP153 "common" track, hg19), named:
+Both panel scripts annotate called positions against dbSNP, and expect a
+directory of per-chromosome files (dbSNP build 153 "common", hg19), named:
 
 ```
-UCSC_dbSNP153common_hg19_chr1.interval
-UCSC_dbSNP153common_hg19_chr2.interval
-...
+UCSC_dbSNP153common_hg19_chr1.interval ... _chr22.interval, _chrX.interval
 ```
 
-Each file is the UCSC table dump for that chromosome, in 0-based coordinates
-(the pipeline adds 1 when building its lookup). Put them in `$EXTERNAL_TOOLS/dbSNP`, or set the location in `config/config.sh`.
+Columns are UCSC's `dbSnp153Common` fields (chrom, chromStart, chromEnd, rsID,
+ref, altCount, alts, shiftBases, freqSourceCount, minorAlleleFreq, ...), with a
+header line and 0-based coordinates (the pipeline adds 1 when building its
+lookup).
 
-They can be regenerated from the UCSC Table Browser (assembly hg19, group
-"Variation", track "Common SNPs(153)", output format "all fields from selected
-table"), one query per chromosome.
+Two ways to obtain them:
+
+**Build them yourself** (needs `bigBedToBed`, ~1.4 GB download, ~10 GB scratch):
+
+```bash
+conda install -c bioconda ucsc-bigbedtobed
+pipeline_tools/make_dbSNP_intervals.sh "$EXTERNAL_TOOLS/dbSNP"
+```
+
+**Or download the prepared copy** from the Zenodo archive linked in the main
+README, and unpack it into `$EXTERNAL_TOOLS/dbSNP`.
 
 ## 4. Tell the pipeline where everything is
 
