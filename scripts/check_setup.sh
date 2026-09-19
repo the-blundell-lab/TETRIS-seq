@@ -89,7 +89,38 @@ done
 echo
 if [ "$missing" -eq 0 ]; then
     echo "All checks passed."
-else
-    echo "$missing item(s) missing - see docs/INSTALL.md."
+    exit 0
 fi
-exit $(( missing > 0 ))
+
+echo "$missing item(s) missing. To obtain them:"
+echo
+
+if [ ! -s "$REF" ] || [ ! -s "${REF}.bwt" ]; then
+    echo "  reference genome (4 GB, prebuilt BWA index, from Zenodo):"
+    echo "      scripts/fetch_reference.sh \"$EXTERNAL_TOOLS\""
+    echo
+fi
+if [ ! -d "$EXTERNAL_TOOLS/dbSNP" ]; then
+    echo "  dbSNP interval files (693 MB, from Zenodo):"
+    echo "      pipeline_tools/make_dbSNP_intervals.sh \"$EXTERNAL_TOOLS/dbSNP\""
+    echo
+fi
+if [ ! -f "$EXTERNAL_TOOLS/GenomeAnalysisTK.jar" ]; then
+    echo "  GATK 3.8 (15 MB; licence prevents redistribution, so download it yourself):"
+    echo "      wget -O - https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 \\"
+    echo "        | tar -xjf - -C \"$EXTERNAL_TOOLS\" --strip-components=1 --wildcards '*/GenomeAnalysisTK.jar'"
+    echo
+fi
+if [ ! -f "$ANNOVAR_HOME/table_annovar.pl" ]; then
+    echo "  ANNOVAR (registration required):"
+    echo "      https://www.openbioinformatics.org/annovar/annovar_download_form.php"
+    echo "      then unpack it to $ANNOVAR_HOME and download the databases listed in docs/INSTALL.md"
+    echo
+fi
+if [ ! -f "$PINDEL_DIR/pindel" ]; then
+    echo "  Pindel v0.3 (only needed for the FLT3-ITD arm):"
+    echo "      https://github.com/genome/pindel"
+    echo
+fi
+echo "Full details: docs/INSTALL.md"
+exit 1
