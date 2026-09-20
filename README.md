@@ -145,22 +145,27 @@ ANNOVAR (June 2020). The reference genome is `Homo_sapiens_assembly19.fasta`
 Biopython 1.85, NumPy 2.0.2, pandas 2.3.0, SciPy 1.16.0, Matplotlib 3.10.3,
 scikit-learn 1.7.1, pyfaidx 0.8.1.4 and pysam 0.23.3.
 
-## Large files and data availability
+## Large files
 
-The following are not stored in this repository and should be downloaded
-separately (see [docs/INSTALL.md](docs/INSTALL.md)):
+The following are not stored in this repository and are installed separately
+(see [docs/INSTALL.md](docs/INSTALL.md)):
 
 - Third-party JARs / binaries (Picard, GATK, fgbio, Pindel, ANNOVAR).
-- The reference genome (`Homo_sapiens_assembly19.fasta`, ~3 GB).
-- The full per-sample model output (~9 GB).
+- The reference genome (`Homo_sapiens_assembly19.fasta`; 4 GB download,
+  ~8 GB unpacked).
+- The dbSNP files used for annotation (693 MB).
 
-A small example dataset is bundled in this repository for testing. As stated in
-the paper's data-availability statement, somatic SNV, indel and FLT3-ITD calls
-are provided in Supplementary Table 6 and somatic mCAs in Supplementary Table 7,
-with the corresponding somatic VCFs deposited at Zenodo
-(DOI: 10.5281/zenodo.22262496). Germline variant calls, the raw sequencing reads
-and the exact participant timing data are not open: they are available through
-the study's controlled-access route (EGA), as set out in the paper.
+Running the pipeline also writes several GB per sample, into `TEMP/` and the
+sample's output folder; see
+[docs/running_the_pipeline.md](docs/running_the_pipeline.md).
+
+## Manuscript analysis
+
+The downstream analysis for Watson et al. lives in a separate repository,
+[preAML_evolutionary_dynamics](https://github.com/the-blundell-lab/preAML_evolutionary_dynamics):
+post-processing of these calls into variant trajectories, the fitness and
+acquisition-age inference, phylogenies, Muller plots and the paper's figures.
+The data-availability statement for the study's variant calls is there too.
 
 ## License
 
