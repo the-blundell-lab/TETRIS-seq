@@ -13,7 +13,7 @@ additional dependencies: `ruptures`, `seaborn`, `statsmodels`.
 | File | Role |
 |---|---|
 | `watson_code_create_PON.ipynb` | **Builds the panel of normals (PON)** from QC-passing final-timepoint control samples and writes per-sample PON-normalised LRR (log2-ratio) files, with **leave-one-out** normalisation for samples that are themselves in the PON. Run this before mCA calling. |
-| `watson_code_mCA_caller_v13_use_this_one.ipynb` | **Unphased mCA caller** (five-detector consensus) |
+| `watson_code_mCA_caller_v13.ipynb` | **Unphased mCA caller** (five-detector consensus) |
 | `watson_code_mCA_caller_phased_v5.ipynb` | **Phased mCA caller** — uses the haplotype phasing of an index sample to call the same mCA at earlier timepoints |
 
 Run the PON notebook first, then the unphased caller; the phased caller is used

@@ -127,10 +127,10 @@ actually manual are marked **manual** below.
 
 ### CNV / mCA panel
 
-4. Build the Panel of Normals (once), from the 36 control samples:
+4. Build the Panel of Normals (once), from QC-passing control samples (36 were used here):
    `mCA_caller/watson_code_create_PON.ipynb`
 5. Call mCAs against the PON:
-   `mCA_caller/watson_code_mCA_caller_v13_use_this_one.ipynb`
+   `mCA_caller/watson_code_mCA_caller_v13.ipynb`
 6. Longitudinal mCA calling. For any individual with an mCA, sequence all
    timepoints, phase the index sample, then call at earlier timepoints. All
    of this is in `mCA_caller/` (the phased notebook,

@@ -192,10 +192,10 @@ cat << 'EOF'
    * Curate FLT3-ITD calls (require detection in BOTH SSCS and DCS).
 
  CNV / mCA panel:
-   * Build the Panel of Normals (once, from the 36 control samples):
+   * Build the Panel of Normals (once, from your QC-passing control samples):
        mCA_caller/watson_code_create_PON.ipynb
    * Call mCAs against the PON:
-       mCA_caller/watson_code_mCA_caller_v13_use_this_one.ipynb
+       mCA_caller/watson_code_mCA_caller_v13.ipynb
    * For any individual with an mCA: sequence all timepoints, phase the index
      sample, then call at earlier timepoints (all within mCA_caller/):
        mCA_caller/watson_code_mCA_caller_phased_v5.ipynb

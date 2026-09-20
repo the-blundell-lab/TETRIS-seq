@@ -598,7 +598,7 @@
               <p class="collbl">mCA arm</p>
               <div class="node script"><span class="tag">Panel of Normals</span>
                 <span class="ttl">Build the PON</span>
-                <span class="sub">36 control samples; normalises depth to LRR</span>
+                <span class="sub">QC-passing controls; normalises depth to LRR</span>
                 <span class="src">mCA_caller/watson_code_create_PON.ipynb</span></div>
               <div class="arr v short"></div>
               <div class="node script"><span class="tag">mCA calling</span>
@@ -706,7 +706,7 @@
       output is filtered for germline and artefactual variants to give variant-allele-fraction
       trajectories, from which acquisition age, fitness, phylogenies and Muller plots
       are derived; the mosaic chromosomal alteration (mCA) caller builds a panel of
-      normals from 36 controls, calls mCAs, and — where an mCA is present at the
+      normals from QC-passing controls, calls mCAs, and — where an mCA is present at the
       final timepoint — phases the index sample and calls at earlier timepoints;
       chromosomal rearrangements are called on the raw BAM and re-called on the SSCS
       BAM for accurate variant-allele-fraction estimation. The manual steps are that
