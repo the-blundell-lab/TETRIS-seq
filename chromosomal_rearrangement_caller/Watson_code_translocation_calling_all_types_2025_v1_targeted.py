@@ -3360,7 +3360,10 @@ def main():
     ##### FILTER AND GROUP CHROMOSOMAL REARRANGEMENTS #######
 
     infile = out_directory+'/'+sample_name+'_translocations_found_just_those_specifically_targeted_both_sides_panel.csv'
-    subprocess.run(['python', 'Watson_code_filter_and_group_chromosomal_rearrangements.py', '--infile', infile])
+    subprocess.run([sys.executable,
+                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 'Watson_code_filter_and_group_chromosomal_rearrangements.py'),
+                    '--infile', infile])
 
     ##### TIMING #####
 
