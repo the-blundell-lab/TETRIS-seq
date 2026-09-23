@@ -103,6 +103,18 @@ def filter_and_group_chromosomal_rearrangements(csv_input):
     # STEP 1: Reset and label rows
     df = df.reset_index(drop=True)  # start fresh
     df['row_id'] = df.index         # assign a unique integer row ID
+
+    if df.empty:  # nothing left to group: write empty outputs rather than failing
+        output_csv_file = str(csv_input).replace('.csv', '_grouped_and_filtered.csv')
+        output_xls_file = str(csv_input).replace('.csv', '_grouped_and_filtered.xlsx')
+        empty = df.drop(columns=['row_id'], errors='ignore')
+        empty.to_csv(output_csv_file, index=False)
+        with pd.ExcelWriter(output_xls_file, engine='xlsxwriter') as writer:
+            empty.to_excel(writer, index=False, sheet_name='Summary')
+        print('No chromosomal rearrangements passed filtering for this sample '
+              '(rearrangements within a single gene are excluded); '
+              'empty output files written.')
+        return
     
     df['GENE_PAIR'] = fusion_genes(df['LEFT GENE'], df['RIGHT GENE'])
     
