@@ -319,8 +319,10 @@ def filter_and_group_chromosomal_rearrangements(csv_input):
         # Autosize all columns
         for i, col in enumerate(final_df.columns):
             # Find length of longest entry in the column (including header)
-            series = final_df[col].astype(str)
-            max_len = max(series.map(len).max(), len(str(col)))  # +2 for padding
+            # str() every value: a NaN/NA in an extension dtype survives
+            # astype(str) in pandas 2.x and has no len()
+            lengths = [len(str(v)) for v in final_df[col].tolist()]
+            max_len = max(lengths + [len(str(col))])
             worksheet.set_column(i, i, min(max_len, 35))
     
         # Narrower widths for P to BC
