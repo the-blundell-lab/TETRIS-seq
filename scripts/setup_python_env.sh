@@ -24,7 +24,7 @@
 set -euo pipefail
 
 DEST="${1:-./tetris-py}"
-PACKAGES="pysam pyfaidx numpy pandas scipy biopython matplotlib networkx fuzzywuzzy python-Levenshtein"
+PACKAGES="pysam pyfaidx numpy pandas scipy biopython matplotlib networkx fuzzywuzzy python-Levenshtein xlsxwriter openpyxl"
 
 # ---- find a Python with a usable dbm backend --------------------------------
 have_dbm() {

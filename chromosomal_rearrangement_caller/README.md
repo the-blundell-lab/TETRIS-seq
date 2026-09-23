@@ -12,8 +12,9 @@ estimate.
 
 Runs in the analysis environment (`environment_analysis.yml`, Python 3.11).
 Additional dependencies: `pysam`, `pyfaidx`, `networkx`, `fuzzywuzzy`
-(+ `python-Levenshtein`), and `ZODB`/`BTrees`/`transaction` for the
-`*_shelve_edit.py` variant only.
+(+ `python-Levenshtein`), `xlsxwriter` and `openpyxl` for the grouped call
+tables, and `ZODB`/`BTrees`/`transaction` for the `*_shelve_edit.py` variant
+only.
 
 ANNOVAR is used to annotate which genes the called breakpoints fall in. The
 caller finds it via `$ANNOVAR_HOME`, or `$EXTERNAL_TOOLS/annovar` — so either
