@@ -60,8 +60,8 @@ scripts/setup_python_env.sh
 
 That finds a Python with a working backend, creates `./tetris-py` (bootstrapping
 pip if your distribution lacks `python3-venv`), installs `pysam`, `pyfaidx`,
-`numpy`, `pandas`, `scipy`, `biopython` and `matplotlib`, and verifies the
-result. Then activate both, conda first so the virtualenv's `python` wins:
+`numpy`, `pandas`, `scipy`, `biopython`, `matplotlib`, `networkx`, `fuzzywuzzy`
+and `python-Levenshtein`, and verifies the result. Then activate both, conda first so the virtualenv's `python` wins:
 
 ```bash
 conda activate tetris-seq-pipeline

@@ -23,6 +23,7 @@ dependencies:
   - notebook
   # additional dependencies for the mCA caller (versions not separately pinned)
   - seaborn
+  - ipython                # the mCA notebooks import IPython.display
   - statsmodels
   - ruptures        # change-point detection (mCA segment boundaries)
   # additional dependencies for the chromosomal rearrangement caller
