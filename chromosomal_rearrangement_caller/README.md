@@ -15,6 +15,14 @@ Additional dependencies: `pysam`, `pyfaidx`, `networkx`, `fuzzywuzzy`
 (+ `python-Levenshtein`), and `ZODB`/`BTrees`/`transaction` for the
 `*_shelve_edit.py` variant only.
 
+ANNOVAR is used to annotate which genes the called breakpoints fall in. The
+caller finds it via `$ANNOVAR_HOME`, or `$EXTERNAL_TOOLS/annovar` — so either
+export one, or source the pipeline's config first:
+
+```bash
+source ../config/config.sh
+```
+
 ## Files
 
 | File | Role |

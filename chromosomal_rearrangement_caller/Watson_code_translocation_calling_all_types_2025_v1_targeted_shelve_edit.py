@@ -120,6 +120,19 @@ from Bio import SeqIO
 from math import log
 from Bio import Entrez
 
+def _annovar_path(item):
+    """Locate an ANNOVAR file: $ANNOVAR_HOME, else $EXTERNAL_TOOLS/annovar, else
+    the container layout this script originally assumed."""
+    home = os.environ.get('ANNOVAR_HOME')
+    if not home:
+        external = os.environ.get('EXTERNAL_TOOLS')
+        if external:
+            home = os.path.join(external, 'annovar')
+    if not home:
+        home = 'Watson_pipeline_singularity_container/pipeline_files/Pipeline_tools/annovar'
+    return os.path.join(home, item)
+
+
 def output_file_header(out_directory, sample_name, date_today, output_file, minimum_mapq, version, minimum_reads, minimum_softclip_length, bam_file):
     output_file.write('sample name :\t'+ str(sample_name)+ '\n')
     output_file.write('date of analysis :\t'+ str(date_today)+ '\n')
@@ -3448,7 +3461,7 @@ def main():
 
     #####################################################################################################################
     #11) annotate with annovar
-    process_to_run = ['perl', 'Watson_pipeline_singularity_container/pipeline_files/Pipeline_tools/annovar/annotate_variation.pl', '-out', out_directory+'/'+sample_name+'_annovar', '-build', 'hg19', out_directory+'/'+sample_name+'_translocation_locations.avinput', 'Watson_pipeline_singularity_container/pipeline_files//Pipeline_tools/annovar/humandb/']
+    process_to_run = ['perl', _annovar_path('annotate_variation.pl'), '-out', out_directory+'/'+sample_name+'_annovar', '-build', 'hg19', out_directory+'/'+sample_name+'_translocation_locations.avinput', _annovar_path('humandb/')]
     annotating = subprocess.run(process_to_run, stdout=sys.stdout, stderr=subprocess.STDOUT, text=True)
 
     #####################################################################################################################
