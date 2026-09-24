@@ -83,7 +83,8 @@ if [ $(( $# % 3 )) -ne 0 ] || [ $# -eq 0 ]; then
 fi
 echo "regions: $(( $# / 3 ))"
 
-mkdir -p "$OUTDIR" TEMP
+# the consensus caller writes its read-distribution metrics into this subdirectory
+mkdir -p "$OUTDIR/Metrics_and_images" TEMP
 
 SSCS_BAM="$OUTDIR/${SAMPLE}_SSCS_specific_regions.bam"
 SSCS_UNPAIRED="$OUTDIR/${SAMPLE}_SSCS_specific_regions_unpaired.bam"
