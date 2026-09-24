@@ -91,7 +91,7 @@ python $P/chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_transloc
     --infile <sample>_mapped_merged_bam.bam \
     --sample-name <sample>_SSCS \
     --min-family-size 1 --threshold 0.9 --max_N 1.0 \
-    --min-mapping-quality 20 --min-base-quality 20 \
+    --min-mapping-quality 20 --min-base-quality 10 \
     --regions 21 36210000 36215000 8 93078000 93080000 \
     --outbam <sample>_output/<sample>_SSCS_specific_regions.bam \
     --unpaired-outbam <sample>_output/<sample>_SSCS_specific_regions_unpaired.bam \
@@ -99,7 +99,9 @@ python $P/chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_transloc
 ```
 
 (Those coordinates are the RUNX1 and RUNX1T1 windows of a t(8;21) sample —
-replace them with your own call's breakpoints.)
+replace them with your own call's breakpoints. The consensus settings shown
+are this script's defaults, which is what the manuscript used, so they can be
+omitted.)
 
 **2b. Sort and index it.**
 
