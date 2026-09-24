@@ -21,6 +21,7 @@ dependencies:
   - pyfaidx=0.8.1.4
   - jupyter
   - notebook
+  - papermill       # run notebooks headless with a chosen working directory
   # additional dependencies for the mCA caller (versions not separately pinned)
   - seaborn
   - ipython                # the mCA notebooks import IPython.display

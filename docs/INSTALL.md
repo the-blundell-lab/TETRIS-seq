@@ -126,12 +126,14 @@ On a headless server, execute a notebook in place rather than starting Jupyter:
 
 ```bash
 conda activate tetris-seq-analysis
-jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 \
-    --output <name>_run.ipynb <name>.ipynb
+scripts/run_notebook.sh watson_code_create_PON.ipynb /path/to/your/data
 ```
 
-That runs every cell and writes a copy with the outputs embedded. Add
-`--allow-errors` to run past a failing cell instead of stopping at it.
+The notebooks use paths relative to the working directory, and `nbconvert` runs
+a notebook in *the notebook's own* directory — so running one against data held
+elsewhere would otherwise mean copying the notebook next to the data. This
+wrapper uses `papermill --cwd` instead, so the repository stays where it is. It
+writes `<name>_run.ipynb` into the data directory with all outputs embedded.
 
 If no suitable Python exists on the machine, install your distribution's
 bindings (`sudo apt install python3-gdbm`, `sudo dnf install python3-gdbm`) and
