@@ -6,6 +6,7 @@ read-depth (LRR) to segment chromosomes and classify gains, losses and
 copy-neutral LOH.
 
 Runs in the analysis environment (`environment_analysis.yml`, Python 3.11);
+Activate it with `conda activate tetris-seq-analysis`.
 additional dependencies: `ruptures`, `seaborn`, `statsmodels`.
 
 ## Files

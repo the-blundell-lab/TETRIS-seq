@@ -10,7 +10,16 @@ run on the **mapped merged BAM** (pre-SSCS). If a rearrangement is called as
 real, the caller is **re-run on the SSCS BAM** to obtain a more accurate VAF
 estimate.
 
-Runs in the analysis environment (`environment_analysis.yml`, Python 3.11).
+Runs in the **pipeline** Python environment, not the analysis one: the caller
+stores its read dictionaries with `shelve`, which needs a real dbm backend, so
+it must run under the virtualenv built by `scripts/setup_python_env.sh`
+(see [docs/INSTALL.md](../docs/INSTALL.md) §1b). Activate the conda environment
+for `samtools`, then that virtualenv:
+
+```bash
+conda activate tetris-seq-pipeline     # tools: bwa, samtools, Picard, fgbio, VarDict, Pindel
+source /path/to/tetris-py/bin/activate  # the Python the scripts run under (see docs/INSTALL.md §1b)
+```
 Additional dependencies: `pysam`, `pyfaidx`, `networkx`, `fuzzywuzzy`
 (+ `python-Levenshtein`), `xlsxwriter` and `openpyxl` for the grouped call
 tables, and `ZODB`/`BTrees`/`transaction` for the `*_shelve_edit.py` variant

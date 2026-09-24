@@ -9,6 +9,7 @@ low-frequency variants from sequencing error, fitted per sequencing lane.
 | `data_files/` | Panel site lists used by the model |
 
 Runs in the analysis environment (`environment_analysis.yml`, Python 3.11).
+Activate it with `conda activate tetris-seq-analysis`.
 
 ## What happens next
 
