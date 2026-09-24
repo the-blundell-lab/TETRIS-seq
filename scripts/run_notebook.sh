@@ -47,6 +47,18 @@ command -v papermill >/dev/null 2>&1 || {
     exit 1
 }
 
+# The notebooks reference the panel resources by bare filename, relative to the
+# working directory. Link them in from pipeline_tools/ rather than making the
+# user copy them about; anything already present is left alone.
+linked=0
+for res in "$REPO"/pipeline_tools/*.bed "$REPO"/pipeline_tools/chromosome_ideogram_hg19.txt \
+           "$REPO"/pipeline_tools/*.csv; do
+    [ -e "$res" ] || continue
+    target="$DATA/$(basename "$res")"
+    if [ ! -e "$target" ]; then ln -s "$res" "$target" && linked=$((linked+1)); fi
+done
+[ "$linked" -gt 0 ] && echo "linked     $linked panel resource(s) from pipeline_tools/ into the data directory"
+
 echo "notebook   $NB"
 echo "data       $DATA"
 echo "output     $OUT"
