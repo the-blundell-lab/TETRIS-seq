@@ -1,11 +1,3 @@
-# Exact package versions resolved on a working install (Linux x86_64, September 2026).
-# Generated with: conda env export --no-builds
-#
-# Use environment_sequencing.yml for a normal install; use this file to reproduce
-# the exact set of packages, e.g. when a result needs to be reproduced precisely:
-#
-#   conda env create -f environment_sequencing.lock.yml
-#
 name: tetris-seq-pipeline
 channels:
   - conda-forge
@@ -16,13 +8,17 @@ dependencies:
   - binutils_impl_linux-64=2.39
   - binutils_linux-64=2.39
   - biopython=1.79
+  - brotli=1.2.0
+  - brotli-bin=1.2.0
   - bwa=0.7.17
   - bwidget=1.10.1
   - bzip2=1.0.8
   - c-ares=1.34.8
   - ca-certificates=2026.7.22
   - cairo=1.16.0
+  - certifi=2024.8.30
   - curl=7.86.0
+  - cycler=0.11.0
   - expat=2.8.1
   - fgbio=1.3.0
   - font-ttf-dejavu-sans-mono=2.37
@@ -32,10 +28,12 @@ dependencies:
   - fontconfig=2.14.2
   - fonts-conda-ecosystem=1
   - fonts-conda-forge=1
+  - fonttools=4.38.0
   - freetype=2.12.1
   - fribidi=1.0.16
   - gcc_impl_linux-64=9.5.0
   - gcc_linux-64=9.5.0
+  - gdbm=1.18
   - gettext=0.25.1
   - gettext-tools=0.25.1
   - gfortran_impl_linux-64=9.5.0
@@ -51,11 +49,16 @@ dependencies:
   - jpeg=9e
   - kernel-headers_linux-64=6.12.0
   - keyutils=1.6.3
+  - kiwisolver=1.4.4
   - krb5=1.19.3
+  - lcms2=2.12
   - ld_impl_linux-64=2.39
   - libasprintf=0.25.1
   - libasprintf-devel=0.25.1
   - libblas=3.9.0
+  - libbrotlicommon=1.2.0
+  - libbrotlidec=1.2.0
+  - libbrotlienc=1.2.0
   - libcblas=3.9.0
   - libcurl=7.86.0
   - libdeflate=1.26
@@ -92,9 +95,13 @@ dependencies:
   - libxml2=2.9.12
   - libzlib=1.2.13
   - make=4.4.1
+  - matplotlib-base=3.5.3
+  - munkres=1.1.4
   - ncurses=6.2
   - numpy=1.21.6
+  - olefile=0.47
   - openjdk=8.0.472
+  - openjpeg=2.4.0
   - openssl=1.1.1w
   - packaging=23.2
   - pandas=1.3.5
@@ -103,10 +110,13 @@ dependencies:
   - pcre2=10.36
   - perl=5.32.1
   - picard=2.18.15
+  - pillow=8.2.0
+  - pindel=0.2.5b9
   - pip=24.0
   - pixman=0.46.4
   - pthread-stubs=0.4
   - pyfaidx=0.9.0.4
+  - pyparsing=3.1.4
   - pysam=0.20.0
   - python=3.7.12
   - python-dateutil=2.9.0
@@ -124,8 +134,10 @@ dependencies:
   - sysroot_linux-64=2.39
   - tk=8.6.13
   - tktable=2.10
+  - typing-extensions=4.7.1
   - typing_extensions=4.7.1
   - tzdata=2026c
+  - unicodedata2=14.0.0
   - vardict-java=1.8.2
   - wheel=0.42.0
   - xorg-libice=1.1.2
