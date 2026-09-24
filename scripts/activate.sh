@@ -74,7 +74,16 @@ fi
 # shellcheck disable=SC1091
 . "$_tetris_py/bin/activate" || return 1
 
-# --- 3. report ---------------------------------------------------------------
+# --- 3. make the repository easy to refer to ---------------------------------
+# TETRIS_SEQ points at the repository, and scripts/ goes on PATH so the wrappers
+# can be run by name from any working directory.
+export TETRIS_SEQ="$_tetris_repo"
+case ":$PATH:" in
+    *":$_tetris_repo/scripts:"*) ;;
+    *) export PATH="$_tetris_repo/scripts:$PATH" ;;
+esac
+
+# --- 4. report ---------------------------------------------------------------
 _tetris_backend=$(python - <<'EOF' 2>/dev/null
 try:
     import dbm.gnu; print("dbm.gnu")
@@ -89,6 +98,7 @@ EOF
 echo "python       $(command -v python)  ($(python --version 2>&1))"
 echo "dbm backend  ${_tetris_backend:-unknown}"
 echo "tools        $(dirname "$(command -v bwa 2>/dev/null || echo 'bwa-not-found/x')")"
+echo "repository   $TETRIS_SEQ  (on PATH: run_sample.sh, check_setup.sh, ...)"
 
 if [ "$_tetris_backend" = "dbm.dumb" ]; then
     echo

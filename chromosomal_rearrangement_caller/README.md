@@ -55,17 +55,16 @@ working directory outside the repository.
 ### Pass 1 — call on the mapped merged BAM
 
 ```bash
-P=/path/to/TETRIS-seq
 mkdir -p TEMP <sample>_output
 
-python $P/chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted.py \
+python $TETRIS_SEQ/chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted.py \
     --infile <sample>_mapped_merged_bam.bam \
     --sample-name <sample> \
     --min-mapping-quality 20 --read-length 146 \
-    --bed $P/pipeline_tools/TWIST_CNV_panel_TE-95031423_h19.bed \
-    --targeted_bed $P/chromosomal_rearrangement_caller/Translocation_regions_of_interest.bed \
+    --bed $TETRIS_SEQ/pipeline_tools/TWIST_CNV_panel_TE-95031423_h19.bed \
+    --targeted_bed $TETRIS_SEQ/chromosomal_rearrangement_caller/Translocation_regions_of_interest.bed \
     --min-reads 5 --min-softclip-length 10 \
-    --chromosomal_ideogram $P/pipeline_tools/chromosome_ideogram_hg19.txt \
+    --chromosomal_ideogram $TETRIS_SEQ/pipeline_tools/chromosome_ideogram_hg19.txt \
     --ref /path/to/Homo_sapiens_assembly19.fasta \
     --out-directory <sample>_output
 ```
@@ -88,7 +87,7 @@ Pass 1 detects rearrangements in the raw reads; the VAF is then measured on
 **consensus** reads over the breakpoint regions only. One command does it:
 
 ```bash
-$P/scripts/rearrangement_SSCS_recall.sh \
+$TETRIS_SEQ/scripts/rearrangement_SSCS_recall.sh \
     -i <sample>_mapped_merged_bam.bam \
     -s <sample> \
     -o <sample>_output \
