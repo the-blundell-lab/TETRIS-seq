@@ -76,9 +76,15 @@ so a sample with none between different genes produces an empty table.
 
 ### Pass 2 — re-call over the breakpoint regions with consensus reads
 
-For a call worth following up, take its `LEFT COORDINATE` and `RIGHT COORDINATE`
-and build an SSCS BAM over those regions only (a window around each breakpoint;
-the regions are given as `chrom start end` triples):
+Pass 1 detects rearrangements in the raw reads. For anything worth following up,
+the VAF is then measured on **consensus** reads over the breakpoint regions only.
+This is three more commands, and the BAM used at each step is different:
+
+**2a. Build an SSCS BAM over the breakpoint windows.** Note this reads the *same
+raw* `_mapped_merged_bam.bam` as pass 1 — it re-groups reads by UMI, so it needs
+the pre-consensus reads. `--regions` is a flat list of `chrom start end` values
+taken three at a time, so the example below is two windows: one around the
+`LEFT COORDINATE` of the call, one around the `RIGHT COORDINATE`.
 
 ```bash
 python $P/chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py \
@@ -92,12 +98,30 @@ python $P/chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_transloc
     --out-directory <sample>_output
 ```
 
-(The `--regions` values above are the RUNX1 and RUNX1T1 breakpoint windows of a
-t(8;21) sample — replace them with your own call's coordinates.)
+(Those coordinates are the RUNX1 and RUNX1T1 windows of a t(8;21) sample —
+replace them with your own call's breakpoints.)
 
-Sort and index that BAM, then run pass 1 again with `--infile` pointing at it and
-a `--sample-name` that marks it as the SSCS pass. The VAFs from this second pass
-are the ones to report; the raw-BAM pass is for detection.
+**2b. Sort and index it.**
+
+```bash
+samtools sort -o <sample>_output/<sample>_SSCS_specific_regions_sorted.bam \
+               <sample>_output/<sample>_SSCS_specific_regions.bam
+samtools index <sample>_output/<sample>_SSCS_specific_regions_sorted.bam
+```
+
+**2c. Run the caller again, this time on the SSCS BAM.** Same command as pass 1,
+with `--infile` pointing at the sorted SSCS BAM and a `--sample-name` that marks
+it as the consensus pass:
+
+```bash
+python $P/chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted.py \
+    --infile <sample>_output/<sample>_SSCS_specific_regions_sorted.bam \
+    --sample-name <sample>_SSCS \
+    ...same remaining arguments as pass 1...
+```
+
+The VAFs from this consensus pass are the ones to report; pass 1 is for
+detection only.
 
 Review of the filtered call set is manual — see
 [`Filtering translocation calls.ipynb`](Filtering%20translocation%20calls.ipynb).
