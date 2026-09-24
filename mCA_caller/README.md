@@ -46,6 +46,15 @@ relative to the working directory — note the folder name and the file prefix
 must match, which is not how the CNV panel writes them, so the per-sample output
 needs reorganising first (see [`../docs/data_layout.md`](../docs/data_layout.md)).
 
+The notebook does two things in sequence, each with its own configuration cell:
+
+1. **Builds the PON** from the control libraries — the settings in the table above.
+2. **Applies it**, writing per-sample PON-normalised log-R ratios for the samples
+   you want to call mCAs in. The second configuration cell has its own
+   `libraries` list (the samples to normalise, not the controls), and reads
+   `TWIST_CNV_panel_TE-95031423_h19.bed` and `chromosome_ideogram_hg19.txt` as
+   bare filenames — copy both from `pipeline_tools/` into the working directory.
+
 If none of the configured samples are found the notebook does not fail: it
 reports `Skipping missing library` and produces an empty panel of normals. If
 your PON comes out empty, check these settings first.
