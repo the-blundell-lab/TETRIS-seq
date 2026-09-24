@@ -51,8 +51,15 @@ The notebook does two things in sequence, each with its own configuration cell:
 1. **Builds the PON** from the control libraries — the settings in the table above.
 2. **Applies it**, writing per-sample PON-normalised log-R ratios for the samples
    you want to call mCAs in. The second configuration cell has its own
-   `libraries` list (the samples to normalise, not the controls). It also reads
-   the panel BED and `chromosome_ideogram_hg19.txt` by bare filename;
+   `libraries` list (the samples to normalise, not the controls), and it only
+   processes sample folders whose names begin `CNTRL` or `C92`:
+
+   ```python
+   samples_to_process = [s for s in all_subfolders if s.startswith('CNTRL') or s.startswith('C92')]
+   ```
+
+   Anything named otherwise is skipped without a message. It also reads the panel
+   BED and `chromosome_ideogram_hg19.txt` by bare filename;
    `scripts/run_notebook.sh` links those in from `pipeline_tools/` for you.
 
 If none of the configured samples are found the notebook does not fail: it
