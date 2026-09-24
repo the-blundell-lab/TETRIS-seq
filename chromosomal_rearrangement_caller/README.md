@@ -76,51 +76,37 @@ so a sample with none between different genes produces an empty table.
 
 ### Pass 2 — re-call over the breakpoint regions with consensus reads
 
-Pass 1 detects rearrangements in the raw reads. For anything worth following up,
-the VAF is then measured on **consensus** reads over the breakpoint regions only.
-This is three more commands, and the BAM used at each step is different:
-
-**2a. Build an SSCS BAM over the breakpoint windows.** Note this reads the *same
-raw* `_mapped_merged_bam.bam` as pass 1 — it re-groups reads by UMI, so it needs
-the pre-consensus reads. `--regions` is a flat list of `chrom start end` values
-taken three at a time, so the example below is two windows: one around the
-`LEFT COORDINATE` of the call, one around the `RIGHT COORDINATE`.
+Pass 1 detects rearrangements in the raw reads; the VAF is then measured on
+**consensus** reads over the breakpoint regions only. One command does it:
 
 ```bash
-python $P/chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py \
-    --infile <sample>_mapped_merged_bam.bam \
-    --sample-name <sample>_SSCS \
-    --min-family-size 1 --threshold 0.9 --max_N 1.0 \
-    --min-mapping-quality 20 --min-base-quality 10 \
-    --regions 21 36210000 36215000 8 93078000 93080000 \
-    --outbam <sample>_output/<sample>_SSCS_specific_regions.bam \
-    --unpaired-outbam <sample>_output/<sample>_SSCS_specific_regions_unpaired.bam \
-    --out-directory <sample>_output
+$P/scripts/rearrangement_SSCS_recall.sh \
+    -i <sample>_mapped_merged_bam.bam \
+    -s <sample> \
+    -o <sample>_output \
+    -r "21 36210000 36215000 8 93078000 93080000"
 ```
 
-(Those coordinates are the RUNX1 and RUNX1T1 windows of a t(8;21) sample —
-replace them with your own call's breakpoints. The consensus settings shown
-are this script's defaults, which is what the manuscript used, so they can be
-omitted.)
+`-r` takes `chrom start end` triples — a window around the `LEFT COORDINATE` and
+another around the `RIGHT COORDINATE` of the call in pass 1's
+`*_grouped_and_filtered.csv`. The example above is the RUNX1 and RUNX1T1 pair of
+a t(8;21) sample.
 
-**2b. Sort and index it.**
+Note `-i` is the **same raw mapped merged BAM as pass 1**, not any output of it:
+the consensus step regroups reads by UMI, so it needs the pre-consensus reads.
 
-```bash
-samtools sort -o <sample>_output/<sample>_SSCS_specific_regions_sorted.bam \
-               <sample>_output/<sample>_SSCS_specific_regions.bam
-samtools index <sample>_output/<sample>_SSCS_specific_regions_sorted.bam
-```
+The wrapper runs three steps:
 
-**2c. Run the caller again, this time on the SSCS BAM.** Same command as pass 1,
-with `--infile` pointing at the sorted SSCS BAM and a `--sample-name` that marks
-it as the consensus pass:
+1. `Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py`
+   over those regions, at the script's default consensus settings (minimum family
+   size 1, 0.9 agreement threshold, base quality 10) — as used in the manuscript
+2. `samtools sort` and `index` on the resulting SSCS BAM
+3. the translocation caller again, with `--infile` pointing at the sorted SSCS BAM
 
-```bash
-python $P/chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted.py \
-    --infile <sample>_output/<sample>_SSCS_specific_regions_sorted.bam \
-    --sample-name <sample>_SSCS \
-    ...same remaining arguments as pass 1...
-```
+Reference genome, panel BED, regions BED and ideogram come from
+`config/config.sh` exactly as for the panel scripts, and `ANNOVAR_HOME` is
+exported for the annotation step. Run the three steps by hand if you need to
+vary the consensus settings — `-h` on the wrapper prints what it runs.
 
 The VAFs from this consensus pass are the ones to report; pass 1 is for
 detection only.
