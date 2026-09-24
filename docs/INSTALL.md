@@ -91,6 +91,48 @@ which python bwa samtools vardict-java pindel
 python -c "import dbm.gnu"      # or dbm.ndbm; either is fine, dbm.dumb is not
 ```
 
+### Which environment for which component
+
+| you are running | activate |
+|---|---|
+| `scripts/*.sh` — the SNV and CNV panels, FLT3-ITD | `source scripts/activate.sh` (conda **+** virtualenv) |
+| `chromosomal_rearrangement_caller/*.py` and `scripts/rearrangement_SSCS_recall.sh` | `source scripts/activate.sh` (conda **+** virtualenv) |
+| `noise_correction_model/` | `conda activate tetris-seq-analysis` |
+| `mCA_caller/` — PON build, unphased and phased callers | `conda activate tetris-seq-analysis` |
+
+The dividing line is `shelve`: everything that stores read dictionaries on disk
+needs the gdbm-capable Python, and everything else does not. These eight files
+use it —
+
+```
+pipeline_tools/Watson_code_SSCS_calling_2.1.py
+pipeline_tools/Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1.py
+pipeline_tools/Watson_code_VCF_SNP_calling_v1.3.py
+pipeline_tools/Watson_code_VCF_SNP_calling_SNV_panel_v1.2.py
+pipeline_tools/Watson_code_duplex_VCF_SNP_calling_SNV_panel_v1.2.py
+chromosomal_rearrangement_caller/Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py
+chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted.py
+chromosomal_rearrangement_caller/Watson_code_translocation_calling_all_types_2025_v1_targeted_shelve_edit.py
+```
+
+— so if what you are about to run is one of those, or a script that calls one,
+you need the virtualenv. If you are unsure, `source scripts/activate.sh` is
+always safe for pipeline work: it reports the dbm backend, and the analysis
+packages are only needed by the notebooks.
+
+### Running the notebooks without a browser
+
+On a headless server, execute a notebook in place rather than starting Jupyter:
+
+```bash
+conda activate tetris-seq-analysis
+jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 \
+    --output <name>_run.ipynb <name>.ipynb
+```
+
+That runs every cell and writes a copy with the outputs embedded. Add
+`--allow-errors` to run past a failing cell instead of stopping at it.
+
 If no suitable Python exists on the machine, install your distribution's
 bindings (`sudo apt install python3-gdbm`, `sudo dnf install python3-gdbm`) and
 re-run the setup script.
