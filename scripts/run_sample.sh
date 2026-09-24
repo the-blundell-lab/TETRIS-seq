@@ -37,6 +37,9 @@ FLT3_CALLER="$P/Watson_code_Pindel_FLT3_caller.sh"
 SAMPLE_SCRIPT="$PIPELINE_TOOLS/Watson_code_sample_name_from_UDI_index_v1.py"
 SAMPLE_UDI_SCRIPT="$PIPELINE_TOOLS/Watson_code_sample_name_from_UDI_index_with_UDI_v1.py"
 
+# refuse to start under a Python whose shelve would fall back to dbm.dumb
+. "$P/require_python_backend.sh"
+
 # ---- defaults --------------------------------------------------------------
 SNV_CSV=""
 SNV_R1=""

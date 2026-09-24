@@ -52,6 +52,9 @@ IDEOGRAM="$PIPELINE_TOOLS/chromosome_ideogram_hg19.txt"
 SSCS_SCRIPT="$CALLER_DIR/Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py"
 CALLER="$CALLER_DIR/Watson_code_translocation_calling_all_types_2025_v1_targeted.py"
 
+# refuse to start under a Python whose shelve would fall back to dbm.dumb
+. "$P/require_python_backend.sh"
+
 INFILE=""; SAMPLE=""; OUTDIR=""; REGIONS=""; READLEN=146; MAPQ=20
 
 usage() { sed -n '3,32p' "$0"; }
@@ -69,8 +72,9 @@ while getopts "i:s:o:r:l:q:h" opt; do
   esac
 done
 
-for v in INFILE SAMPLE OUTDIR REGIONS; do
-    if [ -z "${!v}" ]; then echo "Error: -${v:0:1} is required"; echo; usage; exit 1; fi
+for pair in "INFILE:i" "SAMPLE:s" "OUTDIR:o" "REGIONS:r"; do
+    v="${pair%%:*}"; flag="${pair##*:}"
+    if [ -z "${!v}" ]; then echo "Error: -$flag is required"; echo; usage; exit 1; fi
 done
 [ -f "$INFILE" ] || { echo "Error: BAM not found: $INFILE"; exit 1; }
 [ -f "$REF" ]    || { echo "Error: reference not found: $REF (set EXTERNAL_TOOLS or REF)"; exit 1; }
