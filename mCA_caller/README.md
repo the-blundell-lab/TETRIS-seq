@@ -29,6 +29,13 @@ controls you must edit three things:
 | `final_timepoint_controls` | an explicit list of the control samples that go into the PON | your own control sample names |
 | `if not sample_name.startswith("CNTRL")` | assumes control samples are named `CNTRL_*` | your own naming convention, or remove the filter |
 
+Create its output directory before running — the notebook writes into it but
+does not create it:
+
+```bash
+mkdir -p <data_directory>/CNV_panel_final_timepoint_read_depths/PON_normalised_read_depths
+```
+
 It expects the per-sample depth files laid out as
 
 ```
