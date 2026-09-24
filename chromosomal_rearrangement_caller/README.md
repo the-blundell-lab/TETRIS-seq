@@ -43,6 +43,44 @@ source ../config/config.sh
 | `Filtering translocation calls.ipynb` | Interactive filtering / review of translocation calls |
 | `Translocation_regions_of_interest.bed` | Target regions of interest for rearrangement detection |
 
+## What it can and cannot find
+
+Detection is bounded twice over, and neither bound is a property of the
+algorithm — both come from the capture design:
+
+1. **Reads only exist where the panel has probes.** The mCA / rearrangement
+   panel captures a defined set of loci, so a rearrangement between two
+   uncaptured regions produces no reads and cannot be detected at all.
+2. **The reported call set requires both partners to be in the targeted
+   regions.** `Translocation_regions_of_interest.bed` defines 59 regions across
+   12 genes — the recurrent AML fusion partners:
+
+   `ABL1`, `BCR`, `CBFB`, `DEK`, `KMT2A`, `MLLT3`, `MYH11`, `NUP214`, `PML`,
+   `RARA`, `RUNX1`, `RUNX1T1`
+
+   which covers t(9;22) *BCR::ABL1*, inv(16) *CBFB::MYH11*, t(8;21)
+   *RUNX1::RUNX1T1*, t(15;17) *PML::RARA*, t(6;9) *DEK::NUP214*, t(9;11)
+   *KMT2A::MLLT3* and the *KMT2A* partial tandem duplication region.
+
+This is **not** a genome-wide fusion caller. It will not find a novel
+rearrangement involving a gene outside that list, and a negative result means
+"none among these partners", not "none".
+
+The caller writes its output at successive levels of stringency, which is worth
+knowing when reading the files:
+
+| file | contents |
+|---|---|
+| `*_translocations_found.csv` | every candidate breakpoint |
+| `*_with_at_least_one_side_covered_by_panel.csv` | one partner within the capture panel |
+| `*_just_those_specifically_targeted.csv` | one partner in the regions of interest |
+| `*_just_those_specifically_targeted_both_sides_panel.csv` | both partners in the regions of interest |
+| `*_grouped_and_filtered.csv` | the above, grouped within 500 bp and with intragenic events removed — **the call set to read** |
+
+Rearrangements within a single gene are excluded from the final table, so
+*KMT2A* partial tandem duplications are handled by the depth-ratio method in the
+CNV panel, not here.
+
 ## Worked example
 
 Rearrangement calling is a **two-pass** process: call on the raw mapped BAM, then
