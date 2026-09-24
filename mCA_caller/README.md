@@ -11,11 +11,36 @@ additional dependencies: `ruptures`, `seaborn`, `statsmodels`.
 
 ## Files
 
-| File | Role |
-|---|---|
-| `watson_code_create_PON.ipynb` | **Builds the panel of normals (PON)** from QC-passing final-timepoint control samples and writes per-sample PON-normalised LRR (log2-ratio) files, with **leave-one-out** normalisation for samples that are themselves in the PON. Run this before mCA calling. |
-| `watson_code_mCA_caller_v13.ipynb` | **Unphased mCA caller** (five-detector consensus) |
-| `watson_code_mCA_caller_phased_v5.ipynb` | **Phased mCA caller** — uses the haplotype phasing of an index sample to call the same mCA at earlier timepoints |
+mCA calling is done by running three notebooks in order, not by a pipeline
+script. Each is run manually and its output is the next one's input.
+
+### Step 1 — build the panel of normals
+
+[`watson_code_create_PON.ipynb`](watson_code_create_PON.ipynb)
+
+Builds the PON from QC-passing final-timepoint control samples, then applies it
+to produce per-sample PON-normalised read depths and log-R ratios, with
+**leave-one-out** normalisation for samples that are themselves in the PON.
+
+### Step 2 — call mCAs at the index timepoint
+
+[`watson_code_mCA_caller_v13.ipynb`](watson_code_mCA_caller_v13.ipynb)
+
+The unphased caller. Segments chromosomes by change-point detection on B-allele
+frequency and log-R ratio, and classifies gains, losses and copy-neutral LOH.
+Run this at each individual's index (final) timepoint.
+
+### Step 3 — track mCAs back through earlier timepoints
+
+[`watson_code_mCA_caller_phased_v5.ipynb`](watson_code_mCA_caller_phased_v5.ipynb)
+
+The phased caller. Where step 2 found an mCA, the index sample is phased and the
+haplotype-resolved deviations summed across the region in that individual's
+earlier samples, which detects the clone below the unphased limit.
+
+Steps 2 and 3 are the working notebooks used for this cohort: the libraries and
+sample lists are written into the calling cells, so running them on other data
+means editing those cells rather than passing arguments.
 
 ## Running it on your own data
 
