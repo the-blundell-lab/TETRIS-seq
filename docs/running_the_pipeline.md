@@ -64,8 +64,7 @@ directory you run them from**, so work from a data directory outside the
 repository and call the scripts by their path:
 
 ```bash
-conda activate tetris-seq-pipeline     # tools: bwa, samtools, Picard, fgbio, VarDict, Pindel
-source /path/to/tetris-py/bin/activate  # the Python the scripts run under (see docs/INSTALL.md §1b)
+source /path/to/TETRIS-seq/scripts/activate.sh   # both environments, in order
 cd /path/to/your/working/directory
 
 # SNV / indel panel, and FLT3-ITD (which re-uses the SNV panel's mapped BAM)

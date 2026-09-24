@@ -64,6 +64,15 @@ pip if your distribution lacks `python3-venv`), installs `pysam`, `pyfaidx`,
 `python-Levenshtein`, `xlsxwriter` and `openpyxl`, and verifies the result. Then activate both, conda first so the virtualenv's `python` wins:
 
 ```bash
+source scripts/activate.sh
+```
+
+That finds conda, activates the pipeline environment, then the virtualenv, and
+reports which dbm backend you ended up with — warning you if it is `dbm.dumb`.
+It has to be **sourced**, not run, because it changes the current shell. The
+equivalent by hand is:
+
+```bash
 conda activate tetris-seq-pipeline
 source tetris-py/bin/activate
 ```

@@ -91,8 +91,7 @@ cp config/config.sh.example config/config.sh
 $EDITOR config/config.sh
 
 # 3. Activate both environments, then check what the pipeline can find
-conda activate tetris-seq-pipeline     # tools: bwa, samtools, Picard, fgbio, VarDict, Pindel
-source /path/to/tetris-py/bin/activate  # the Python the scripts run under (see docs/INSTALL.md §1b)
+source /path/to/TETRIS-seq/scripts/activate.sh   # both environments, in order
 scripts/check_setup.sh
 
 # 4. Run the automated per-sample stages.

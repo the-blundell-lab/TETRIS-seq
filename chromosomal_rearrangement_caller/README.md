@@ -17,8 +17,7 @@ it must run under the virtualenv built by `scripts/setup_python_env.sh`
 for `samtools`, then that virtualenv:
 
 ```bash
-conda activate tetris-seq-pipeline     # tools: bwa, samtools, Picard, fgbio, VarDict, Pindel
-source /path/to/tetris-py/bin/activate  # the Python the scripts run under (see docs/INSTALL.md §1b)
+source /path/to/TETRIS-seq/scripts/activate.sh   # both environments, in order
 ```
 Additional dependencies: `pysam`, `pyfaidx`, `networkx`, `fuzzywuzzy`
 (+ `python-Levenshtein`), `xlsxwriter` and `openpyxl` for the grouped call
