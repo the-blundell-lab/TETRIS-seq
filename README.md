@@ -16,7 +16,7 @@ and annotates variants, and applies a beta-binomial noise-correction model to
 separate true low-frequency variants from sequencing error.
 
 **Citation.** If you use this code, please cite the paper and the software
-archive; the details are in [`CITATION.cff`](CITATION.cff).
+archive. Citation details will be added on release.
 
 ![TETRIS-seq pipeline. Two capture panels are processed from separate FASTQ libraries. Per-sample stages are automated; cross-sample and longitudinal stages are triggered manually.](docs/figures/pipeline.png)
 
@@ -50,7 +50,6 @@ TETRIS-seq/
 ├── environment_sequencing.yml   Conda env, Python 3.7.4 (pipeline)
 ├── environment_analysis.yml     Conda env, Python 3.11.13 (analysis/figures)
 ├── requirements.txt             pip equivalent of the analysis env
-├── CITATION.cff
 └── LICENSE                      BSD 3-Clause
 ```
 

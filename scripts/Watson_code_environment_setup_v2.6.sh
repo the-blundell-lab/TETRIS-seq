@@ -111,7 +111,9 @@ function check_dependencies() {
              "https://java.com/en/download/manual.jsp"
     fi
 
-    # TODO: CHECK THAT R is available
+    # Rscript is used by Picard CollectInsertSizeMetrics to draw the insert-size
+    # histogram PDF. It is not needed for any variant calling; without it that
+    # one plot is not produced.
 }
 
 # Function to detect that platform being executed on and set PLATFORM
