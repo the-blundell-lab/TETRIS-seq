@@ -24,23 +24,40 @@ to produce per-sample PON-normalised read depths and log-R ratios, with
 
 ### Step 2 — call mCAs at the index timepoint
 
-[`watson_code_mCA_caller_v13.ipynb`](watson_code_mCA_caller_v13.ipynb)
+[`watson_code_mCA_caller_unphased.ipynb`](watson_code_mCA_caller_unphased.ipynb)
 
-The unphased caller. Segments chromosomes by change-point detection on B-allele
-frequency and log-R ratio, and classifies gains, losses and copy-neutral LOH.
-Run this at each individual's index (final) timepoint.
+The unphased caller. For each sample it merges the per-SNP B-allele frequencies
+with the PON-normalised log-R ratio, scans each chromosome with a sliding window
+of heterozygous SNPs, and calls gains, losses and CN-LOH from the combined
+BAF-deviation and LRR evidence. Run this at each individual's index (final)
+timepoint.
 
 ### Step 3 — track mCAs back through earlier timepoints
 
-[`watson_code_mCA_caller_phased_v5.ipynb`](watson_code_mCA_caller_phased_v5.ipynb)
+[`watson_code_mCA_caller_phased.ipynb`](watson_code_mCA_caller_phased.ipynb)
 
-The phased caller. Where step 2 found an mCA, the index sample is phased and the
-haplotype-resolved deviations summed across the region in that individual's
-earlier samples, which detects the clone below the unphased limit.
+The longitudinal phased caller. Once step 2 has called an mCA in an index
+sample, the haplotype carrying it is phased from that sample and the same
+phasing applied to every earlier timepoint from the same participant. Summing
+the BAF deviation along a known haplotype is far more sensitive than looking for
+an unphased BAF split, so an mCA can be traced back to timepoints where the
+unphased caller sees nothing. The mean phased deviation is tested with a
+one-sided t-test and converted to a cell fraction with a 95% confidence
+interval.
 
-Steps 2 and 3 are the working notebooks used for this cohort: the libraries and
-sample lists are written into the calling cells, so running them on other data
-means editing those cells rather than passing arguments.
+Steps 2 and 3 read the per-sample B-allele frequency and log-R ratio files from
+a single directory, set at the top of each notebook:
+
+```python
+CNV_DEPOSIT_DIR = 'Data_files/mCA_calling/Real_data/EGA_deposit_CNV_BAF_LRR'
+```
+
+Point that at your own BAF/LRR files — the per-sample outputs of step 1 and the
+CNV panel. The same two notebooks generate Supplementary Figs. 31–38 and are
+also published in the
+[preAML_evolutionary_dynamics](https://github.com/the-blundell-lab/preAML_evolutionary_dynamics)
+repository, where that default path points at the deposited data; keep the two
+copies in step if you change either.
 
 ## Running it on your own data
 
