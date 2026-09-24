@@ -45,15 +45,31 @@ unphased caller sees nothing. The mean phased deviation is tested with a
 one-sided t-test and converted to a cell fraction with a 95% confidence
 interval.
 
-Steps 2 and 3 read the per-sample B-allele frequency and log-R ratio files from
-a single directory, set at the top of each notebook:
+### Getting from pipeline output to the callers' input
+
+The pipeline leaves its output nested per sample, but steps 2 and 3 read
+everything from **one flat directory**, set at the top of each notebook:
 
 ```python
 CNV_DEPOSIT_DIR = 'Data_files/mCA_calling/Real_data/EGA_deposit_CNV_BAF_LRR'
 ```
 
-Point that at your own BAF/LRR files — the per-sample outputs of step 1 and the
-CNV panel. The same two notebooks generate Supplementary Figs. 31–38 and are
+They need two files per sample, which the pipeline writes in different places:
+
+| file | written by |
+|---|---|
+| `<sample>_PON_normalised_read_depths_and_LRR.txt` | step 1 (the PON notebook), under `<library>/<sample>/PON_normalised_log2ratios_Feb2026/` |
+| `<sample>_..._variant_calling_only_SNPs_annovar_annotated.txt` | the CNV panel, in the sample's output folder |
+
+Collect them with:
+
+```bash
+scripts/collect_mCA_inputs.sh <your results root> <flat directory>
+```
+
+which searches for both kinds and symlinks them into one place, then prints the
+`CNV_DEPOSIT_DIR` line to paste into the notebooks. It warns if either kind is
+missing, since the callers need both. The same two notebooks generate Supplementary Figs. 31–38 and are
 also published in the
 [preAML_evolutionary_dynamics](https://github.com/the-blundell-lab/preAML_evolutionary_dynamics)
 repository, where that default path points at the deposited data; keep the two
