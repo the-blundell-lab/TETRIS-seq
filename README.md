@@ -16,7 +16,7 @@ and annotates variants, and applies a beta-binomial noise-correction model to
 separate true low-frequency variants from sequencing error.
 
 **Citation.** If you use this code, please cite the paper and the software
-archive. Citation details will be added on release.
+archive.
 
 ![TETRIS-seq pipeline. Two capture panels are processed from separate FASTQ libraries. Per-sample stages are automated; cross-sample and longitudinal stages are triggered manually.](docs/figures/pipeline.png)
 
