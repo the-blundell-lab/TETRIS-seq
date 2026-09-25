@@ -5,7 +5,7 @@ FLT3-ITD and translocation detection.**
 
 This repository contains the bioinformatic pipeline for TETRIS-seq, the
 sequencing strategy used in Watson *et al.*, *"Evolutionary dynamics in the
-decades preceding acute myeloid leukaemia"*. TETRIS-seq applies duplex
+years preceding acute myeloid leukaemia"*. TETRIS-seq applies duplex
 error-corrected sequencing to a panel covering clonal-haematopoiesis and
 AML-associated alterations (gene mutations, chromosomal rearrangements and
 mosaic chromosomal alterations) together with a custom in silico de-noising
@@ -53,10 +53,13 @@ TETRIS-seq/
 └── LICENSE                      BSD 3-Clause
 ```
 
-## Requirements
+## System requirements
 
-Linux or macOS, and **conda** (Miniconda, Miniforge or Anaconda) to build the
-environments. If you do not have it:
+Linux, and **conda** (Miniconda, Miniforge or Anaconda) to build the
+environments. Developed and run on Ubuntu 24.04.3 LTS (kernel 6.8.0). No
+non-standard hardware is needed; the demo runs on a desktop or laptop, while
+consensus calling on a full sequencing lane is memory-intensive, which is why
+`run_sample.sh` processes one sample at a time. If you do not have conda:
 
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -78,14 +81,12 @@ are archived on Zenodo and downloaded by `scripts/fetch_reference.sh` and
 `pipeline_tools/make_dbSNP_intervals.sh`:
 **TETRIS-seq reference data**, <https://doi.org/10.5281/zenodo.22846473>.
 
-## Demo
+## Installation
 
-[`demo/`](demo) holds a small simulated sample carrying a t(9;22) BCR::ABL1
-rearrangement at 40% VAF, with the simulated truth and the expected caller
-output, for checking an installation end to end. It runs in under a minute —
-see [`demo/README.md`](demo/README.md).
-
-## Quick start
+Full instructions, including the four components installed separately, are in
+[docs/INSTALL.md](docs/INSTALL.md). Building the environments typically takes
+5-10 minutes; the reference genome (4 GB) and the ANNOVAR databases are
+additional downloads whose time depends on your connection.
 
 ```bash
 # 1. Create the environments (see docs/INSTALL.md for the external tools)
@@ -99,7 +100,18 @@ $EDITOR config/config.sh
 # 3. Activate both environments, then check what the pipeline can find
 source /path/to/TETRIS-seq/scripts/activate.sh   # both environments, in order
 scripts/check_setup.sh
+```
 
+## Demo
+
+[`demo/`](demo) holds a small simulated sample carrying a t(9;22) BCR::ABL1
+rearrangement at 40% VAF, with the simulated truth and the expected caller
+output, for checking an installation end to end. It runs in under a minute —
+see [`demo/README.md`](demo/README.md).
+
+## Instructions for use
+
+```bash
 # 4. Run the automated per-sample stages.
 #
 #    The two panels are separate captures, sequenced as separate libraries, so
