@@ -175,10 +175,11 @@ The data-availability statement for the study's variant calls is there too.
 
 The sequencing data this pipeline was written for, and the per-sample call files
 it produces, are individual-level participant data: they are held under
-controlled access in the European Genome-phenome Archive (EGA) and released to
-approved researchers via a Data Access Committee. The somatic calls themselves
-are open (supplementary tables and Zenodo); see the analysis repository for the
-full statement.
+controlled access in the European Genome-phenome Archive (EGA) under study
+accession [EGAS50000002168](https://ega-archive.org/studies/EGAS50000002168),
+and released to approved researchers via a Data Access Committee. The somatic
+calls themselves are open (supplementary tables and Zenodo); see the analysis
+repository for the full statement.
 
 ## License
 
