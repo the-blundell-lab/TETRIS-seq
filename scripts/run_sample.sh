@@ -198,10 +198,10 @@ cat << 'EOF'
    * Build the Panel of Normals (once, from your QC-passing control samples):
        mCA_caller/watson_code_create_PON.ipynb
    * Call mCAs against the PON:
-       mCA_caller/watson_code_mCA_caller_v13.ipynb
+       mCA_caller/watson_code_mCA_caller_unphased.ipynb
    * For any individual with an mCA: sequence all timepoints, phase the index
      sample, then call at earlier timepoints (all within mCA_caller/):
-       mCA_caller/watson_code_mCA_caller_phased_v5.ipynb
+       mCA_caller/watson_code_mCA_caller_phased.ipynb
    * Chromosomal rearrangements: call on the raw BAM, then re-call any hit on
      the SSCS BAM for accurate VAF:
        chromosomal_rearrangement_caller/

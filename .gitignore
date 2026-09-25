@@ -87,9 +87,3 @@ UKCTOCS_watson_*germline*.csv
 # Example input/output derived from participant samples - not for release
 noise_correction_model/example_input/
 noise_correction_model/example_outputs/
-
-# --- Demo dataset (deliberately tracked) ---
-# Simulated data, so no participant information; must override the *.bam rule
-# above, which is why it is last. See demo/README.md.
-!demo/*.bam
-!demo/*.bam.bai

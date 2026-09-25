@@ -130,11 +130,11 @@ actually manual are marked **manual** below.
 4. Build the Panel of Normals (once), from QC-passing control samples (36 were used here):
    `mCA_caller/watson_code_create_PON.ipynb`
 5. Call mCAs against the PON:
-   `mCA_caller/watson_code_mCA_caller_v13.ipynb`
+   `mCA_caller/watson_code_mCA_caller_unphased.ipynb`
 6. Longitudinal mCA calling. For any individual with an mCA, sequence all
    timepoints, phase the index sample, then call at earlier timepoints. All
    of this is in `mCA_caller/` (the phased notebook,
-   `watson_code_mCA_caller_phased_v5.ipynb`).
+   `watson_code_mCA_caller_phased.ipynb`).
 7. Chromosomal rearrangements: call on the raw BAM; for any hit, build an SSCS
    BAM over the breakpoint regions only
    (`Watson_code_SSCS_calling_for_translocations_and_FLT3_1.1_specific_regions.py`,

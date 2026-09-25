@@ -78,6 +78,17 @@ fi
 # TETRIS_SEQ points at the repository, and scripts/ goes on PATH so the wrappers
 # can be run by name from any working directory.
 export TETRIS_SEQ="$_tetris_repo"
+
+# The pipeline scripts source config/config.sh themselves, but anything run
+# outside them - the demo command in demo/README.md, a script of your own -
+# needs these too, so export them here as well.
+# shellcheck disable=SC1091
+[ -f "$_tetris_repo/config/config.sh" ] && . "$_tetris_repo/config/config.sh"
+: "${EXTERNAL_TOOLS:=$HOME/Pipeline_tools}"
+: "${REF:=$EXTERNAL_TOOLS/Homo_sapiens_assembly19.fasta}"
+: "${ANNOVAR_HOME:=$EXTERNAL_TOOLS/annovar}"
+: "${PINDEL_DIR:=$EXTERNAL_TOOLS/pindel}"
+export EXTERNAL_TOOLS REF ANNOVAR_HOME PINDEL_DIR
 case ":$PATH:" in
     *":$_tetris_repo/scripts:"*) ;;
     *) export PATH="$_tetris_repo/scripts:$PATH" ;;
@@ -99,6 +110,12 @@ echo "python       $(command -v python)  ($(python --version 2>&1))"
 echo "dbm backend  ${_tetris_backend:-unknown}"
 echo "tools        $(dirname "$(command -v bwa 2>/dev/null || echo 'bwa-not-found/x')")"
 echo "repository   $TETRIS_SEQ  (on PATH: run_sample.sh, check_setup.sh, ...)"
+if [ -f "$REF" ]; then
+    echo "reference    $REF"
+else
+    echo "reference    NOT FOUND at $REF"
+    echo "             set EXTERNAL_TOOLS (or REF) in config/config.sh - see docs/INSTALL.md"
+fi
 
 if [ "$_tetris_backend" = "dbm.dumb" ]; then
     echo

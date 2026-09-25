@@ -62,7 +62,7 @@ cd scripts
   (`mCA_caller/`), with **longitudinal phasing / mCA calling** if an mCA is
   present at the final timepoint. This phasing and earlier-timepoint calling is
   done entirely in `mCA_caller/` (the phased notebook,
-  `mCA_caller/watson_code_mCA_caller_phased_v5.ipynb`).
+  `mCA_caller/watson_code_mCA_caller_phased.ipynb`).
 - **Chromosomal rearrangement calling** on the **mapped BAM (pre-SSCS)**
   (`chromosomal_rearrangement_caller/`). If a rearrangement is called as real, a
   **dedicated SSCS BAM is built over the breakpoint regions only** and the caller

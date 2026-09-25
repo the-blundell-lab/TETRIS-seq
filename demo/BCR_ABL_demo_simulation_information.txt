@@ -1,7 +1,0 @@
-##fileDate=01/10/2021
-##source=Watson_code_BCR-ABL_translocation_simulation_1.5.py
-##number_cells = 100
-##VAF = 0.4
-##sequencing read length = 150.0
-##BCR breakpoint (first base in the post-breakpoint segment) = chr22 23632754
-##ABL breakpoint (first base in the post-breakpoint segment) = chr9 133717747
