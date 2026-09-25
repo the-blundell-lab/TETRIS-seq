@@ -78,6 +78,13 @@ are archived on Zenodo and downloaded by `scripts/fetch_reference.sh` and
 `pipeline_tools/make_dbSNP_intervals.sh`:
 **TETRIS-seq reference data**, <https://doi.org/10.5281/zenodo.22846473>.
 
+## Demo
+
+[`demo/`](demo) holds a small simulated sample carrying a t(9;22) BCR::ABL1
+rearrangement at 40% VAF, with the simulated truth and the expected caller
+output, for checking an installation end to end. It runs in under a minute —
+see [`demo/README.md`](demo/README.md).
+
 ## Quick start
 
 ```bash
