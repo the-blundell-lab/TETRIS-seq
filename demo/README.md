@@ -11,7 +11,7 @@ from FASTQ to annotated variant calls.
 The FASTQ pair is 311 MB, too large for this repository, and is archived on
 Zenodo:
 
-**TETRIS-seq demo data**, <https://doi.org/10.5281/zenodo.XXXXXXX>
+**TETRIS-seq demo data**, <https://doi.org/10.5281/zenodo.22961709>
 
 ## What it contains
 
